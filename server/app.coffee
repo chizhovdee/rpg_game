@@ -6,6 +6,7 @@ cookieParser = require('cookie-parser')
 bodyParser = require('body-parser')
 
 routes = require('./routes')
+gameData = require('./game_data.js')
 
 app = express()
 
@@ -23,6 +24,9 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 # setup all routes
 routes.setup(app)
+
+# define game data
+gameData.define()
 
 # catch 404 and forward to error handler
 app.use((req, res, next)->

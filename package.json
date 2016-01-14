@@ -5,6 +5,13 @@
   "scripts": {
     "start": "node ./bin/www"
   },
+  "browser": {},
+  "browserify-shim": {},
+  "browserify": {
+    "transform": [
+      "browserify-shim"
+    ]
+  },
   "dependencies": {
     "body-parser": "~1.13.2",
     "cookie-parser": "~1.3.5",
@@ -12,6 +19,23 @@
     "ejs": "~2.3.3",
     "express": "~4.13.1",
     "morgan": "~1.6.1",
-    "serve-favicon": "~2.3.0"
+    "require-dir": "^0.3.0",
+    "serve-favicon": "~2.3.0",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "browserify": "^13.0.0",
+    "browserify-shim": "^3.8.12",
+    "gulp": "^3.9.0",
+    "gulp-coffee": "^2.3.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-eco": "git+https://github.com/chizhovdee/gulp-eco.git",
+    "gulp-file": "^0.2.0",
+    "gulp-util": "^3.0.7",
+    "js-yaml": "^3.5.2",
+    "map-stream": "0.0.6",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.7.0"
   }
 }

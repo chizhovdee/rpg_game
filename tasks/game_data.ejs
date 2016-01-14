@@ -1,0 +1,9 @@
+<% for(var key in data) { %>
+<%= key %> = require("../../common/game_data/<%= key %>.coffee")
+<% } %>
+
+exports.define = function(){
+<% for(var key in data) { %>
+  <%= key %>.define(<%- JSON.stringify(data[key]) %>)
+<% } %>
+}
