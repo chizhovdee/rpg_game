@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "DEBUG=rpg_game:* supervisor -w ./build/server, ./build/common ./bin/www",
+    "build": "gulp build",
+    "watch": "gulp watch"
   },
   "browser": {},
   "browserify-shim": {},
@@ -31,6 +33,7 @@
     "gulp-concat": "^2.6.0",
     "gulp-eco": "git+https://github.com/chizhovdee/gulp-eco.git",
     "gulp-file": "^0.2.0",
+    "gulp-notify": "^2.2.0",
     "gulp-util": "^3.0.7",
     "js-yaml": "^3.5.2",
     "map-stream": "0.0.6",

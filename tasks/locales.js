@@ -45,5 +45,5 @@ gulp.task('locales', function(){
 
       cb(null, file);
     }))
-    .pipe(gulp.dest('./server/public/locales'));
+    .pipe(gulp.dest('./public/locales'));
 });

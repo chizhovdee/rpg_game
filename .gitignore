@@ -21,3 +21,7 @@ doc/
 
 /node_modules
 /bower_components
+/public/javascripts
+/public/stylesheets
+/public/locales
+/build

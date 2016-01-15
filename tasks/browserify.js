@@ -6,10 +6,9 @@ var concat = require('gulp-concat');
 var buffer     = require('vinyl-buffer');
 var file = require('gulp-file');
 
-var sourceFile = "./client/scripts/main.js";
-var destFolder = "./server/public/javascripts/";
+var sourceFile = "./build/client/scripts/main.js";
+var destFolder = "./public/javascripts/";
 var destFile = "application.js";
-
 
 gulp.task('browserify', function() {
   return browserify(sourceFile, { debug: false })
@@ -18,16 +17,16 @@ gulp.task('browserify', function() {
     .pipe(gulp.dest(destFolder));
 });
 
-
 gulp.task('browserify-concat', function() {
-  content = fs.readFileSync("./client/scripts/build/vendors.js");
+  var vendors = fs.readFileSync("./build/client/scripts/vendors.js");
 
   return browserify(sourceFile, {debug:true})
     .bundle()
     .pipe(source(destFile))
     .pipe(gulp.dest(destFolder))
-    .pipe(file("vendor.js", content))
+    .pipe(file("vendor.js", vendors))
     .pipe(buffer())
     .pipe(concat(destFile))
     .pipe(gulp.dest(destFolder));
 });
+

@@ -2,12 +2,11 @@ var gulp = require("gulp");
 var eco = require('gulp-eco');
 var concat = require('gulp-concat');
 var browserify = require('browserify');
-var buffer     = require('vinyl-buffer');
 var file = require('gulp-file');
 
-var eco_files_path = "client/scripts/views/**/*.eco";
+var eco_files_path = "./client/scripts/views/**/*.eco";
 var compiled_eco_js = "JST.js";
-var build_path = "./client/scripts/build";
+var build_path = "./build/client/scripts/";
 
 gulp.task("eco-compile", function(){
   return gulp.src(eco_files_path)

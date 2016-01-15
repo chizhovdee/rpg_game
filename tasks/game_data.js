@@ -1,5 +1,5 @@
 var gulp = require("gulp");
-var gameData = require("../server/game_data");
+//var gameData = require("../server/game_data");
 var fs = require("fs");
 var ejs = require("ejs");
 

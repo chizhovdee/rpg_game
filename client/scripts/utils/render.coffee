@@ -1,5 +1,5 @@
 _ = require("underscore")
-JST = require("../build/JST").JST
+JST = require("../JST").JST
 
 RenderUtils =
   renderTemplate: (name, args...)->

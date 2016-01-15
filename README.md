@@ -1,5 +1,8 @@
-npm install -g bower
 npm install -g gulp
+npm install supervisor -g
 
 npm install
-bower install
+
+gulp build
+
+npm start
