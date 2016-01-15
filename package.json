@@ -34,6 +34,7 @@
     "gulp-eco": "git+https://github.com/chizhovdee/gulp-eco.git",
     "gulp-file": "^0.2.0",
     "gulp-notify": "^2.2.0",
+    "gulp-sass": "^2.1.1",
     "gulp-util": "^3.0.7",
     "js-yaml": "^3.5.2",
     "map-stream": "0.0.6",

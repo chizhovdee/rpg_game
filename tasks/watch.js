@@ -17,6 +17,8 @@ gulp.task('watch', function(){
 
   gulp.watch('./client/scripts/views/**/*.eco', ["eco-compile-browserify"]);
 
+  gulp.watch('./client/styles/**/*.scss', ["stylesheets"]);
+
   gulp.watch('./locales/**/*.yml', ["locales"]);
 });
 

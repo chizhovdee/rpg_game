@@ -20,7 +20,8 @@ gulp.task("prepare:client", [
   'coffee-compile:common',
   'coffee-compile:client',
   'eco-compile',
-  'client-vendors'
+  'client-vendors',
+  'stylesheets'
 ], function(){
   var vendors = fs.readFileSync("./build/client/scripts/vendors.js");
 
