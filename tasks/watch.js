@@ -13,9 +13,9 @@ gulp.task('watch', function(){
 
   gulp.watch('./common/**/*.coffee', ["common-compile-browserify"]);
 
-  gulp.watch('./client/scripts/**/*.coffee', ["client-compile-browserify"]);
+  gulp.watch('./client/**/*.coffee', ["client-compile-browserify"]);
 
-  gulp.watch('./client/scripts/views/**/*.eco', ["eco-compile-browserify"]);
+  gulp.watch('./client/views/**/*.eco', ["eco-compile-browserify"]);
 
   gulp.watch('./client/styles/**/*.scss', ["stylesheets"]);
 
@@ -36,9 +36,9 @@ gulp.task("eco-compile-browserify", ['eco-compile'], function(){
 });
 
 function browserifyConcat(){
-  var vendors = fs.readFileSync("./build/client/scripts/vendors.js");
+  var vendors = fs.readFileSync("./build/client/vendors.js");
 
-  return browserify("./build/client/scripts/main.js", {debug:true})
+  return browserify("./build/client/main.js", {debug:true})
     .bundle()
     .pipe(source("application.js"))
     .pipe(gulp.dest("./public/javascripts/"))

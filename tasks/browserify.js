@@ -18,7 +18,7 @@ gulp.task('browserify', function() {
 });
 
 gulp.task('browserify-concat', function() {
-  var vendors = fs.readFileSync("./build/client/scripts/vendors.js");
+  var vendors = fs.readFileSync("./build/client/vendors.js");
 
   return browserify(sourceFile, {debug:true})
     .bundle()

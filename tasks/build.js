@@ -21,11 +21,12 @@ gulp.task("prepare:client", [
   'coffee-compile:client',
   'eco-compile',
   'client-vendors',
+  'game_data:populate',
   'stylesheets'
 ], function(){
-  var vendors = fs.readFileSync("./build/client/scripts/vendors.js");
+  var vendors = fs.readFileSync("./build/client/vendors.js");
 
-  return browserify("./build/client/scripts/main.js", {debug:true})
+  return browserify("./build/client/main.js", {debug:false})
     .bundle()
     .pipe(source("application.js"))
     .pipe(gulp.dest("./public/javascripts/"))

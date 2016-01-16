@@ -4,7 +4,8 @@ sceneManager = require("./lib/scene_manager")
 scenes = require("./scenes/scenes")
 preloader = require("./lib/preloader")
 HeaderLayer = require("./layers/header")
-poulateGameData = require("./populate_game_data") # генерируется автоматически при сборке
+require("./populate_game_data")() # генерируется автоматически при сборке
+gameData = require("./game_data")
 
 # сначала грузиться манифест с помощью прелоадера
 # затем загружается персонаж
@@ -16,9 +17,7 @@ class App
   constructor: ->
     @.setupEventListeners()
 
-    poulateGameData()
-
-    #gameData.define()
+    console.log gameData.Quest.all()
 
     sceneManager.setup(scenes)
 

@@ -4,6 +4,6 @@
 
 module.exports = function(){
 <% for(var key in data) { %>
-  <%= key %>.populate(<%- JSON.stringify(data[key].all()) %>);
+  <%= key %>.populate(<%- JSON.stringify(data[key].forClient()) %>);
 <% } %>
 };

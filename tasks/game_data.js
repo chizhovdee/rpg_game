@@ -1,9 +1,11 @@
 require('coffee-script/register');
 
 var gulp = require("gulp");
-var gameData = require("../server/game_data");
 var fs = require("fs");
 var ejs = require("ejs");
+
+var gameData = require("../server/game_data");
+require("../server/lib/underscore_mixins").setup();
 
 gulp.task("game_data:populate", function(){
   fs.readdirSync("./server/db/game_data/").forEach(function(name) {
@@ -14,19 +16,18 @@ gulp.task("game_data:populate", function(){
     obj.define()
   });
 
-  console.log(gameData);
+  //console.log(gameData);
 
   var tmpl = fs.readFileSync("./tasks/game_data_populate.ejs");
 
   result = ejs.render(tmpl.toString(), {data: gameData});
 
-  fs.writeFileSync("./build/client/scripts/populate_game_data.js", result)
+  fs.writeFileSync("./build/client/populate_game_data.js", result)
 });
 
 gulp.task("game_data:copy", function(){
   var baseName;
-  var resultClient = "";
-  var resultServer = "";
+  var result = "# This file has been generate automaticaly with gulp game_data:copy\n";
   var baseString = "";
 
   fs.readdirSync("./common/game_data/").forEach(function(name){
@@ -37,13 +38,12 @@ gulp.task("game_data:copy", function(){
 
       baseString = "exports." + capitalize(baseName);
 
-      resultClient += baseString + " = require('../../common/game_data/" + baseName + "')\n";
-      resultServer += baseString + " = require('../common/game_data/" + baseName + "')\n";
+      result += baseString + " = require('../common/game_data/" + baseName + "')\n";
     }
   });
 
-  fs.writeFileSync("./client/scripts/game_data.coffee", resultClient);
-  fs.writeFileSync("./server/game_data.coffee", resultServer);
+  fs.writeFileSync("./client/game_data.coffee", result);
+  fs.writeFileSync("./server/game_data.coffee", result);
 });
 
 function capitalize(string){

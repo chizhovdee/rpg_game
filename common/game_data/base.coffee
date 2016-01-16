@@ -26,8 +26,38 @@ class Base
 
     obj
 
+  # server
   @idByKey: (key)->
-    key
+    _(key).gameDataIdByKey() # underscore mixin
+
+  @populate: (data)->
+    for values in data.values
+      obj = {}
+
+      for value, index in values
+        obj[data.keys[index]] = value
+
+      @create(obj)
+
+  @forClient: ->
+    all = _.map(@all(), (obj)-> obj.forClient())
+
+    keys = _.keys(all[0])
+
+    values = []
+
+    for obj in all
+      data = []
+
+      for key in keys
+        data.push obj[key]
+
+      values.push data
+
+    {
+      keys: keys,
+      values: values
+    }
 
   @all: ->
     _.values(@records)
@@ -46,6 +76,12 @@ class Base
 
   constructor: (attributes)->
     _.extend(@, attributes)
+
+  forClient: ->
+    {
+      id: @id
+      key: @key
+    }
 
 
 module.exports = Base

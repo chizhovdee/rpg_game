@@ -5,10 +5,11 @@ logger = require('morgan')
 cookieParser = require('cookie-parser')
 bodyParser = require('body-parser')
 fs = require("fs")
+require("./lib/underscore_mixins").setup()
+
 middleware = require("./middleware")
 
 routes = require('./routes')
-gameData = require('./game_data')
 
 app = express()
 
