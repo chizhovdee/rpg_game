@@ -4,6 +4,7 @@ favicon = require('serve-favicon')
 logger = require('morgan')
 cookieParser = require('cookie-parser')
 bodyParser = require('body-parser')
+fs = require("fs")
 middleware = require("./middleware")
 
 routes = require('./routes')
@@ -29,7 +30,12 @@ app.use(middleware.eventResponse)
 routes.setup(app)
 
 # define game data
-gameData.define()
+fs.readdirSync("#{ __dirname }/db/game_data/").forEach((name)->
+  if name.indexOf(".js") > 0
+    obj = require("#{ __dirname }/db/game_data/#{name}")
+
+    obj.define()
+)
 
 # catch 404 and forward to error handler
 app.use((req, res, next)->

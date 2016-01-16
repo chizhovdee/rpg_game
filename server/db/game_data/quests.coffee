@@ -1,4 +1,4 @@
-Quest = require("../../common/game_data/quest")
+Quest = require("../../game_data").Quest
 
 exports.define = ->
   Quest.define("quest_1", (obj)->

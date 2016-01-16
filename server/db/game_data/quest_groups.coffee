@@ -1,4 +1,4 @@
-QuestGroup = require("../../common/game_data/quest_group")
+QuestGroup = require("../../game_data").QuestGroup
 
 exports.define = ->
   QuestGroup.define("quest_group_1")
