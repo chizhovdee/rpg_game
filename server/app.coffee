@@ -4,6 +4,7 @@ favicon = require('serve-favicon')
 logger = require('morgan')
 cookieParser = require('cookie-parser')
 bodyParser = require('body-parser')
+middleware = require("./middleware")
 
 routes = require('./routes')
 gameData = require('./game_data')
@@ -21,6 +22,8 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded(extended: false))
 app.use(cookieParser())
 app.use(express.static('public'))
+
+app.use(middleware.eventResponse)
 
 # setup all routes
 routes.setup(app)

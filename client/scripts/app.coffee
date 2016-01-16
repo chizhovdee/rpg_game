@@ -46,6 +46,8 @@ class App
     transport.send("loadCharacterGameData")
 
   onCharacterGameDataLoaded: (response)->
+    console.log response
+
     Character.create(response.character)
 
     HeaderLayer.show(el: $("#application .header"))
