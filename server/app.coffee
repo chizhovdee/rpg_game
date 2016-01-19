@@ -4,6 +4,10 @@ favicon = require('serve-favicon')
 logger = require('morgan')
 cookieParser = require('cookie-parser')
 bodyParser = require('body-parser')
+fs = require("fs")
+require("./lib/underscore_mixins").setup()
+
+middleware = require("./middleware")
 
 routes = require('./routes')
 
@@ -19,10 +23,20 @@ app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded(extended: false))
 app.use(cookieParser())
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static('public'))
+
+app.use(middleware.eventResponse)
 
 # setup all routes
 routes.setup(app)
+
+# define game data
+fs.readdirSync("#{ __dirname }/db/game_data/").forEach((name)->
+  if name.indexOf(".js") > 0
+    obj = require("#{ __dirname }/db/game_data/#{name}")
+
+    obj.define()
+)
 
 # catch 404 and forward to error handler
 app.use((req, res, next)->

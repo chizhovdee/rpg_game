@@ -20,3 +20,8 @@ doc/
 .idea
 
 /node_modules
+/bower_components
+/public/javascripts
+/public/stylesheets
+/public/locales
+/build

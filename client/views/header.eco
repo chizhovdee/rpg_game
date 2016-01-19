@@ -1,0 +1,86 @@
+<div class="experience">
+    <%=@safe @.progressBar(100) %>
+
+    <span class="value"><%= @character.experience  %></span>
+
+    <span class="add"></span>
+</div>
+
+<div class="health">
+    <%=@safe @.progressBar(@character.hpPercentage()) %>
+
+    <div class="value">
+        <%=@safe @formatNumber(@character.restorable_hp) %> / <%=@safe @formatNumber(@character.health_points) %>
+    </div>
+
+    <div class="timer"></div>
+
+    <span class="add"></span>
+</div>
+
+<div class="energy">
+    <%=@safe @.progressBar(@character.epPercentage()) %>
+
+    <div class="value">
+        <%=@safe @formatNumber(@character.restorable_ep) %> / <%=@safe @formatNumber(@character.energy_points) %>
+    </div>
+
+    <div class="timer"></div>
+
+    <span class="add"></span>
+</div>
+
+<div class="stamina">
+    <%=@safe @.progressBar(@character.epPercentage()) %>
+
+    <div class="value"><%= @character.restorable_ep %> / <%= @character.energy_points %></div>
+
+    <div class="timer"></div>
+
+    <span class="add"></span>
+</div>
+
+<div class="level">
+    <span class="value"><%= @character.level %></span>
+</div>
+
+<div class="basic_money">
+    <span class="value"><%= @character.basic_money %></span>
+</div>
+
+<div class="vip_money">
+    <span class="value"><%= @character.vip_money %></span>
+
+    <span class="add"></span>
+</div>
+
+<div id="main_menu">
+    <div class="menu quests">
+        <span class="text"><%= I18n.t("main_menu.quests") %></span>
+    </div>
+
+    <div class="menu monsters">
+        <span class="text"><%= I18n.t("main_menu.monsters") %></span>
+    </div>
+
+    <div class="menu shop">
+        <span class="text"><%= I18n.t("main_menu.shop") %></span>
+    </div>
+
+    <div class="menu inventory">
+        <span class="text"><%= I18n.t("main_menu.inventory") %></span>
+    </div>
+
+    <div class="menu profile">
+        <span class="text"><%= I18n.t("main_menu.profile") %></span>
+    </div>
+
+    <div class="menu rating">
+        <span class="text"><%= I18n.t("main_menu.rating") %></span>
+    </div>
+
+    <div class="menu alliance">
+        <span class="text"><%= I18n.t("main_menu.alliance") %></span>
+    </div>
+</div>
+
