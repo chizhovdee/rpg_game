@@ -1,5 +1,3 @@
-require('coffee-script/register');
-
 var gulp = require("gulp");
 var fs = require("fs");
 var ejs = require("ejs");

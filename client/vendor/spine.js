@@ -1140,5 +1140,3 @@ Released under the MIT License
   Spine.Class = Module;
 
 }).call(this);
-
-//# sourceMappingURL=spine.js.map
