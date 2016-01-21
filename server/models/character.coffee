@@ -1,4 +1,6 @@
 _ = require("underscore")
+State = require("./character_state")
+db = require("../db/conn")
 
 class Character
   id: null
@@ -6,9 +8,21 @@ class Character
   experience: null
   basic_money: null
   vip_money: null
+  state: null
 
   constructor: (attributes)->
     _.extend(@, attributes) if attributes
+
+  withState: (fields..., callback)->
+    db.one("select #{fields.join(', ')} from character_states where character_id = $1", @id)
+    .then((data)->
+      console.log data
+
+      callback?()
+    )
+    .error((error)->
+      console.error error
+    )
 
   forClient: ->
     id: @id

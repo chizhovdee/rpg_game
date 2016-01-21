@@ -15,10 +15,15 @@ monitor.setTheme('matrix')
 monitor.log = (msg, info)->
   # save the screen messages into your own log file
 
-cn = fs.readFileSync(path.join(__dirname, "../../../config/database.json")) # from build
+console.log "-------------Dirname", __dirname
+console.log "----------Resolve", path.resolve('./server', '../config/database.json')
+
+configPath = path.resolve('./server', '../config/database.json')
+
+cn = fs.readFileSync(configPath) # from build
 
 db = pgp(JSON.parse(cn).dev)
 
-console.log "connect to database"
+console.log "Create database connection"
 
 module.exports = db

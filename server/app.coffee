@@ -8,7 +8,6 @@ fs = require("fs")
 require("./lib/underscore_mixins").setup()
 middleware = require("./middleware")
 routes = require('./routes')
-
 do require("./db/define_game_data")
 
 app = express()
