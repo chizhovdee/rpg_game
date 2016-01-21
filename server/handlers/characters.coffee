@@ -3,9 +3,7 @@ exports.gameData = (req, res)->
     data.character = req.currentCharacter.forClient()
   )
 
-  req.currentCharacter.withState('quests', ->
-    res.json(res.eventResponse.all())
-  )
+  res.json(res.eventResponse.all())
 
 exports.status = (req, res)->
   res.eventResponse.add("character_status_loaded", (data)->

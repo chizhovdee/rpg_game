@@ -15,9 +15,6 @@ monitor.setTheme('matrix')
 monitor.log = (msg, info)->
   # save the screen messages into your own log file
 
-console.log "-------------Dirname", __dirname
-console.log "----------Resolve", path.resolve('./server', '../config/database.json')
-
 configPath = path.resolve('./server', '../config/database.json')
 
 cn = fs.readFileSync(configPath) # from build
