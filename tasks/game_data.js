@@ -6,21 +6,13 @@ var gameData = require("../server/game_data");
 require("../server/lib/underscore_mixins").setup();
 
 gulp.task("game_data:populate", function(){
-  fs.readdirSync("./server/db/game_data/").forEach(function(name) {
-    if(name.indexOf(".coffee") > 0){
-      obj = require("../server/db/game_data/" + name);
-    }
-
-    obj.define()
-  });
-
-  //console.log(gameData);
+  require("../server/db/define_game_data")();
 
   var tmpl = fs.readFileSync("./tasks/game_data_populate.ejs");
 
   result = ejs.render(tmpl.toString(), {data: gameData});
 
-  fs.writeFileSync("./build/client/populate_game_data.js", result)
+  fs.writeFileSync("./build/client/populate_game_data.js", result);
 });
 
 gulp.task("game_data:copy", function(){

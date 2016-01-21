@@ -5,37 +5,11 @@ logger = require('morgan')
 cookieParser = require('cookie-parser')
 bodyParser = require('body-parser')
 fs = require("fs")
-promise = require('bluebird')
 require("./lib/underscore_mixins").setup()
 middleware = require("./middleware")
-mixin = require("./mixin")
 routes = require('./routes')
 
-do createDbConnection = ->
-  pgpOptions = {
-    promiseLib: promise
-  }
-
-  pgp = require('pg-promise')(pgpOptions)
-  mixin.pgp = pgp
-
-  monitor = require('pg-monitor')
-  monitor.attach(pgpOptions)
-  monitor.setTheme('matrix')
-
-  monitor.log = (msg, info)->
-    # save the screen messages into your own log file
-
-  cn = {
-    host: 'localhost'
-    port: 5432
-    database: 'rpg_game_development'
-    user: 'deewild'
-    password: 'satch'
-  }
-
-  db = pgp(cn)
-  mixin.db = db
+do require("./db/define_game_data")
 
 app = express()
 
@@ -56,14 +30,6 @@ app.use(middleware.getCurrentCharacter)
 app.use(middleware.eventResponse)
 
 routes.setup(app)
-
-do defineData = ->
-  fs.readdirSync("#{ __dirname }/db/game_data/").forEach((name)->
-    if name.indexOf(".js") > 0
-      obj = require("#{ __dirname }/db/game_data/#{name}")
-
-      obj.define()
-  )
 
 # catch 404 and forward to error handler
 app.use((req, res, next)->

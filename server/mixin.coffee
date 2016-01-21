@@ -1,3 +1,0 @@
-mixin = {}
-
-module.exports = mixin
