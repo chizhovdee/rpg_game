@@ -1,4 +1,4 @@
-_ = require("underscore")
+_ = require("lodash")
 
 class Base
   id: null
@@ -28,7 +28,7 @@ class Base
 
   # server
   @idByKey: (key)->
-    _(key).gameDataIdByKey() # underscore mixin
+    _.gameDataIdByKey(key) # underscore mixin
 
   @populate: (data)->
     for values in data.values
@@ -75,7 +75,7 @@ class Base
     record
 
   constructor: (attributes)->
-    _.extend(@, attributes)
+    _.assignIn(@, attributes)
 
   forClient: ->
     {

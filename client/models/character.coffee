@@ -1,4 +1,4 @@
-_ = require("underscore")
+_ = require("lodash")
 utils = require("../utils/utils")
 
 class Character extends Spine.Model

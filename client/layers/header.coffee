@@ -1,4 +1,4 @@
-_ = require("underscore")
+_ = require("lodash")
 Layer = require("../lib/layer")
 Character = require("../models/character")
 VisualTimer = require("../lib/visual_timer")
