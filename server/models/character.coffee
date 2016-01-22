@@ -1,4 +1,4 @@
-_ = require("underscore")
+_ = require("lodash")
 State = require("./character_state")
 db = require("../db/conn")
 
@@ -19,7 +19,7 @@ class Character
   energy: null
 
   constructor: (attributes)->
-    _.extend(@, attributes) if attributes
+    _.assignIn(@, attributes) if attributes
 
   withState: (fields..., callback)->
     db.one("select #{fields.join(', ')} from character_states where character_id = $1", @id)

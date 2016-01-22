@@ -1,4 +1,4 @@
-_ = require("underscore")
+_ = require("lodash")
 
 utils =
   deepClone: (obj, excludesAttributes...)->

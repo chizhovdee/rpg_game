@@ -2,7 +2,7 @@ var gulp = require("gulp");
 var map     = require('map-stream');
 var yaml    = require('js-yaml');
 var gutil = require("gulp-util");
-var _ = require("underscore");
+var _ = require("lodash");
 
 gulp.task('locales', function(){
   var data = {
