@@ -1,4 +1,5 @@
 @import "design";
+@import "bourbon/bourbon";
 
 $menu: quests, monsters, shop, inventory, profile, rating, alliance;
 
@@ -87,7 +88,7 @@ $menu: quests, monsters, shop, inventory, profile, rating, alliance;
 
     .progress_bar {
       .percentage {
-        background: linear-gradient(to top, #304405, #a0cd21);
+        @include linear-gradient(to top, #304405, #a0cd21);
       }
     }
     
@@ -114,7 +115,7 @@ $menu: quests, monsters, shop, inventory, profile, rating, alliance;
 
     .progress_bar {
       .percentage {
-        background: linear-gradient(to top, #530000, #f95a5a);
+        @include linear-gradient(to top, #530000, #f95a5a);
       }
     }
   }
@@ -132,7 +133,7 @@ $menu: quests, monsters, shop, inventory, profile, rating, alliance;
 
     .progress_bar {
       .percentage {
-        background: linear-gradient(to top, #b87a00, #f9ff57);
+        @include linear-gradient(to top, #b87a00, #f9ff57);
       }
     }
   }
@@ -150,7 +151,7 @@ $menu: quests, monsters, shop, inventory, profile, rating, alliance;
 
     .progress_bar {
       .percentage {
-        background: linear-gradient(to top, #002677, #77e8f6);
+        @include linear-gradient(to top, #002677, #77e8f6);
       }
     }
   }
