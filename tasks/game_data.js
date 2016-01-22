@@ -3,7 +3,6 @@ var fs = require("fs");
 var ejs = require("ejs");
 
 var gameData = require("../server/game_data");
-require("../server/lib/lodash_mixin").setup();
 
 gulp.task("game_data:populate", function(){
   require("../server/db/define_game_data")();

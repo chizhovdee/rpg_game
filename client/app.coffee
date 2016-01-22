@@ -1,11 +1,12 @@
+require("../common/lodash_mixin").setup()
+
 transport = require("./lib/transport")
 Character = require("./models/character")
 sceneManager = require("./lib/scene_manager")
-scenes = require("./scenes/scenes")
+sceneManager.setup(require("./scenes/scenes"))
 preloader = require("./lib/preloader")
 HeaderLayer = require("./layers/header")
-require("./populate_game_data")() # генерируется автоматически при сборке
-gameData = require("./game_data")
+do require("./populate_game_data") # генерируется автоматически при сборке
 
 # сначала грузиться манифест с помощью прелоадера
 # затем загружается персонаж
@@ -16,10 +17,6 @@ class App
 
   constructor: ->
     @.setupEventListeners()
-
-    console.log gameData.Quest.all()
-
-    sceneManager.setup(scenes)
 
     preloader.loadManifest([
       {id: "locale", src: "locales/#{ window.lng }.json"}

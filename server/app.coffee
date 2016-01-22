@@ -5,7 +5,10 @@ logger = require('morgan')
 cookieParser = require('cookie-parser')
 bodyParser = require('body-parser')
 fs = require("fs")
+
+require("../common/lodash_mixin").setup()
 require("./lib/lodash_mixin").setup()
+
 middleware = require("./middleware")
 routes = require('./routes')
 do require("./db/define_game_data")

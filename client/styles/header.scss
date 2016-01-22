@@ -47,8 +47,9 @@ $menu: quests, monsters, shop, inventory, profile, rating, alliance;
 
   .timer {
     position: absolute;
-    top: 0px;
-    left: 155px;
+    top: 3px;
+    right: 3px;
+    font-size: 10px;
   }
   
   .add {

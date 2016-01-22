@@ -1,5 +1,5 @@
 # экспорт всех сцен
 
 module.exports =
-  home: require("./home.js")
+  home: require("./home")
   #quests: require("./quests.js")

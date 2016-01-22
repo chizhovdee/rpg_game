@@ -80,11 +80,11 @@ class HeaderLayer extends Layer
   calculateUpdateIn: ->
     result = []
 
-    result.push(60)
+    result.push(_(1).minutes())
     result.push(@character.hp_restore_in) if @character.hp_restore_in > 0
     result.push(@character.ep_restore_in) if @character.ep_restore_in > 0
 
-    _.min(result) * 1000
+    _.min(result)
 
   updateEp: ->
     console.log "Updated ep"
@@ -118,6 +118,8 @@ class HeaderLayer extends Layer
     # обновляем каждый фрагмент отдельно если нужно
 
     changes = character.changes()
+
+    console.log character.oldAttributes
 
     console.log "changes", changes
 

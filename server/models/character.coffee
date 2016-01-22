@@ -3,9 +3,9 @@ State = require("./character_state")
 db = require("../db/conn")
 
 class Character
-  FULL_REFILL_DURATION = 12 * 60 * 60 * 1000 # 12 hours
-  HP_RESTORE_DURATION  = 60 * 1000 # 1 minute
-  EP_RESTORE_DURATION  = 5 * 60 * 1000 # 5 minutes
+  FULL_REFILL_DURATION = _(12).hours()
+  HP_RESTORE_DURATION  = _(1).minutes()
+  EP_RESTORE_DURATION  = _(5).minutes()
 
   id: null
   level: null
@@ -58,7 +58,9 @@ class Character
         value
 
   restoresSinceLastUpdate: (attribute)->
-    (Date.now() - @["#{attribute}_updated_at"].valueOf()) / @.restoreDuration(attribute)
+    Math.floor(
+      (Date.now() - @["#{attribute}_updated_at"].valueOf()) / @.restoreDuration(attribute)
+    )
 
   restoreDuration: (attribute)->
     switch attribute

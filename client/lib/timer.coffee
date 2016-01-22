@@ -9,7 +9,7 @@ class Timer
     return if countdown <= 0
 
     @lastTick = new Date().valueOf()
-    @finishAt = @lastTick + countdown * 1000
+    @finishAt = @lastTick + countdown
 
     @ticker = Visibility.every(50, ()=> @.checkTick())
 

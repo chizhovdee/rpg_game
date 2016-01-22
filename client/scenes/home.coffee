@@ -1,6 +1,6 @@
-Scene = require("../lib/scene.js")
-Character = require("../models/character.js")
-sceneManager = require("../lib/scene_manager.js")
+Scene = require("../lib/scene")
+Character = require("../models/character")
+sceneManager = require("../lib/scene_manager")
 
 class HomeScene extends Scene
   className: "home scene"
