@@ -1,5 +1,3 @@
-@import "bourbon/bourbon";
-
 @mixin box-shadow($shadows...) {
   -moz-box-shadow: $shadows;
   -webkit-box-shadow: $shadows;

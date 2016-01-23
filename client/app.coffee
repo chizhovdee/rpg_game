@@ -1,4 +1,5 @@
 require("../common/lodash_mixin").setup()
+do require("./populate_game_data") # генерируется автоматически при сборке
 
 transport = require("./lib/transport")
 Character = require("./models/character")
@@ -6,7 +7,8 @@ sceneManager = require("./lib/scene_manager")
 sceneManager.setup(require("./scenes/scenes"))
 preloader = require("./lib/preloader")
 HeaderLayer = require("./layers/header")
-do require("./populate_game_data") # генерируется автоматически при сборке
+ctx = require("./context")
+
 
 # сначала грузиться манифест с помощью прелоадера
 # затем загружается персонаж
@@ -45,9 +47,9 @@ class App
     transport.send("loadCharacterGameData")
 
   onCharacterGameDataLoaded: (response)->
-    console.log response
+    console.log "onCharacterGameDataLoaded", response.character
 
-    Character.create(response.character)
+    ctx.currentCharacter = Character.create(response.character)
 
     HeaderLayer.show(el: $("#application .header"))
 
@@ -56,9 +58,7 @@ class App
   onCharacterStatusLoaded: (response)->
     console.log "onCharacterStatusLoaded"
 
-    @character ?= Character.first()
-
-    @character.updateAttributes(response.character)
+    ctx.currentCharacter.updateAttributes(response.character)
 
   setTranslations: ->
     I18n.defaultLocale = window.lng

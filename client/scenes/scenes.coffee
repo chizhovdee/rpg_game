@@ -2,4 +2,4 @@
 
 module.exports =
   home: require("./home")
-  #quests: require("./quests.js")
+  quests: require("./quests")

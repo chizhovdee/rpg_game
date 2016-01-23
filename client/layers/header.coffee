@@ -3,6 +3,8 @@ Layer = require("../lib/layer")
 Character = require("../models/character")
 VisualTimer = require("../lib/visual_timer")
 transport = require("../lib/transport")
+sceneManager = require("../lib/scene_manager")
+ctx = require("../context")
 
 class HeaderLayer extends Layer
   elements:
@@ -30,7 +32,7 @@ class HeaderLayer extends Layer
     super
 
   show: ->
-    @character = Character.first() # !!! должен быть ининциализован первым
+    @character = ctx.currentCharacter # !!! должен быть ининциализован первым
 
     super
 
@@ -49,10 +51,10 @@ class HeaderLayer extends Layer
 
     @character.bind("update", (args...)=> @.onCharacterUpdate(args...))
 
-  unbindEventListeners: ->
-    super
-
-    @character.unbind("update", (args...)=> @.onCharacterUpdate(args...))
+    @el.on("click", ".menu.quests", ->
+      console.log "HUI"
+      sceneManager.run('quests')
+    )
 
   setupTimers: ->
     @epTimer = new VisualTimer(@energyEl.find(".timer"))
@@ -118,10 +120,6 @@ class HeaderLayer extends Layer
     # обновляем каждый фрагмент отдельно если нужно
 
     changes = character.changes()
-
-    console.log character.oldAttributes
-
-    console.log "changes", changes
 
     @.updateHp() if changes.restorable_hp?
     @.updateEp() if changes.restorable_ep?

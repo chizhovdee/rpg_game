@@ -5,7 +5,8 @@ class Base
   key: null
 
   @configure: ->
-    @records = {}
+    @records = []
+    @idsStore = {}
     @keysStore = {}
 
   @define: (key, callback)->
@@ -21,14 +22,15 @@ class Base
   @create: (attributes)->
     obj = new @(attributes)
 
-    @records[obj.id] = obj
-    @keysStore[obj.key] = obj.id
+    index = @records.push(obj)
+    @idsStore[obj.id] = index - 1
+    @keysStore[obj.key] = index - 1
 
     obj
 
   # server
   @idByKey: (key)->
-    _.gameDataIdByKey(key) # underscore mixin
+    _.gameDataIdByKey(key)
 
   @populate: (data)->
     for values in data.values
@@ -60,12 +62,12 @@ class Base
     }
 
   @all: ->
-    _.values(@records)
+    @records
 
   @find: (keyOrId)->
     record = (
       if _.isNumber(keyOrId)
-        @records[keyOrId]
+        @records[@idsStore[keyOrId]]
       else
         @records[@keysStore[keyOrId]]
     )
@@ -73,6 +75,9 @@ class Base
     throw new Error("Game data object not found by id or key - #{ keyOrId }") unless record?
 
     record
+
+  @findAllByAttribute: (attribute, value)->
+    _.filter(@all(), (record)-> record[attribute] == value)
 
   constructor: (attributes)->
     _.assignIn(@, attributes)

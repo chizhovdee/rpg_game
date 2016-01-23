@@ -1,33 +1,30 @@
 %pagination {
   position: relative;
-  width: 760px;
-  //left: -25px;
 
   .page {
     position: relative;
-    width: 710px;
-    padding-left: 50px;
+    padding-left: 30px;
+    padding-right: 30px;
+    width: 667px;
   }
 
   .paginate {
     position: absolute;
     top: 0;
-    width: 50px;
+    width: 23px;
     height: 100%;
     cursor: pointer;
 
     &:hover {
-      background: rgba(0, 0, 0, 0.3);
+      background: rgba(202, 153, 67, 0.3);
     }
 
     &.left, &.right {
       &:after {
         content: '';
-        position: absolute;
-        top: 50%;
-        margin-top: -20px;
-        width: 50px;
-        height: 50px;
+        width: 23px;
+        height: 100%;
+        display: inline-block;
       }
     }
 
@@ -35,9 +32,11 @@
       left: 0;
 
       &:after {
-        right: 8px;
-
-        background-image: url("/images/left.png");
+        background: {
+          image: url("/images/arrows.png");
+          repeat: no-repeat;
+          position: left center;
+        }
       }
     }
 
@@ -45,9 +44,11 @@
       right: 0;
 
       &:after {
-        left: 8px;
-
-        background-image: url("/images/right.png");
+        background: {
+          image: url("/images/arrows.png");
+          repeat: no-repeat;
+          position: right center;
+        }
       }
     }
 
@@ -67,9 +68,13 @@
       display: inline-block;
       cursor: pointer;
       margin: 0 1px;
+      width: 15px;
+      height: 15px;
+
+      background-image: url("/images/round.png");
 
       &.checked {
-
+        background-image: url("/images/round_checked.png");
       }
     }
   }
