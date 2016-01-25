@@ -6,12 +6,11 @@ cookieParser = require('cookie-parser')
 bodyParser = require('body-parser')
 fs = require("fs")
 
-require("../common/lodash_mixin").setup()
-require("./lib/lodash_mixin").setup()
+require("./lib/lodash_mixin").register()
+require('require-dir')('./db/game_data', recurse: true )
 
 middleware = require("./middleware")
 routes = require('./routes')
-do require("./db/define_game_data")
 
 app = express()
 
@@ -19,7 +18,7 @@ app = express()
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs')
 
-publicDir = path.join(__dirname, '../../public') # path from build/server dir
+publicDir = path.join(__dirname, '../public') # path from build/server dir
 
 app.use(favicon(path.join(publicDir, 'favicon.ico')));
 app.use(logger('dev'))

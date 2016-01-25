@@ -1,6 +1,6 @@
 _ = require("lodash")
 
-exports.setup = ->
+exports.register = ->
   _.mixin(
     seconds: (seconds)-> seconds * 1000
     minutes: (minutes)-> minutes * 60 * 1000

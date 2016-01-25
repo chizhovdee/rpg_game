@@ -13,11 +13,10 @@ gulp.task("build:server", ['coffee-compile:server', 'server-views-copy']);
 
 gulp.task("server-views-copy", function(){
   return gulp.src('./server/views/**/*.ejs')
-    .pipe(gulp.dest("./build/server/views/"));
+    .pipe(gulp.dest("./build/views/"));
 });
 
 gulp.task("prepare:client", [
-  'coffee-compile:common',
   'coffee-compile:client',
   'eco-compile',
   'client-vendors',

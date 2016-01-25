@@ -11,7 +11,7 @@ gulp.task('watch', function(){
 
   gulp.watch('./server/views/**/*.ejs', ["server-views-copy"]);
 
-  gulp.watch('./common/**/*.coffee', ["common-compile-browserify"]);
+  gulp.watch('./server/db/game_data/**/*.coffee', ["game-data-populate-browserify"]);
 
   gulp.watch('./client/**/*.coffee', ["client-compile-browserify"]);
 
@@ -22,8 +22,7 @@ gulp.task('watch', function(){
   gulp.watch('./locales/**/*.yml', ["locales"]);
 });
 
-
-gulp.task("common-compile-browserify", ['coffee-compile:common'], function(){
+gulp.task("game-data-populate-browserify", ['game_data:populate'], function(){
   return browserifyConcat();
 });
 

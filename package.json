@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "DEBUG=rpg_game:* supervisor --debug -w ./build/server,./build/common ./bin/www",
+    "start": "DEBUG=rpg_game:* supervisor -w ./build -i ./build/client,./build/styleshetts ./bin/www",
     "build": "gulp build",
     "watch": "gulp watch"
   },

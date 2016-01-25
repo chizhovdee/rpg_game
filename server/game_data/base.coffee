@@ -1,4 +1,5 @@
 _ = require("lodash")
+crc = require('crc')
 
 class Base
   id: null
@@ -30,16 +31,16 @@ class Base
 
   # server
   @idByKey: (key)->
-    _.gameDataIdByKey(key)
+    crc.crc32(key)
 
-  @populate: (data)->
-    for values in data.values
-      obj = {}
-
-      for value, index in values
-        obj[data.keys[index]] = value
-
-      @create(obj)
+#  @populate: (data)->
+#    for values in data.values
+#      obj = {}
+#
+#      for value, index in values
+#        obj[data.keys[index]] = value
+#
+#      @create(obj)
 
   @forClient: ->
     all = _.map(@all(), (obj)-> obj.forClient())

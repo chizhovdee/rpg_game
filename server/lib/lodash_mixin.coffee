@@ -1,7 +1,8 @@
 _ = require("lodash")
-crc = require('crc')
 
-exports.setup = ->
+exports.register = ->
   _.mixin(
-    gameDataIdByKey: (key) -> return crc.crc32(key)
+    seconds: (seconds)-> seconds * 1000
+    minutes: (minutes)-> minutes * 60 * 1000
+    hours: (hours)-> hours * 60 * 60 * 1000
   )

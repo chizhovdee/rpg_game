@@ -1,9 +1,7 @@
 <% for(var key in data) { %>
-  <%= key %> = require("./game_data").<%= key %>;
+  <%= key %> = require("./game_data/<%= key %>");
 <% } %>
 
-module.exports = function(){
 <% for(var key in data) { %>
   <%= key %>.populate(<%- JSON.stringify(data[key].forClient()) %>);
 <% } %>
-};

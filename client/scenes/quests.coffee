@@ -1,8 +1,8 @@
 Scene = require("../lib/scene")
 sceneManager = require("../lib/scene_manager")
 Character = require("../models/character")
-QuestGroup = require("../game_data").QuestGroup
-Quest = require("../game_data").Quest
+QuestGroup = require("../game_data/quest_group")
+Quest = require("../game_data/quest")
 Pagination = require("../lib/pagination")
 
 class QuestsScene extends Scene
