@@ -3,13 +3,31 @@
 
     <% for quest in @painatedQuests: %>
         <div class="quest">
-            <%= quest.key %>
+            <div class="picture"></div>
+            <div class="info">
+                <div class="name"><%= quest.name() %></div>
+
+                <div class="description"><%= quest.description() %></div>
+            </div>
+
+            <div class="requirements">
+                <h3><%= I18n.t("common.requires") %></h3>
+
+                <div class="requirement ep">5</div>
+            </div>
+
+            <div class="rewards">
+                <h3><%= I18n.t("common.rewards") %></h3>
+
+                <div class="reward experience">10</div>
+                <div class="reward basic_money">50</div>
+            </div>
         </div>
     <% end %>
 
     <div class="paginate right <%= 'disabled' unless @questsPagination.canForward() %>" data-type="forward"></div>
 </div>
-<% console.log @questsPagination.switches%>
+
 <% if @questsPagination.switches.length > 1: %>
     <div class="switches">
         <% for [page, start_count] in @questsPagination.switches: %>

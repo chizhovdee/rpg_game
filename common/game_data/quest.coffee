@@ -1,11 +1,16 @@
 _ = require("lodash")
-
 Base = require("./base")
 
 class Quest extends Base
+  quest_group_key: null
+
   @configure()
 
-  quest_group_key: null
+  name: ->
+    I18n.t("game_data.quests.#{@key}.name")
+
+  description: ->
+    I18n.t("game_data.quests.#{@key}.description")
 
   forClient: ->
     _.assign(

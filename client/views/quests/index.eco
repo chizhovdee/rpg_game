@@ -1,5 +1,5 @@
 <div id="quests">
-    <h2>Квесты</h2>
+    <h1>Квесты</h1>
 
     <div class="quest_groups">
         <div class="tabs">

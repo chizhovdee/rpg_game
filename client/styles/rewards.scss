@@ -1,0 +1,45 @@
+.rewards {
+  .reward {
+    position: relative;
+    height: 20px;
+    padding-left: 22px;
+    margin-top: 5px;
+    line-height: 20px;
+
+    &:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 20px;
+      height: 20px;
+    }
+
+    &.ep {
+      &:before {
+        background: {
+          image: url("/images/icons/energy_yellow.png");
+          repeat: no-repeat;
+        }
+      }
+    }
+
+    &.basic_money {
+      &:before {
+        background: {
+          image: url("/images/icons/basic_money.png");
+          repeat: no-repeat;
+        }
+      }
+    }
+
+    &.experience {
+      &:before {
+        background: {
+          image: url("/images/icons/experience.png");
+          repeat: no-repeat;
+        }
+      }
+    }
+  }
+}

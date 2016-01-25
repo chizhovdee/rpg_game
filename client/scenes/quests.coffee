@@ -79,6 +79,8 @@ class QuestsScene extends Scene
 
     @painatedQuests = @questsPagination.paginate(@quests, initialize: true)
 
+    @questsPagination.setSwitches(@quests)
+
     @.renderQuestList()
 
   onQuestsPaginateClick: (e)->
