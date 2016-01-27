@@ -11,7 +11,7 @@ gulp.task("stylesheets", ['sass-compile'], function(){
 });
 
 gulp.task('sass-compile', function () {
-  return gulp.src('./client/styles/application.scss')
+  return gulp.src('./app/client/styles/application.scss')
     .pipe(include())
     .pipe(gulpif('application.scss', sass()))
     .on('error', notify.onError({
@@ -25,7 +25,7 @@ gulp.task('sass-compile', function () {
 gulp.task('bourbon-include', function(){
   var result = "";
 
-  var content = fs.readFileSync("./client/styles/bourbon/_bourbon.scss");
+  var content = fs.readFileSync("./app/client/styles/bourbon/_bourbon.scss");
 
   content.toString().split('\n').forEach(function(str){
     if(str.charAt(0) == '@'){
@@ -45,5 +45,5 @@ gulp.task('bourbon-include', function(){
     }
   });
 
-  fs.writeFileSync("./client/styles/bourbon/_bourbon_test.scss", result);
+  fs.writeFileSync("./app/client/styles/bourbon/_bourbon_test.scss", result);
 });

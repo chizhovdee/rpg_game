@@ -11,7 +11,7 @@ gulp.task('watch', function(){
 
   gulp.watch('./server/views/**/*.ejs', ["server-views-copy"]);
 
-  gulp.watch('./server/db/game_data/**/*.coffee', ["game-data-populate-browserify"]);
+  gulp.watch('./db/game_data/**/*.coffee', ["build"]);
 
   gulp.watch('./client/**/*.coffee', ["client-compile-browserify"]);
 

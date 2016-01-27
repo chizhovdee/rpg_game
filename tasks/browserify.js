@@ -6,7 +6,7 @@ var concat = require('gulp-concat');
 var buffer     = require('vinyl-buffer');
 var file = require('gulp-file');
 
-var sourceFile = "./build/client/scripts/main.js";
+var sourceFile = "./build/client/main.js";
 var destFolder = "./public/javascripts/";
 var destFile = "application.js";
 

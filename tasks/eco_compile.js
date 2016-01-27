@@ -5,7 +5,7 @@ var browserify = require('browserify');
 var file = require('gulp-file');
 var notify = require('gulp-notify');
 
-var eco_files_path = "./client/views/**/*.eco";
+var eco_files_path = "./app/client/views/**/*.eco";
 var compiled_eco_js = "JST.js";
 var build_path = "./build/client/";
 

@@ -12,17 +12,17 @@ gulp.task('coffee-compile', tasks, function() {
 });
 
 gulp.task('coffee-compile:server', function() {
-  return gulp.src('./server/**/*.coffee')
+  return gulp.src('./app/server/**/*.coffee')
     .pipe(coffee({bare: true}).on('error', gutil.log))
     .on('error', notify.onError({
       title: "COFFEE server dir ERROR",
       message: "Look in the console for details.\n <%= error.message %>"
     }))
-    .pipe(gulp.dest(build_path));
+    .pipe(gulp.dest(build_path + 'server/'));
 });
 
 gulp.task('coffee-compile:client', function() {
-  return gulp.src('./client/**/*.coffee')
+  return gulp.src('./app/client/**/*.coffee')
     .pipe(coffee({bare: true}).on('error', gutil.log))
     .on('error', notify.onError({
       title: "COFFEE client dir ERROR",

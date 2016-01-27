@@ -1,7 +1,7 @@
 gulp = require("gulp")
 promise = require('bluebird')
 
-Character = require("../server/models/character")
+#Character = require("../server/models/character")
 
 options = {
   promiseLib: promise

@@ -3,16 +3,16 @@ var fs = require("fs");
 var ejs = require("ejs");
 
 gulp.task("game_data:populate", function(){
-  require('require-dir')('../server/db/game_data', {recurse: true} );
+  require('require-dir')('../db/game_data', {recurse: true} );
 
   var baseName;
   var gameData = {};
 
-  fs.readdirSync("./server/game_data/").forEach(function(name){
+  fs.readdirSync("./app/server/game_data/").forEach(function(name){
     if(name.indexOf(".coffee") > 0 && name != "base.coffee"){
       baseName = name.split(".coffee")[0];
 
-      gameData[baseName] = require("../server/game_data/" + baseName);
+      gameData[baseName] = require("../app/server/game_data/" + baseName);
     }
   });
 
@@ -20,7 +20,11 @@ gulp.task("game_data:populate", function(){
 
   result = ejs.render(tmpl.toString(), {data: gameData});
 
-  fs.writeFileSync("./build/client/populate_game_data.js", result);
+  fs.mkdir('./build', function() {
+    fs.mkdir('./build/client', function () {
+      fs.writeFileSync("./build/client/populate_game_data.js", result);
+    });
+  });
 });
 
 //gulp.task("game_data:copy", function(){

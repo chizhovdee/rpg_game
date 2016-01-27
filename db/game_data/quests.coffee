@@ -1,4 +1,4 @@
-Quest = require("../../game_data/quest")
+Quest = require("../../app/server/game_data/quest")
 
 Quest.define("quest_1", (obj)->
   obj.quest_group_key = "quest_group_1"

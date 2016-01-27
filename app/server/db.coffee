@@ -15,9 +15,10 @@ monitor.setTheme('matrix')
 monitor.log = (msg, info)->
   # save the screen messages into your own log file
 
-configPath = path.resolve('./server', '../config/database.json')
+# в случае проблемы path.resolve('./server', '../config/database.json')
+configPath = path.join(__dirname, '../../config/database.json')
 
-cn = fs.readFileSync(configPath) # from build
+cn = fs.readFileSync(configPath)
 
 db = pgp(JSON.parse(cn).dev)
 

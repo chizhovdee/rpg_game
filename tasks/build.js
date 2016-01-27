@@ -12,8 +12,8 @@ gulp.task("build:client", ["prepare:client"]);
 gulp.task("build:server", ['coffee-compile:server', 'server-views-copy']);
 
 gulp.task("server-views-copy", function(){
-  return gulp.src('./server/views/**/*.ejs')
-    .pipe(gulp.dest("./build/views/"));
+  return gulp.src('./app/server/views/**/*.ejs')
+    .pipe(gulp.dest("./build/server/views/"));
 });
 
 gulp.task("prepare:client", [

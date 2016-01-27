@@ -1,5 +1,5 @@
 require('coffee-script/register');
-require("./server/lib/lodash_mixin").register();
+require("./app/server/lib/lodash_mixin").register();
 
 var requireDir = require('require-dir');
 requireDir('./tasks', { recurse: true });

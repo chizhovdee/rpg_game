@@ -1,5 +1,5 @@
 EventResponse = require("./lib/event_response")
-db = require("./db/conn")
+db = require("./db")
 
 Character = require("./models/character")
 

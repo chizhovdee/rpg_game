@@ -1,3 +1,5 @@
+require('coffee-script/register');
+
 express = require('express')
 path = require('path')
 favicon = require('serve-favicon')
@@ -7,7 +9,7 @@ bodyParser = require('body-parser')
 fs = require("fs")
 
 require("./lib/lodash_mixin").register()
-require('require-dir')('./db/game_data', recurse: true )
+require('require-dir')('../../db/game_data', recurse: true )
 
 middleware = require("./middleware")
 routes = require('./routes')
@@ -18,7 +20,7 @@ app = express()
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs')
 
-publicDir = path.join(__dirname, '../public') # path from build/server dir
+publicDir = path.join(__dirname, '../../public')
 
 app.use(favicon(path.join(publicDir, 'favicon.ico')));
 app.use(logger('dev'))

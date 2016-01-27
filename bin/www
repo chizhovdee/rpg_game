@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var app = require('../build/app');
+var app = require('../build/server/app');
 var debug = require('debug')('rpg_game:server');
 var http = require('http');
 

@@ -1,6 +1,6 @@
 _ = require("lodash")
 State = require("./character_state")
-db = require("../db/conn")
+db = require("../db")
 
 class Character
   FULL_REFILL_DURATION = _(12).hours()
