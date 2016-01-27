@@ -1,5 +1,3 @@
-_ = require("lodash")
-
 utils =
   deepClone: (obj, excludesAttributes...)->
     if _.isObject(obj)

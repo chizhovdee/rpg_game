@@ -1,3 +1,0 @@
-context = {}
-
-module.exports = context

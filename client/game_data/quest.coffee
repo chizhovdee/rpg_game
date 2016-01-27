@@ -1,7 +1,7 @@
 BaseGameData = require("../lib/base_game_data")
 
 class Quest extends BaseGameData
-  @configure "Quest", "key", "quest_group_key"
+  @configure "Quest", "key", "quest_group_key", "requirements", "rewards"
 
   name: ->
     I18n.t("game_data.quests.#{@key}.name")

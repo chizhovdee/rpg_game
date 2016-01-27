@@ -1,0 +1,3 @@
+<% for key, value of @requirements: %>
+  <div class="requirement <%= key %>"><%= value %></div>
+<% end %>

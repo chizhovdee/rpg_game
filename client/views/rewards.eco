@@ -1,0 +1,3 @@
+<% for key, value of @rewards: %>
+  <div class="reward <%= key %>"><%= value %></div>
+<% end %>

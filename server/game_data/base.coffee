@@ -1,9 +1,13 @@
 _ = require("lodash")
 crc = require('crc')
+Requirement = require("../lib/requirement")
+Reward = require("../lib/reward")
 
 class Base
   id: null
   key: null
+  requirement: null
+  reward: null
 
   @configure: ->
     @records = []
@@ -11,36 +15,19 @@ class Base
     @keysStore = {}
 
   @define: (key, callback)->
-    obj = {}
+    obj = new @()
 
     obj.id = @idByKey(key)
     obj.key = key
 
     callback?(obj)
 
-    @create(obj)
-
-  @create: (attributes)->
-    obj = new @(attributes)
-
     index = @records.push(obj)
     @idsStore[obj.id] = index - 1
     @keysStore[obj.key] = index - 1
 
-    obj
-
-  # server
   @idByKey: (key)->
     crc.crc32(key)
-
-#  @populate: (data)->
-#    for values in data.values
-#      obj = {}
-#
-#      for value, index in values
-#        obj[data.keys[index]] = value
-#
-#      @create(obj)
 
   @forClient: ->
     all = _.map(@all(), (obj)-> obj.forClient())
@@ -80,8 +67,23 @@ class Base
   @findAllByAttribute: (attribute, value)->
     _.filter(@all(), (record)-> record[attribute] == value)
 
-  constructor: (attributes)->
+  constructor: (attributes = {})->
+    @id = null
+    @key = null
+    @requirement = null
+    @reward = null
+
     _.assignIn(@, attributes)
+
+  addRequirement: (callback)->
+    @requirement ?= new Requirement()
+
+    callback?(@requirement)
+
+  addReward: (callback)->
+    @reward ?= new Reward()
+
+    callback?(@reward)
 
   forClient: ->
     {

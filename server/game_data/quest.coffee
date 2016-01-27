@@ -9,6 +9,8 @@ class Quest extends Base
   forClient: ->
     _.assign(
       quest_group_key: @quest_group_key
+      requirements: @requirement?.forClient()
+      rewards: @reward?.forClient()
       ,
       super
     )

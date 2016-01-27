@@ -1,10 +1,8 @@
-_ = require("lodash")
 Layer = require("../lib/layer")
 Character = require("../models/character")
 VisualTimer = require("../lib/visual_timer")
 transport = require("../lib/transport")
 sceneManager = require("../lib/scene_manager")
-ctx = require("../context")
 
 class HeaderLayer extends Layer
   elements:
@@ -32,7 +30,7 @@ class HeaderLayer extends Layer
     super
 
   show: ->
-    @character = ctx.currentCharacter # !!! должен быть ининциализован первым
+    @character = Character.first() # !!! должен быть ининциализован первым
 
     super
 
