@@ -1,12 +1,11 @@
-Scene = require("../lib/scene")
-sceneManager = require("../lib/scene_manager")
-Character = require("../models/character")
-QuestGroup = require("../game_data/quest_group")
-Quest = require("../game_data/quest")
-Pagination = require("../lib/pagination")
+Page = require("../../lib/base_page")
+Character = require("../../models/character")
+QuestGroup = require("../../game_data/quest_group")
+Quest = require("../../game_data/quest")
+Pagination = require("../../lib/pagination")
 
-class QuestsScene extends Scene
-  className: "quests scene"
+class QuestsPage extends Page
+  className: "quests page_block"
 
   QUEST_GROUPS_PER_PAGE = 5
   QUESTS_PER_PAGE = 3
@@ -98,4 +97,4 @@ class QuestsScene extends Scene
     @.renderQuestList()
 
 
-module.exports = QuestsScene
+module.exports = QuestsPage

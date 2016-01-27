@@ -1,4 +1,4 @@
-DesignUtils =
+module.exports =
   progressBar: (value)->
     """
     <div class="progress_bar">
@@ -7,5 +7,3 @@ DesignUtils =
 
   formatNumber: (number, spacer = '&thinsp;')->
     "#{number}".replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1#{ spacer }")
-
-module.exports = DesignUtils

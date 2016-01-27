@@ -7,17 +7,17 @@ buffer     = require('vinyl-buffer')
 file = require('gulp-file')
 
 gulp.task('watch', ->
-  gulp.watch('./server/**/*.coffee', ["build:server"])
+  gulp.watch('./app/server/**/*.coffee', ["build:server"])
 
-  gulp.watch('./server/views/**/*.ejs', ["server-views-copy"])
+  gulp.watch('./app/server/views/**/*.ejs', ["server-views-copy"])
 
   gulp.watch('./db/game_data/**/*.coffee', ["build"])
 
-  gulp.watch('./client/**/*.coffee', ["client-compile-browserify"])
+  gulp.watch('./app/client/**/*.coffee', ["client-compile-browserify"])
 
-  gulp.watch('./client/views/**/*.eco', ["eco-compile-browserify"])
+  gulp.watch('./app/client/views/**/*.eco', ["eco-compile-browserify"])
 
-  gulp.watch('./client/styles/**/*.scss', ["stylesheets"])
+  gulp.watch('./app/client/styles/**/*.scss', ["stylesheets"])
 
   gulp.watch('./locales/**/*.yml', ["locales"])
 )

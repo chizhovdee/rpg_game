@@ -1,4 +1,4 @@
-transport =
+module.exports =
   one: (eventName, callback)->
     Spine.Events.one(eventName, callback)
 
@@ -53,6 +53,3 @@ transport =
 
   load_character_status: ->
     @.get("characters/status.json")
-
-
-module.exports = transport

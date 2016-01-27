@@ -1,4 +1,4 @@
-# экспорт всех сцен
+# экспорт всех страниц
 
 module.exports =
   home: require("./home")

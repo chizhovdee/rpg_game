@@ -1,8 +1,8 @@
-Layer = require("../lib/layer")
-Character = require("../models/character")
-VisualTimer = require("../lib/visual_timer")
-transport = require("../lib/transport")
-sceneManager = require("../lib/scene_manager")
+Layer = require("../../lib/base_layer")
+Character = require("../../models/character")
+VisualTimer = require("../../lib/visual_timer")
+transport = require("../../lib/transport")
+pageManager = require("../../lib/page_manager")
 
 class HeaderLayer extends Layer
   elements:
@@ -51,7 +51,7 @@ class HeaderLayer extends Layer
 
     @el.on("click", ".menu.quests", ->
       console.log "HUI"
-      sceneManager.run('quests')
+      pageManager.run('quests')
     )
 
   setupTimers: ->

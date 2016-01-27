@@ -3,10 +3,10 @@ require("./populate_game_data") # замещается автоматическ�
 
 transport = require("./lib/transport")
 Character = require("./models/character")
-sceneManager = require("./lib/scene_manager")
-sceneManager.setup(require("./scenes/scenes"))
+pageManager = require("./lib/page_manager")
+pageManager.setup(require("./controllers/pages/export"))
 preloader = require("./lib/preloader")
-HeaderLayer = require("./layers/header")
+HeaderLayer = require("./controllers/layers/header")
 
 # сначала грузиться манифест с помощью прелоадера
 # затем загружается персонаж
@@ -51,7 +51,7 @@ class App
 
     HeaderLayer.show(el: $("#application .header"))
 
-    sceneManager.run("home")
+    pageManager.run("home")
 
   onCharacterStatusLoaded: (response)->
     console.log "onCharacterStatusLoaded"

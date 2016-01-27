@@ -1,4 +1,4 @@
-TimeUtils =
+module.exports =
   formatTime: (value)->
     result = ""
 
@@ -26,5 +26,3 @@ TimeUtils =
       result = "#{ result }:#{ seconds }"
 
     result
-
-module.exports = TimeUtils

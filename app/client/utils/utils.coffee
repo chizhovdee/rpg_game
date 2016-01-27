@@ -1,4 +1,4 @@
-utils =
+module.exports =
   deepClone: (obj, excludesAttributes...)->
     if _.isObject(obj)
       if _.isArray(obj)
@@ -31,5 +31,3 @@ utils =
         newArr.push(value)
 
     newArr
-
-module.exports = utils

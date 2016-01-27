@@ -1,7 +1,7 @@
 Timer = require("./timer")
 TimeUtils = require("../utils/time")
 
-VisualTimer = class extends Timer
+class VisualTimer extends Timer
   constructor: (@element, @finishCallback, @tickCallback)->
 
   onTick: ->
