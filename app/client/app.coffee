@@ -1,5 +1,5 @@
 require("./lib/lodash_mixin").register()
-require("./populate_game_data") # генерируется автоматически при сборке
+require("./populate_game_data") # замещается автоматически при сборке
 
 transport = require("./lib/transport")
 Character = require("./models/character")
