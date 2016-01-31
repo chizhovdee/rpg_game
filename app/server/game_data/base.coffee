@@ -64,6 +64,9 @@ class Base
 
     record
 
+  @first: ->
+    @records[0]
+
   @findAllByAttribute: (attribute, value)->
     _.filter(@all(), (record)-> record[attribute] == value)
 

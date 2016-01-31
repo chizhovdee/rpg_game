@@ -1,5 +1,10 @@
+_ = require('lodash')
+
 class CharacterState
   quests: null
 
   constructor: (attributes)->
-    _.extend(@, attributes) if attributes
+    _.assignIn(@, attributes) if attributes
+
+
+module.exports = CharacterState

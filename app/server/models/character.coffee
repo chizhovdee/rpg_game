@@ -1,6 +1,6 @@
 _ = require("lodash")
 State = require("./character_state")
-db = require("../db")
+QuestsState  = require('./quests_state')
 
 class Character
   FULL_REFILL_DURATION = _(12).hours()
@@ -18,13 +18,25 @@ class Character
   health: null
   energy: null
 
+  # states
+  _quests: null
+
   constructor: (attributes)->
     _.assignIn(@, attributes) if attributes
 
-  withState: (fields..., callback)->
-    db.one("select #{fields.join(', ')} from character_states where character_id = $1", @id)
+  quests: ->
+    @_quests ?= new QuestsState(@)
+
+  withState: (db, callback)->
+    throw new Error("Character state is already...") if @state
+
+    character = @
+
+    db.one("select * from character_states where character_id = $1", @id)
     .then((data)->
-      console.log data
+      console.log 'state db', data
+
+      character.state = new State(data)
 
       callback?()
     )

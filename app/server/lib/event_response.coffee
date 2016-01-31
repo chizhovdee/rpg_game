@@ -1,12 +1,17 @@
+_ = require('lodash')
+
 class EventResponse
   events: null
   constructor: ->
     @events = []
 
-  add: (eventType, callback)->
+  add: (eventType, callbackOrData)->
     data = {}
 
-    callback?(data)
+    if _.isFunction(callbackOrData)
+      callbackOrData?(data)
+    else
+      data = callbackOrData
 
     @events.push(
       event_type: eventType

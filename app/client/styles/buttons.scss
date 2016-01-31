@@ -1,0 +1,63 @@
+%button {
+  border: none;
+  display: inline-block;
+  text-shadow: 1px 1px 2px black;
+  cursor: pointer;
+  background-color: transparent;
+  position: relative;
+  white-space: nowrap;
+  margin: 0;
+
+  &.disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+%common-button {
+  @extend %button;
+
+  padding: 0 10px;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  line-height: 23px;
+  color: #ffedae;
+  height: 23px;
+
+  background: {
+    image: url("/images/button.png");
+    repeat: no-repeat;
+    clip: content-box;
+  }
+
+  &:before, &:after {
+    display: block;
+    position: absolute;
+    top: 0;
+    content: '';
+    width: 10px;
+    height: 23px;
+    background-image: url("/images/button.png");
+  }
+
+  &:before {
+    left: 0;
+    background-position: left;
+  }
+
+  &:after {
+    right: 0;
+    background-position: right;
+  }
+}
+
+.page, .dialog {
+  button, a.button {
+    @extend %common-button;
+  }
+}

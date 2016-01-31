@@ -3,7 +3,7 @@ fs = require("fs")
 ejs = require("ejs")
 
 gulp.task("game_data:populate", ->
-  require('require-dir')('../db/game_data', recurse: true )
+  console.log require('require-dir')('../app/server/db/game_data', recurse: true )
 
   gameData = {}
 

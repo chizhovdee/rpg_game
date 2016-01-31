@@ -1,11 +1,7 @@
-RenderUtils = require("../utils/render")
-TimeUtils = require("../utils/time")
-DesignUtils = require("../utils/design")
-
 class BaseController extends Spine.Controller
-  @include RenderUtils
-  @include TimeUtils
-  @include DesignUtils
+  @include require("../utils/render")
+  @include require("../utils/time")
+  @include require("../utils/design")
 
   @show: ->
 
@@ -22,5 +18,8 @@ class BaseController extends Spine.Controller
   bindEventListeners: ->
 
   unbindEventListeners: ->
+
+  renderPreloader: ->
+    @html "<div class='loading'></div>"
 
 module.exports = BaseController

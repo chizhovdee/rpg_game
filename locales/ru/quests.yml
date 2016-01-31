@@ -2,3 +2,7 @@ ru:
   quests:
     scene:
       title: "Квесты"
+    buttons:
+      perform: "Выполнить"
+      start: "Начать"
+      continue: "Продолжить"

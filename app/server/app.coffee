@@ -1,5 +1,3 @@
-require('coffee-script/register');
-
 express = require('express')
 path = require('path')
 favicon = require('serve-favicon')
@@ -9,10 +7,12 @@ bodyParser = require('body-parser')
 fs = require("fs")
 
 require("./lib/lodash_mixin").register()
-require('require-dir')('../../db/game_data', recurse: true )
+db = require('./db').setup()
 
 middleware = require("./middleware")
 routes = require('./routes')
+
+require('require-dir')('./db/game_data', recurse: true )
 
 app = express()
 
@@ -29,6 +29,11 @@ app.use(bodyParser.urlencoded(extended: false))
 app.use(cookieParser())
 app.use(express.static(publicDir))
 
+app.use((req, res, next)->
+  req.db = db
+
+  next()
+)
 app.use(middleware.getCurrentCharacter)
 app.use(middleware.eventResponse)
 

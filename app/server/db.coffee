@@ -6,22 +6,19 @@ pgpOptions = {
   promiseLib: promise
 }
 
-pgp = require('pg-promise')(pgpOptions)
+module.exports.setup = ->
+  pgp = require('pg-promise')(pgpOptions)
 
-monitor = require('pg-monitor')
-monitor.attach(pgpOptions)
-monitor.setTheme('matrix')
+  monitor = require('pg-monitor')
+  monitor.attach(pgpOptions)
+  monitor.setTheme('matrix')
 
-monitor.log = (msg, info)->
-  # save the screen messages into your own log file
+  monitor.log = (msg, info)->
+    # save the screen messages into your own log file
 
-# в случае проблемы path.resolve('./server', '../config/database.json')
-configPath = path.join(__dirname, '../../config/database.json')
+  # в случае проблемы path.resolve('./server', '../config/database.json')
+  configPath = path.join(__dirname, '../../config/database.json')
 
-cn = fs.readFileSync(configPath)
+  cn = fs.readFileSync(configPath)
 
-db = pgp(JSON.parse(cn).dev)
-
-console.log "Create database connection"
-
-module.exports = db
+  pgp(JSON.parse(cn).dev)

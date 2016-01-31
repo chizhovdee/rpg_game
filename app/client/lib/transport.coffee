@@ -53,3 +53,6 @@ module.exports =
 
   load_character_status: ->
     @.get("characters/status.json")
+
+  load_quests: (data)->
+    @.get('quests.json', data)

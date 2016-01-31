@@ -11,7 +11,7 @@ gulp.task('watch', ->
 
   gulp.watch('./app/server/views/**/*.ejs', ["server-views-copy"])
 
-  gulp.watch('./db/game_data/**/*.coffee', ["build"])
+  gulp.watch('./app/server/db/game_data/**/*.coffee', ["game-data-populate-browserify"])
 
   gulp.watch('./app/client/**/*.coffee', ["client-compile-browserify"])
 
@@ -25,7 +25,7 @@ gulp.task('watch', ->
 browserifyConcat = ->
   vendors = fs.readFileSync("./build/client/vendors.js");
 
-  browserify("./build/client/main.js", debug:true)
+  browserify("./build/client/main.js", debug: false)
   .bundle()
   .pipe(source("application.js"))
   .pipe(gulp.dest("./public/javascripts/"))

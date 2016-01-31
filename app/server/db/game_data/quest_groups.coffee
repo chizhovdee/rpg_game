@@ -1,4 +1,4 @@
-QuestGroup = require("../../app/server/game_data/quest_group")
+QuestGroup = require("../../game_data/quest_group")
 
 QuestGroup.define("quest_group_1")
 

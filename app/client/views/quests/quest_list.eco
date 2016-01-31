@@ -1,27 +1,8 @@
 <div class="page">
   <div class="paginate left <%= 'disabled' unless @questsPagination.canBack() %>" data-type="back"></div>
 
-  <% for quest in @painatedQuests: %>
-    <div class="quest">
-      <div class="picture"></div>
-
-      <div class="info">
-        <div class="name"><%= quest.name() %></div>
-        <div class="description"><%= quest.description() %></div>
-      </div>
-
-      <%= @.renderRequirements quest.requirements, (content)-> %>
-        <h3><%= I18n.t("common.requires") %></h3>
-
-        <%= content %>
-      <% end %>
-
-      <%= @.renderRewards quest.rewards, (content)-> %>
-        <h3><%= I18n.t("common.rewards") %></h3>
-
-        <%= content %>
-      <% end %>
-    </div>
+  <% for [quest, level, progress] in @painatedQuests: %>
+    <%=@safe @.renderTemplate('quests/quest', quest: quest, level: level, progress: progress) %>
   <% end %>
 
   <div class="paginate right <%= 'disabled' unless @questsPagination.canForward() %>" data-type="forward"></div>

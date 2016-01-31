@@ -6,12 +6,11 @@ _ = require("lodash")
 
 gulp.task('locales', ->
   data = {
-  ru: {}
-  en: {}
+    ru: {}
+    en: {}
   }
 
-  gulp.src('./locales/**/*.yml')
-  .pipe(map((file,cb)->
+  gulp.src('./locales/**/*.yml').pipe(map((file,cb)->
       return cb(null, file) if file.isNull() # pass along
       return cb(new Error("Streaming not supported")) if file.isStream()
 
@@ -20,9 +19,9 @@ gulp.task('locales', ->
       try
         json = yaml.load(String(file.contents.toString('utf8')))
 
-        if json.ru != null
+        if json.ru
           lng = "ru";
-        else if json.en != null
+        else if json.en
           lng = "en"
         else
           return cb(new Error("Language not supported"))
@@ -41,5 +40,5 @@ gulp.task('locales', ->
       );
 
       cb(null, file)
-  ))
+  )).pipe(gulp.dest('./public/locales'))
 )

@@ -39,13 +39,14 @@
     @include pagination;
 
     .quest {
+      position: relative;
       height: 125px;
       border: 1px solid #ca9943;
       margin-bottom: 10px;
       background: rgba(202, 153, 67, 0.1);
       @include border-radius(10px);
 
-      .picture, .info, .requirements, .rewards {
+      .picture, .info, .requirements, .rewards, .progress {
         display: inline-block;
         vertical-align: top;
       }
@@ -79,6 +80,16 @@
       .rewards {
         margin: 5px 0 0 5px;
         width: 120px;
+      }
+
+      .progress {
+        width: 130px;
+      }
+
+      button.perform {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
       }
     }
   }

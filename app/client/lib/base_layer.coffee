@@ -21,5 +21,4 @@ class Layer extends BaseController
   hide: ->
     super
 
-
 module.exports = Layer
