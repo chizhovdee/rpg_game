@@ -11,5 +11,25 @@
   @include border-left-radius($radius);
 }
 
+@mixin progress-bar($width, $height) {
+  width: #{$width}px;
+  height: #{$height}px;
+  border: 1px solid #fff;
+  @include border-radius(10px);
+
+  .progress_bar {
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    width: #{$width - 2}px;
+    height: #{$height - 2}px;
+
+    .percentage {
+      height: #{$height - 2}px;
+      @include border-radius(10px);
+    }
+  }
+}
+
 
 

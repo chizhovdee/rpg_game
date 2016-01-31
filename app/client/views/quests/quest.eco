@@ -22,9 +22,7 @@
     <div class="completed"><%= I18n.t('common.completed') %></div>
 
   <% else: %>
-    <div class="progress">
-
-    </div>
+    <div class="progress"><%=@safe @.progressBar(50) %></div>
 
     <div class="controls">
       <button class="perform" data-id="<%= quest.id %>">

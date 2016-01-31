@@ -83,7 +83,11 @@
       }
 
       .progress {
-        width: 130px;
+        @include progress-bar(100, 11);
+
+        position: absolute;
+        bottom: 50px;
+        right: 5px;
       }
 
       button.perform {
