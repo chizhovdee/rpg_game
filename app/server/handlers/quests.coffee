@@ -1,5 +1,6 @@
 _ = require('lodash')
 QuestGroup = require('../game_data/quest_group')
+actions = require('../actions/quests')
 
 module.exports =
   index: (req, res)->
@@ -17,5 +18,16 @@ module.exports =
       res.eventResponse.add("quest_loaded", data)
       res.json(res.eventResponse.all())
     )
+
+  perform: (req, res)->
+    console.log 'body', req.body.quest_id
+
+    actions.performQuest(req, (err, data)->
+      console.log data
+
+      res.json({})
+    )
+
+
 
 

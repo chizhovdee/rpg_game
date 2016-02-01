@@ -3,7 +3,6 @@ QuestGroup = require('../game_data/quest_group')
 Quest = require('../game_data/quest')
 QuestLevel = require('../game_data/quest_level')
 
-
 class QuestsState
   DEFAULT_STATE = {
     quests: {} # quest_id: [step, level, completed]
@@ -12,15 +11,22 @@ class QuestsState
   }
 
   character: null
-  state: null
+  _state: null
+  isChanged: false
 
   constructor: (character)->
     @character = character
 
     throw new Error("character state undefined") unless @character.state?
 
-    @state = @character.state.quests
-    @state ?= _.defaultsDeep({}, DEFAULT_STATE)
+    @_state = @character.state.quests
+    @_state ?= _.defaultsDeep({}, DEFAULT_STATE)
+
+  state: ->
+    @_state
+
+  progressForQuest: (quest)->
+    @.state().quests[quest.id] || [0, 1, false] # [step, level, completed]
 
   currentGroup: ->
     group = QuestGroup.find(@state.current_group) if @state.current_group
@@ -30,12 +36,19 @@ class QuestsState
 
   questsWithProgressByGroup: (group)->
     Quest.findAllByAttribute('quest_group_key', group.key).map((quest)=>
-      progress = @state.quests[quest.id]
-      progress ?= [0, 1, false]
-
-      [quest.id].concat(progress)
+      [quest.id].concat(@.progressForQuest(quest))
     )
 
+  perform: (quest_id)->
+    quest = Quest.find(quest_id)
 
+    progress = @.progressForQuest(quest)
+    progress[0] += 1 # 1 step for one
+
+    @_state.quests[quest.id] = progress
+
+    @isChanged = true
+
+    true
 
 module.exports = QuestsState

@@ -2,6 +2,7 @@ ru:
   quests:
     scene:
       title: "Квесты"
+    progress: "Прогресс: %{value}%"
     buttons:
       perform: "Выполнить"
       start: "Начать"

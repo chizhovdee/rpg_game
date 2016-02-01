@@ -96,9 +96,11 @@ class QuestsPage extends Page
     @.renderQuestList()
 
   onPerformClick: (e)=>
-    $(e.currentTarget).addClass('disabled')
+    button = $(e.currentTarget)
+    #button.addClass('disabled')
+    #QuestPerformPopup.show()
 
-    QuestPerformPopup.show()
+    transport.send('perform_quest', quest_id: button.data('quest-id'))
 
   onDataLoaded: (response)=>
     @loading = false

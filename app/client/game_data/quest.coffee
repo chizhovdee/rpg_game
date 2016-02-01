@@ -18,5 +18,4 @@ class Quest extends BaseGameData
   levelByNumber: (number)->
     _.find(@.levels(), (l)-> l.number == number)
 
-
 module.exports = Quest

@@ -17,3 +17,4 @@ exports.setup = (app)->
 
   # quests
   apiRoutes.get('/quests.json', quests.index)
+  apiRoutes.put('/quests/perform.json', quests.perform)

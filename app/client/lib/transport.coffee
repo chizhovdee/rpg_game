@@ -56,3 +56,6 @@ module.exports =
 
   load_quests: (data)->
     @.get('quests.json', data)
+
+  perform_quest: (data)->
+    @.put('quests/perform.json', data)

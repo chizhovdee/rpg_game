@@ -83,10 +83,10 @@
       }
 
       .progress {
-        @include progress-bar(100, 11);
+        @include progress-bar(100, 10);
 
         position: absolute;
-        bottom: 50px;
+        top: 5px;
         right: 5px;
       }
 

@@ -5,6 +5,8 @@ Quest.define("quest_1", (obj)->
 
   for number in [1..4]
     obj.addLevel number, (l)->
+      l.steps = 10
+
       l.addRequirement (r)->
         r.energy 1 * number
 
@@ -17,6 +19,8 @@ Quest.define("quest_2", (obj)->
   obj.quest_group_key = "quest_group_1"
 
   obj.addLevel 1, (l)->
+    l.steps = 15
+
     l.addRequirement (r)->
       r.energy 2
 
@@ -29,6 +33,8 @@ Quest.define("quest_3", (obj)->
   obj.quest_group_key = "quest_group_1"
 
   obj.addLevel 1, (l)->
+    l.steps = 20
+
     l.addRequirement (r)->
       r.energy 3
 
@@ -41,6 +47,8 @@ Quest.define("quest_4", (obj)->
   obj.quest_group_key = "quest_group_1"
 
   obj.addLevel 1, (l)->
+    l.steps = 20
+
     l.addRequirement (r)->
       r.energy 4
 

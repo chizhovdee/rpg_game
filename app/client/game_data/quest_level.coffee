@@ -7,5 +7,7 @@ class QuestLevel extends BaseGameData
 
   @configure "QuestLevel", "key", "quest_key", "rewards", "requirements", "number", "steps"
 
+  progress: (steps)->
+    _.floor(steps / @steps * 100)
 
 module.exports = QuestLevel

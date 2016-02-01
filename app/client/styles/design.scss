@@ -12,21 +12,19 @@
 }
 
 @mixin progress-bar($width, $height) {
-  width: #{$width}px;
-  height: #{$height}px;
-  border: 1px solid #fff;
-  @include border-radius(10px);
-
+  .label {
+    margin-bottom: 2px;
+  }
   .progress_bar {
-    position: absolute;
-    top: 1px;
-    left: 1px;
-    width: #{$width - 2}px;
-    height: #{$height - 2}px;
+    width: #{$width}px;
+    height: #{$height}px;
+    border: 1px solid #fff;
+    @include border-radius(10px);
 
     .percentage {
-      height: #{$height - 2}px;
+      height: #{$height}px;
       @include border-radius(10px);
+      @include linear-gradient(to top, #b87a00, #f9ff57);
     }
   }
 }

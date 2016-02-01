@@ -1,6 +1,10 @@
 module.exports =
-  progressBar: (value)->
+  progressBar: (value, label = null)->
+    labelStr = ""
+    labelStr += "<div class='label'>#{label}</div>" if label
+
     """
+    #{labelStr}
     <div class="progress_bar">
         <div class="percentage" style="width: #{ value }%"></div>
     </div>"""
