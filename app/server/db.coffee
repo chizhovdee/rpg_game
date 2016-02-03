@@ -9,6 +9,9 @@ pgpOptions = {
 module.exports.setup = ->
   pgp = require('pg-promise')(pgpOptions)
 
+  TransactionMode = pgp.txMode.TransactionMode
+  isolationLevel = pgp.txMode.isolationLevel
+
   monitor = require('pg-monitor')
   monitor.attach(pgpOptions)
   monitor.setTheme('matrix')
@@ -21,4 +24,17 @@ module.exports.setup = ->
 
   cn = fs.readFileSync(configPath)
 
-  pgp(JSON.parse(cn).dev)
+  {
+    db: pgp(JSON.parse(cn).dev)
+    tmSRD: new TransactionMode(
+      tiLevel: isolationLevel.serializable
+      readOnly: true
+      deferrable: true
+    )
+    tmS: new TransactionMode(
+      tiLevel: isolationLevel.serializable
+      readOnly: false
+      deferrable: false
+    )
+  }
+

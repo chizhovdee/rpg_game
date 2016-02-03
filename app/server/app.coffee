@@ -30,7 +30,9 @@ app.use(cookieParser())
 app.use(express.static(publicDir))
 
 app.use((req, res, next)->
-  req.db = db
+  req.db = db.db
+  req.tmSRD = db.tmSRD
+  req.tmS = db.tmS
 
   next()
 )
