@@ -32,7 +32,7 @@ class Character
 
     character = @
 
-    db.one("select * from character_states where character_id = $1 for update", @id)
+    db.one("select * from character_states where character_id = $1", @id)
     .then((data)->
       console.log 'state db', data
 

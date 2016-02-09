@@ -22,11 +22,7 @@ module.exports =
   perform: (req, res)->
     console.log 'body', req.body.quest_id
 
-    actions.performQuest(req, (err, data)->
-      console.log data
-
-      res.json({})
-    )
+    actions.performQuest(req, -> res.json({}))
 
 
 

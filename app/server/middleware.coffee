@@ -8,19 +8,24 @@ module.exports =
     next()
 
   getCurrentCharacter: (request, response, next)->
-    forUpdate = if request.xhr then 'for update' else ''
+    if request.method == 'GET'
+      request.db.one("select * from characters where id=$1", 1)
+      .then((data)->
+        request.currentCharacter = new Character(data)
 
-    transaction = -> @.one("select * from characters where id=$1 #{forUpdate}", 1)
-    transaction.txMode = request.tmS if request.xhr
+        next()
+      )
+      .catch((error)->
+        console.error(error)
+      )
 
-    request.db.tx(transaction)
-    .then((data)->
-      request.currentCharacter = new Character(data)
+    else
+      request.db.one("select * from characters where id=$1", 1)
+      .then((data)->
+        request.currentCharacter = new Character(data)
 
-      next()
-    )
-    .error((error)->
-      console.error(error)
-    )
-
-
+        next()
+      )
+      .catch((error)->
+        console.error(error)
+      )
