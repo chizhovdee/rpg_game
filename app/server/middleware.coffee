@@ -9,7 +9,7 @@ module.exports =
 
   getCurrentCharacter: (request, response, next)->
     if request.method == 'GET'
-      request.db.one("select * from characters where id=$1", 1)
+      Character.fetchForRead(request.db, 1)
       .then((data)->
         request.currentCharacter = new Character(data)
 

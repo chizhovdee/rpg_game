@@ -100,8 +100,8 @@ class QuestsPage extends Page
     #button.addClass('disabled')
     #QuestPerformPopup.show()
 
-    for i in [0...100]
-      transport.send('perform_quest', quest_id: button.data('quest-id'))
+    #for i in [0...100]
+    transport.send('perform_quest', quest_id: button.data('quest-id'))
 
 #    i = 0
 #

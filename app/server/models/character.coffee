@@ -21,6 +21,12 @@ class Character
   # states
   _quests: null
 
+  @fetchForRead: (db, id)->
+    db.one("select * from characters where id=$1", id)
+
+  @fetchForUpdate: (db, id)->
+    db.one("select * from characters where id=$1 for update", id)
+
   constructor: (attributes)->
     _.assignIn(@, attributes) if attributes
 
