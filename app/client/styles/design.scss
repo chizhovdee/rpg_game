@@ -1,0 +1,33 @@
+@mixin box-shadow($shadows...) {
+  -moz-box-shadow: $shadows;
+  -webkit-box-shadow: $shadows;
+  box-shadow: $shadows;
+}
+
+@mixin border-radius($radius) {
+  @include border-top-radius($radius);
+  @include border-right-radius($radius);
+  @include border-bottom-radius($radius);
+  @include border-left-radius($radius);
+}
+
+@mixin progress-bar($width, $height) {
+  .label {
+    margin-bottom: 2px;
+  }
+  .progress_bar {
+    width: #{$width}px;
+    height: #{$height}px;
+    border: 1px solid #fff;
+    @include border-radius(10px);
+
+    .percentage {
+      height: #{$height}px;
+      @include border-radius(10px);
+      @include linear-gradient(to top, #b87a00, #f9ff57);
+    }
+  }
+}
+
+
+

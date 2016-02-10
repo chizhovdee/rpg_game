@@ -1,16 +1,17 @@
-npm install -g gulp
+# Перед запуском   
+    npm install -g gulp
+    
+    npm install supervisor -g
+    
+    npm install -g db-migrate
+    
+    npm install
+    
+    gulp build
+    
+    npm start
 
-npm install supervisor -g
-
-npm install -g db-migrate
-
-npm install
-
-gulp build
-
-npm start
-
-Vendor Docs/API
+# Vendor Docs/API
 
 db-migrate - http://umigrate.readthedocs.org/projects/db-migrate/en/latest/
 

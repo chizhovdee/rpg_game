@@ -1,0 +1,39 @@
+<div class="quest">
+  <div class="picture"></div>
+
+  <div class="info">
+    <div class="name"><%= @quest.name() %></div>
+    <div class="description"><%= @quest.description() %></div>
+  </div>
+
+  <%= @.renderRequirements @level.requirements, (content)-> %>
+    <h3><%= I18n.t("common.requires") %></h3>
+
+    <%= content %>
+  <% end %>
+
+  <%= @.renderRewards @level.rewards, (content)-> %>
+    <h3><%= I18n.t("common.rewards") %></h3>
+
+    <%= content %>
+  <% end %>
+
+  <% if @progress.completed: %>
+    <div class="completed"><%= I18n.t('common.completed') %></div>
+
+  <% else: %>
+    <div class="progress">
+      <%=@safe @.progressBar(@level.progress(@progress.steps), I18n.t('quests.progress', value: @level.progress(@progress.steps))) %>
+    </div>
+
+    <div class="controls">
+      <button class="perform" data-quest-id="<%= @quest.id %>">
+        <% if @progress.steps == 0: %>
+          <%= I18n.t('quests.buttons.start') %>
+        <% else: %>
+          <%= I18n.t('quests.buttons.continue') %>
+        <% end %>
+      </button>
+    </div>
+  <% end %>
+</div>

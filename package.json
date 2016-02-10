@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "DEBUG=rpg_game:* supervisor --debug -w ./build/server,./build/common ./bin/www",
+    "start": "DEBUG=rpg_game:* supervisor -p 2000 -w ./build/server ./bin/www",
     "build": "gulp build",
     "watch": "gulp watch"
   },
@@ -40,6 +40,8 @@
     "gulp-concat": "^2.6.0",
     "gulp-eco": "git+https://github.com/chizhovdee/gulp-eco.git",
     "gulp-file": "^0.2.0",
+    "gulp-if": "^2.0.0",
+    "gulp-include": "^2.1.0",
     "gulp-notify": "^2.2.0",
     "gulp-sass": "^2.1.1",
     "gulp-util": "^3.0.7",

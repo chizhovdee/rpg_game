@@ -1,0 +1,27 @@
+ru:
+  game_data:
+    quests:
+      quest_1:
+        name: "Квест 1"
+        description: "Сделай квест по добру по здорову"
+      quest_2:
+        name: "Квест 2"
+        description: "Сделай квест"
+      quest_3:
+        name: "Квест 3"
+        description: "Сделай квест"
+      quest_4:
+        name: "Квест 4"
+        description: "Сделай квест"
+      quest_5:
+        name: "Квест 5"
+        description: "Сделай квест"
+      quest_6:
+        name: "Квест 6"
+        description: "Сделай квест"
+      quest_7:
+        name: "Квест 7"
+        description: "Сделай квест"
+      quest_8:
+        name: "Квест 8"
+        description: "Сделай квест"

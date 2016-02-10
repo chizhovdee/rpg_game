@@ -1,0 +1,101 @@
+#quests {
+  .quest_groups {
+    .tabs {
+      margin-top: 20px;
+
+      @include pagination;
+
+      .paginate {
+        &:hover {
+          background: none;
+        }
+      }
+
+      .tab {
+        display: inline-block;
+        vertical-align: middle;
+        width: 116px;
+        height: 28px;
+        text-align: center;
+        line-height: 28px;
+        font-size: 15px;
+        border: 2px solid #ca9943;
+        margin: 0px 5px;
+        cursor: pointer;
+        @include linear-gradient(to top, #620000, #b80000);
+        @include border-radius(5px);
+
+        &.current {
+          box-shadow: 0px 0px 10px #ca9943;
+          color: #FFFF00;
+        }
+      }
+    }
+  }
+
+  .quest_list {
+    margin-top: 20px;
+
+    @include pagination;
+
+    .quest {
+      position: relative;
+      height: 125px;
+      border: 1px solid #ca9943;
+      margin-bottom: 10px;
+      background: rgba(202, 153, 67, 0.1);
+      @include border-radius(10px);
+
+      .picture, .info, .requirements, .rewards, .progress {
+        display: inline-block;
+        vertical-align: top;
+      }
+
+      .picture {
+        background-image: url("/images/quest_placeholder.png");
+        width: 125px;
+        height: 125px;
+        @include border-radius(10px);
+      }
+
+      .info {
+        margin: 5px 0 0 5px;
+        width: 150px;
+
+        .name {
+          font-size: 18px;
+          font-weight: bold;
+        }
+
+        .description {
+          margin-top: 5px;
+        }
+      }
+
+      .requirements {
+        margin: 5px 0 0 5px;
+        width: 120px;
+      }
+
+      .rewards {
+        margin: 5px 0 0 5px;
+        width: 120px;
+      }
+
+      .progress {
+        @include progress-bar(100, 10);
+
+        position: absolute;
+        top: 5px;
+        right: 5px;
+      }
+
+      button.perform {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+      }
+    }
+  }
+}
+

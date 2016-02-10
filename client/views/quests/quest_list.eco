@@ -1,5 +1,0 @@
-<% for quest in @quests: %>
-    <div class="quest">
-        <%= quest.key %>
-    </div>
-<% end %>

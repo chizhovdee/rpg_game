@@ -1,0 +1,7 @@
+<% for(var key in data) { %>
+  <%= key %> = require("./game_data/<%= key %>");
+<% } %>
+
+<% for(var key in data) { %>
+  <%= key %>.populate(<%- JSON.stringify(data[key].forClient()) %>);
+<% } %>
