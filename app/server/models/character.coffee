@@ -21,8 +21,8 @@ class Character
   # states
   _quests: null
 
-  @fetchForRead: (db, id)->
-    db.one("select * from characters where id=$1", id)
+  @fetchForRead: (db, user_id)->
+    db.one("select * from characters where user_id=$1", user_id)
 
   @fetchForUpdate: (db, id)->
     db.one("select * from characters where id=$1 for update", id)

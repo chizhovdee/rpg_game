@@ -18,6 +18,10 @@ module.exports =
       console.error 'Unknown event type:', eventName, data
 
   processResponse: (response)->
+    if response == 'NOT LOGGED'
+      alert('NOT LOGGED')
+      return
+
     @.trigger(res.event_type, res.data) for res in response
 
   prefixUrl: (url)->
