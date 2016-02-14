@@ -14,6 +14,8 @@ exports.setup = (app, redis)->
 
   # api routes
   apiRoutes = express.Router()
+  app.use("/api/:version", apiRoutes)
+
   apiRoutes.use(session(
     store: new RedisStore(client: redis)
     secret: "777"
@@ -37,7 +39,7 @@ exports.setup = (app, redis)->
       res.json('NOT LOGGED')
   )
 
-  app.use("/api/:version", apiRoutes)
+
   # characters
   apiRoutes.get("/characters/game_data.json", characters.gameData)
   apiRoutes.get("/characters/status.json", characters.status)
@@ -53,4 +55,18 @@ exports.setup = (app, redis)->
       console.log req.params
 
       res.json(['SUCCESS LOGGED', req.user])
+  )
+
+
+  adminRoutes = express.Router()
+  app.use("/admin", adminRoutes)
+
+  adminRoutes.use(passport.authenticate('basic', { session: false }))
+
+  adminRoutes.get('/', (req, res)->
+    res.send('admin panel')
+  )
+
+  adminRoutes.get('/dashboard', (req, res)->
+    res.send('dashboard panel')
   )
