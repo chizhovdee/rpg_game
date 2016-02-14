@@ -1,13 +1,30 @@
-exports.gameData = (req, res)->
-  res.eventResponse.add("character_game_data_loaded", (data)->
-    data.character = req.currentCharacter.forClient()
-  )
+Character = require('../models/character')
 
-  res.json(res.eventResponse.all())
+exports.gameData = (req, res)->
+  character = null
+
+  Character.fetchForRead(req.db, req.user.id)
+  .then((data)->
+    character = new Character(data)
+
+    res.eventResponse.add("character_game_data_loaded", (data)->
+      data.character = character.forClient()
+    )
+
+    res.json(res.eventResponse.all())
+  ).catch((err)-> console.error err)
+
 
 exports.status = (req, res)->
-  res.eventResponse.add("character_status_loaded", (data)->
-    data.character = req.currentCharacter.forClient()
-  )
+  character = null
 
-  res.json(res.eventResponse.all())
+  Character.fetchForRead(req.db, req.user.id)
+  .then((data)->
+    character = new Character(data)
+
+    res.eventResponse.add("character_status_loaded", (data)->
+      data.character = character.forClient()
+    )
+
+    res.json(res.eventResponse.all())
+  ).catch((err)-> console.error err)

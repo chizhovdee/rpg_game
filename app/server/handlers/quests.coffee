@@ -25,12 +25,18 @@ module.exports =
   perform: (req, res)->
     console.log 'body', req.body.quest_id
 
-    req.db.tx((t)->
-      data = yield Character.fetchForUpdate(t, 1)
-      req.currentCharacter = new Character(data)
+    r_key = Date.now()
+    req.redis.set('keyyyyy', Date.now())
 
-      data = yield CharacterState.fetchForUpdate(t, req.currentCharacter.id)
-      req.currentCharacter.state = new CharacterState(data)
+    req.db.tx((t)->
+      req.currentCharacter = new Character(yield Character.fetchForUpdate(t, 1))
+
+      req.currentCharacter.state = new CharacterState(
+        yield CharacterState.fetchForUpdate(t, req.currentCharacter.id)
+      )
+
+      console.log 'r_key', r_key
+      console.log 'redis key', a = yield req.redis.get('keyyyyy')
 
       actions.performQuest(req)
 

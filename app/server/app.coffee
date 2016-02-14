@@ -4,10 +4,20 @@ favicon = require('serve-favicon')
 logger = require('morgan')
 cookieParser = require('cookie-parser')
 bodyParser = require('body-parser')
+
 fs = require("fs")
+passport = require('passport')
+LocalStrategy = require('passport-local').Strategy
 
 require("./lib/lodash_mixin").register()
 db = require('./db').setup()
+
+Redis = require('ioredis')
+redis = new Redis()
+
+redis.monitor((err, monitor)->
+  monitor.on('monitor', (time, args)-> console.log args, 'time:', time)
+)
 
 middleware = require("./middleware")
 routes = require('./routes')
@@ -27,23 +37,53 @@ app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded(extended: false))
 app.use(cookieParser())
+
 app.use(express.static(publicDir))
 
 app.use((req, res, next)->
   req.db = db.db
-  req.tmSRD = db.tmSRD
-  req.tmS = db.tmS
+  req.redis = redis
 
   next()
 )
-app.use(middleware.getCurrentCharacter)
+
 app.use(middleware.eventResponse)
 
-routes.setup(app)
+routes.setup(app, redis)
+
+passport.use(
+  new LocalStrategy(
+    (login, password, done)->
+      console.log 'local strategy'
+      db.db.one("select * from users where login=$1 and password=$2", [login, password])
+      .then((user)->
+        if user
+          done null, user
+        else
+          done null, false
+      )
+      .catch((err)-> done err)
+  )
+)
+
+passport.serializeUser((user, done)->
+  console.log 'serializeUser'
+  done null, user.id
+)
+
+
+passport.deserializeUser((id, done)->
+  console.log "deserializeUser"
+  db.db.one("select * from users where id=$1", [id])
+  .then((user)->
+    done null, user
+  )
+  .catch((err)-> done err)
+)
 
 # catch 404 and forward to error handler
 app.use((req, res, next)->
-  err = new Error('Not Found')
+  err = new Error('Page not Found')
   err.status = 404
   next(err)
 )

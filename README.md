@@ -18,3 +18,5 @@ db-migrate - http://umigrate.readthedocs.org/projects/db-migrate/en/latest/
 http://bourbon.io/docs/
 
 https://lodash.com/docs
+
+https://github.com/luin/ioredis
