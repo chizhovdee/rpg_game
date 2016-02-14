@@ -6,8 +6,10 @@ cookieParser = require('cookie-parser')
 bodyParser = require('body-parser')
 
 fs = require("fs")
+
 passport = require('passport')
 LocalStrategy = require('passport-local').Strategy
+BasicStrategy = require('passport-http').BasicStrategy
 
 require("./lib/lodash_mixin").register()
 db = require('./db').setup()
@@ -16,7 +18,7 @@ Redis = require('ioredis')
 redis = new Redis()
 
 redis.monitor((err, monitor)->
-  monitor.on('monitor', (time, args)-> console.log args, 'time:', time)
+  monitor.on('monitor', (time, args)-> console.log 'Redis:', args, 'time -', time)
 )
 
 middleware = require("./middleware")
@@ -51,20 +53,31 @@ app.use(middleware.eventResponse)
 
 routes.setup(app, redis)
 
-passport.use(
-  new LocalStrategy(
-    (login, password, done)->
-      console.log 'local strategy'
-      db.db.one("select * from users where login=$1 and password=$2", [login, password])
-      .then((user)->
-        if user
-          done null, user
-        else
-          done null, false
-      )
-      .catch((err)-> done err)
+passport.use(new LocalStrategy((login, password, done)->
+  console.log 'local strategy'
+
+  db.db.one("select * from users where login=$1 and password=$2", [login, password])
+  .then((user)->
+    if user
+      done null, user
+    else
+      done null, false
   )
-)
+  .catch((err)-> done err)
+))
+
+passport.use(new BasicStrategy((login, password, done)->
+  console.log 'basic strategy'
+
+  db.db.one("select * from users where login=$1 and password=$2 and admin=true", [login, password])
+  .then((user)->
+    if user
+      done null, user
+    else
+      done null, false
+  )
+  .catch((err)-> done err)
+))
 
 passport.serializeUser((user, done)->
   console.log 'serializeUser'

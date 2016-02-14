@@ -2,6 +2,7 @@ create TABLE users (
   id serial primary key,
   login varchar(255),
   password varchar(255),
+  admin boolean default false,
   created_at timestamptz not null DEFAULT CURRENT_TIMESTAMP,
   updated_at timestamptz not null DEFAULT CURRENT_TIMESTAMP
 );
