@@ -21,7 +21,7 @@ class EventResponse
   all: ->
     @events
 
-  allWithProgress: (request)->
+  allWithProgress: ->
     # TODO
     # метод для отдачи всех событий вместе с прогрессом персонажа
 

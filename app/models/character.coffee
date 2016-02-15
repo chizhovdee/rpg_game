@@ -22,7 +22,7 @@ class Character
   _quests: null
 
   @fetchForRead: (db, user_id)->
-    db.one("select * from characters where user_id=$1", user_id)
+    db.one("select * from characters where id=$1", user_id)
 
   @fetchForUpdate: (db, id)->
     db.one("select * from characters where id=$1 for update", id)
@@ -30,25 +30,32 @@ class Character
   constructor: (attributes)->
     _.assignIn(@, attributes) if attributes
 
+  fetchStateForRead: (db)->
+    State.fetchForRead(db, @id)
+
+  fetchStateForUpdate: (db)->
+    State.fetchForUpdate(db, @id)
+
+
   quests: ->
     @_quests ?= new QuestsState(@)
 
-  withState: (db, callback)->
-    throw new Error("Character state is already...") if @state
-
-    character = @
-
-    db.one("select * from character_states where character_id = $1", @id)
-    .then((data)->
-      console.log 'state db', data
-
-      character.state = new State(data)
-
-      callback?()
-    )
-    .error((error)->
-      console.error error
-    )
+#  withState: (db, callback)->
+#    throw new Error("Character state is already...") if @state
+#
+#    character = @
+#
+#    db.one("select * from character_states where character_id = $1", @id)
+#    .then((data)->
+#      console.log 'state db', data
+#
+#      character.state = new State(data)
+#
+#      callback?()
+#    )
+#    .error((error)->
+#      console.error error
+#    )
 
   healthPoints: ->
     @health

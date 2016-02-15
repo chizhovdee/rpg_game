@@ -19,10 +19,9 @@ db = pgp(cn)
 
 gulp.task("create_character", ->
   db.tx((t)->
-    user_data = yield t.one('insert into users (login, password) values($1, $2) returning *', ['deewild', '123456'])
-    t.none("""insert into characters(user_id, energy, ep, hp, health, basic_money, vip_money)
-		                          values($1, $2, $3, $4, $5, $6, $7)""",
-                                    [user_data.id, 10, 10, 100, 100, 100, 1])
+    t.none("""insert into characters(login, password, energy, ep, hp, health, basic_money, vip_money)
+		                          values($1, $2, $3, $4, $5, $6, $7, $8)""",
+                                    ['deewild', '123456', 10, 10, 100, 100, 100, 1])
   )
   .then((data)->
     console.log "data", data
