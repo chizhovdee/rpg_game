@@ -7,19 +7,19 @@ buffer     = require('vinyl-buffer')
 file = require('gulp-file')
 
 gulp.task('watch', ->
-  gulp.watch('./app/server/**/*.coffee', ["build:server"])
+  gulp.watch('./app/**/*.coffee', ["build:server"])
 
-  gulp.watch('./app/server/views/**/*.ejs', ["server-views-copy"])
+  gulp.watch('./app/views/**/*.ejs', ["server-views-copy"])
 
-  gulp.watch('./app/server/db/game_data/**/*.coffee', ["game-data-populate-browserify"])
+  gulp.watch('./app/db/game_data/**/*.coffee', ["game-data-populate-browserify"])
 
-  gulp.watch('./app/client/**/*.coffee', ["client-compile-browserify"])
+  gulp.watch('./client/**/*.coffee', ["client-compile-browserify"])
 
-  gulp.watch('./app/client/views/**/*.eco', ["eco-compile-browserify"])
+  gulp.watch('./client/views/**/*.eco', ["eco-compile-browserify"])
 
-  gulp.watch('./app/client/styles/**/*.scss', ["stylesheets"])
+  gulp.watch('./client/styles/**/*.scss', ["stylesheets"])
 
-  gulp.watch('./locales/**/*.yml', ["locales"])
+  gulp.watch('./config/locales/**/*.yml', ["locales"])
 )
 
 browserifyConcat = ->

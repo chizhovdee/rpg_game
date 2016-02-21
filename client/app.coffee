@@ -31,6 +31,7 @@ class App
     # события транспорта
     transport.one("character_game_data_loaded", (response)=> @.onCharacterGameDataLoaded(response))
     transport.bind("character_status_loaded", (response)=> @.onCharacterStatusLoaded(response))
+    transport.bind('character_not_authorized', @.onCharacterNotAuthorized)
 
     # события DOM
 
@@ -65,5 +66,8 @@ class App
     I18n.locale = window.lng
     I18n.translations ?= {}
     I18n.translations[window.lng] = preloader.getResult("locale")
+
+  onCharacterNotAuthorized: ->
+    alert('Персонаж не авторизован')
 
 module.exports = App

@@ -1,15 +1,7 @@
-create TABLE users (
+create TABLE characters (
   id serial primary key,
   login varchar(255),
   password varchar(255),
-  admin boolean default false,
-  created_at timestamptz not null DEFAULT CURRENT_TIMESTAMP,
-  updated_at timestamptz not null DEFAULT CURRENT_TIMESTAMP
-);
-
-create TABLE characters (
-  id serial primary key,
-  user_id integer references users(id),
   level integer not null default 1,
   energy integer not null default 0,
   ep integer not null default 0,
@@ -29,14 +21,14 @@ create TABLE characters (
 );
 
 create TABLE character_states (
-  user_id integer references users(id),
+  character_id integer references characters(id),
   quests jsonb
 );
 
 create or replace FUNCTION insert_character_state_func()
 RETURNS trigger AS $first_trigger$
 begin
-  insert into character_states (user_id) values (new.user_id);
+  insert into character_states (character_id) values (new.id);
   return new;
 end;
 $first_trigger$ language plpgsql;

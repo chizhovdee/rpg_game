@@ -3,18 +3,18 @@ fs = require("fs")
 ejs = require("ejs")
 
 gulp.task("game_data:populate", ->
-  console.log require('require-dir')('../app/server/db/game_data', recurse: true )
+  require('require-dir')('../app/db/game_data', recurse: true )
 
   gameData = {}
 
-  fs.readdirSync("./app/server/game_data/").forEach((name)->
-    if name.indexOf(".coffee") > 0 && name != "base.coffee"
+  fs.readdirSync("./app/game_data/").forEach((name)->
+    if name.indexOf(".coffee") > 0 && name not in ["base.coffee", 'index.coffee']
       baseName = name.split(".coffee")[0]
 
-      gameData[baseName] = require("../app/server/game_data/" + baseName)
+      gameData[baseName] = require("../app/game_data/" + baseName)
   )
 
-  tmpl = fs.readFileSync("./app/client/populate_game_data.ejs")
+  tmpl = fs.readFileSync("./client/populate_game_data.ejs")
 
   result = ejs.render(tmpl.toString(), data: gameData)
 

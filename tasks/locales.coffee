@@ -10,7 +10,7 @@ gulp.task('locales', ->
     en: {}
   }
 
-  gulp.src('./locales/**/*.yml').pipe(map((file,cb)->
+  gulp.src('./config/locales/**/*.yml').pipe(map((file,cb)->
       return cb(null, file) if file.isNull() # pass along
       return cb(new Error("Streaming not supported")) if file.isStream()
 

@@ -10,17 +10,17 @@ tasks = ['coffee-compile:server', 'coffee-compile:client']
 gulp.task('coffee-compile', tasks)
 
 gulp.task('coffee-compile:server', ->
-  gulp.src('./app/server/**/*.coffee')
+  gulp.src('./app/**/*.coffee')
   .pipe(coffee({bare: true}).on('error', gutil.log))
   .on('error', notify.onError({
       title: "COFFEE server dir ERROR",
       message: "Look in the console for details.\n <%= error.message %>"
     }))
-  .pipe(gulp.dest(build_path + 'server/'))
+  .pipe(gulp.dest(build_path))
 )
 
 gulp.task('coffee-compile:client', ->
-  return gulp.src('./app/client/**/*.coffee')
+  return gulp.src('./client/**/*.coffee')
   .pipe(coffee({bare: true}).on('error', gutil.log))
   .on('error', notify.onError({
       title: "COFFEE client dir ERROR",
