@@ -8,12 +8,14 @@ Character = require('../models').Character
 module.exports =
   index: (req, res)->
     req.db.task((t)->
-      character = new Character(yield Character.fetchForRead(t, req.user.id))
-      character.state = new CharacterState(yield character.fetchStateForRead(t))
-
-      character
+      t.batch([
+        Character.fetchForRead(t, req.user.id)
+        CharacterState.fetchForRead(t, req.user.id)
+      ])
     )
-    .then((character)->
+    .then((character, state)->
+      character = new Character(character)
+      character.state = new CharacterState(state)
 
       group = QuestGroup.find(_.toInteger(req.query.group)) if req.query.group
       group ?= character.quests().currentGroup()

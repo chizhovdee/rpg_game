@@ -8,7 +8,7 @@ gulp.task("game_data:populate", ->
   gameData = {}
 
   fs.readdirSync("./app/game_data/").forEach((name)->
-    if name.indexOf(".coffee") > 0 && name != "base.coffee"
+    if name.indexOf(".coffee") > 0 && name not in ["base.coffee", 'index.coffee']
       baseName = name.split(".coffee")[0]
 
       gameData[baseName] = require("../app/game_data/" + baseName)
