@@ -8,7 +8,9 @@ require('coffee-script/register');
 
 var app = require('../build/app');
 var debug = require('debug')('rpg_game:server');
-var http = require('http');
+var https = require('https');
+var fs = require('fs');
+var path = require('path');
 
 /**
  * Get port from environment and store in Express.
@@ -21,7 +23,16 @@ app.set('port', port);
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
+var serverOptions = {
+  key: fs.readFileSync(
+      path.join(__dirname, '../config/certificates', app.get('env') + '.key')
+  ),
+  cert: fs.readFileSync(
+      path.join(__dirname, '../config/certificates', app.get('env') + '.crt')
+  )
+};
+
+var server = https.createServer(serverOptions, app);
 
 /**
  * Listen on provided port, on all network interfaces.

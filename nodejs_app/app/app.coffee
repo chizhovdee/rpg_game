@@ -5,15 +5,27 @@ logger = require('morgan')
 cookieParser = require('cookie-parser')
 bodyParser = require('body-parser')
 fs = require("fs")
+Ok = require('./lib/odnoklassniki')
+
+app = express()
+
+odnoklassniki =  new Ok(app.get('env'))
+
+#odnoklassniki.setSessionKeys('9.36462a089043394466bf29023116b37cf88540afd9ddbbe84d1acbc19', 'f43d51e6919a8f1eb4abee5304747ff0')
+#
+#odnoklassniki.api.call('friends.get', {}, (error, body)->
+#  console.error error if error
+#
+#  console.log 'Body', body
+#)
 
 # загрузка и инициализации дополнительного функциоанала
 boot = require('./boot')
-db = boot.setupPostgresqlConnection()
-redis = boot.setupRedisConnection()
+db = boot.setupPostgresqlConnection(app.get('env'))
+redis = boot.setupRedisConnection(app.get('env'))
+
 boot.loadGameData()
 boot.registerLodashMixins()
-
-app = express()
 
 # view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -24,7 +36,7 @@ app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded(extended: false))
 app.use(cookieParser())
-app.use(boot.createSession())
+app.use(boot.createSession(app.get('env')))
 
 # статика
 publicDir = path.join(__dirname, '../public')

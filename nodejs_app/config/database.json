@@ -1,5 +1,5 @@
 {
-  "dev": {
+  "development": {
     "driver": "pg",
     "user": "deewild",
     "password": "satch",

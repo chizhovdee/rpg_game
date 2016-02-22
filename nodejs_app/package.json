@@ -26,9 +26,11 @@
     "express-session": "^1.13.0",
     "ioredis": "^1.15.0",
     "lodash": "^4.0.0",
+    "md5": "^2.0.0",
     "morgan": "~1.6.1",
     "pg-monitor": "^0.4.5",
     "pg-promise": "^2.9.4",
+    "request": "^2.69.0",
     "require-dir": "^0.3.0",
     "serve-favicon": "~2.3.0",
     "underscore": "^1.8.3"

@@ -1,0 +1,9 @@
+{
+  "development": {
+    "appId": 1245990144,
+    "publicKey": "CBAOEFELEBABABABA",
+    "secretKey": "F9E122968025A62065A93B31",
+    "callbackDomain": "localhost",
+    "namespace": "rpg_game_development"
+  }
+}
