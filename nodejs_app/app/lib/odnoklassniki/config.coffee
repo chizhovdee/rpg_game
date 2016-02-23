@@ -19,6 +19,7 @@ class Config
     JSON.parse(cn)[environment]
 
   constructor: (options = {})->
+    # define attributes name like fields in odnoklassniki.json
     for key, value of options
       Object.defineProperty(@, key,
         value: value

@@ -6,6 +6,7 @@ Character = require("./models/character")
 pageManager = require("./lib/page_manager")
 pageManager.setup(require("./controllers/pages/export"))
 preloader = require("./lib/preloader")
+signatureKeeper = require('./lib/signature_keeper')
 HeaderLayer = require("./controllers/layers/header")
 
 # сначала грузиться манифест с помощью прелоадера
@@ -32,6 +33,8 @@ class App
     transport.one("character_game_data_loaded", (response)=> @.onCharacterGameDataLoaded(response))
     transport.bind("character_status_loaded", (response)=> @.onCharacterStatusLoaded(response))
     transport.bind('character_not_authorized', @.onCharacterNotAuthorized)
+
+    $.ajaxSetup(beforeSend: @.onAjaxBeforeSend)
 
     # события DOM
 
@@ -69,5 +72,11 @@ class App
 
   onCharacterNotAuthorized: ->
     alert('Персонаж не авторизован')
+
+  onAjaxBeforeSend: (request)->
+    signature = signatureKeeper.getSignature()
+    signatureName = signatureKeeper.getSignatureName()
+
+    request.setRequestHeader(signatureName.split('_').join('-'), signature)
 
 module.exports = App

@@ -6,18 +6,10 @@ cookieParser = require('cookie-parser')
 bodyParser = require('body-parser')
 fs = require("fs")
 Ok = require('./lib/odnoklassniki')
+middleware = require('./lib/middleware')
 
 app = express()
 
-odnoklassniki =  new Ok(app.get('env'))
-
-#odnoklassniki.setSessionKeys('9.36462a089043394466bf29023116b37cf88540afd9ddbbe84d1acbc19', 'f43d51e6919a8f1eb4abee5304747ff0')
-#
-#odnoklassniki.api.call('friends.get', {}, (error, body)->
-#  console.error error if error
-#
-#  console.log 'Body', body
-#)
 
 # загрузка и инициализации дополнительного функциоанала
 boot = require('./boot')
@@ -43,6 +35,10 @@ publicDir = path.join(__dirname, '../public')
 app.use(favicon(path.join(publicDir, 'favicon.ico')));
 app.use(express.static(publicDir))
 
+
+app.use(middleware.requestParamsLog)
+app.use(middleware.eventResponse)
+
 # присваивание глобальных переменных в объект request
 app.use((req, res, next)->
   req.db = db
@@ -50,6 +46,8 @@ app.use((req, res, next)->
 
   next()
 )
+
+app.use(Ok.middleware)
 
 app.use((req, res, next)->
   req.user = {id: 1}

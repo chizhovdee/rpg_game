@@ -28,8 +28,10 @@ module.exports =
 
      next()
 
-   apiRequestParamsLog: (req, res, next)->
-     # TODO if env == 'development'
+   requestParamsLog: (req, res, next)->
+     next()
+
+     return if req.app.get('env') != 'development'
 
      unless _.isEmpty(req.body)
        console.log("Body Request", util.inspect(req.body,
@@ -41,6 +43,7 @@ module.exports =
          depth: null
        ))
 
-
-     next()
-
+     unless _.isEmpty(req.query)
+       console.log("Query Params", util.inspect(req.query,
+         depth: null
+       ))

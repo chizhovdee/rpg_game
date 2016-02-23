@@ -12,6 +12,9 @@ class Api
   constructor: (@config, @sessionKey, @sessionSecretKey)->
     throw new Error('Argument error: config is undefined') unless @config
 
+    if @sessionKey && !@sessionSecretKey || !@sessionKey && @sessionSecretKey
+      throw new Error('Argument error: sessionKey or sessionSecretKey is undefined')
+
   setSessionKeys: (@sessionKey, @sessionSecretKey)->
     unless @sessionKey && @sessionSecretKey
       throw new Error('Argument error: sessionKey or sessionSecretKey is undefined')
@@ -25,9 +28,10 @@ class Api
 
     request.get(options, (error, response, body)->
 
-      # error if response.statusCode >= 500
-
-      console.log 'Response Status code', response.statusCode
+      if !error? && response.statusCode >= 500
+        error = new Error("""
+          Odnoklassniki API Error: status code - #{ response.statusCode }, message - #{ body }
+        """)
 
       callback(error, body)
     )
