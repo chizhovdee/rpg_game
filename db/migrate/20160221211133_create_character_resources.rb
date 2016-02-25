@@ -14,9 +14,16 @@ class CreateCharacterResources < ActiveRecord::Migration
       t.integer :basic_money, null: false
       t.integer :vip_money, null: false
 
+      t.string :session_key
+      t.string :session_secret_key
+
+      t.boolean :installed, default: false
+
       # times
       t.column :ep_updated_at, :timestamptz, null: false
       t.column :hp_updated_at, :timestamptz, null: false
+      t.column :last_visited_at, :timestamptz, null: false
+
       t.column :created_at, :timestamptz, null: false
       t.column :updated_at, :timestamptz, null: false
     end

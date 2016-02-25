@@ -24,20 +24,24 @@ ActiveRecord::Schema.define(version: 20160221211133) do
   add_index "character_states", ["character_id"], name: "index_character_states_on_character_id", using: :btree
 
   create_table "characters", force: :cascade do |t|
-    t.integer  "social_id",     limit: 8
-    t.integer  "level",                   default: 1, null: false
-    t.integer  "energy",                              null: false
-    t.integer  "ep",                                  null: false
-    t.integer  "health",                              null: false
-    t.integer  "hp",                                  null: false
-    t.integer  "experience",              default: 0, null: false
-    t.integer  "points",                  default: 0, null: false
-    t.integer  "basic_money",                         null: false
-    t.integer  "vip_money",                           null: false
-    t.datetime "ep_updated_at",                       null: false
-    t.datetime "hp_updated_at",                       null: false
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.integer  "social_id",          limit: 8
+    t.integer  "level",                        default: 1,     null: false
+    t.integer  "energy",                                       null: false
+    t.integer  "ep",                                           null: false
+    t.integer  "health",                                       null: false
+    t.integer  "hp",                                           null: false
+    t.integer  "experience",                   default: 0,     null: false
+    t.integer  "points",                       default: 0,     null: false
+    t.integer  "basic_money",                                  null: false
+    t.integer  "vip_money",                                    null: false
+    t.string   "session_key"
+    t.string   "session_secret_key"
+    t.boolean  "installed",                    default: false
+    t.datetime "ep_updated_at",                                null: false
+    t.datetime "hp_updated_at",                                null: false
+    t.datetime "last_visited_at",                              null: false
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
   end
 
   add_foreign_key "character_states", "characters"

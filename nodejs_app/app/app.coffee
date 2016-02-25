@@ -6,9 +6,6 @@ cookieParser = require('cookie-parser')
 bodyParser = require('body-parser')
 fs = require("fs")
 
-Ok = require('./lib/odnoklassniki')
-middleware = require('./lib/middleware')
-
 app = express()
 
 # загрузка и инициализации дополнительного функциоанала
@@ -18,6 +15,10 @@ redis = boot.setupRedisConnection(app.get('env'))
 
 boot.loadGameData()
 boot.registerLodashMixins()
+
+# собственные модули загружаем здесь
+Ok = require('./lib/odnoklassniki')
+middleware = require('./lib/middleware')
 
 # view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -40,12 +41,6 @@ app.use(middleware.assignment(db: db, redis: redis))
 app.use(middleware.requestParamsLog)
 app.use(middleware.eventResponse)
 app.use(middleware.currentUser)
-
-app.use((req, res, next)->
-  req.user = {id: 1}
-
-  next()
-)
 
 require('./routes').setup(app)
 

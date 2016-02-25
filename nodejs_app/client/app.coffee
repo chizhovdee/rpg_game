@@ -32,7 +32,7 @@ class App
     # события транспорта
     transport.one("character_game_data_loaded", (response)=> @.onCharacterGameDataLoaded(response))
     transport.bind("character_status_loaded", (response)=> @.onCharacterStatusLoaded(response))
-    transport.bind('character_not_authorized', @.onCharacterNotAuthorized)
+    transport.bind('not_authenticated', @.onCharacterNotAuthorized)
 
     $.ajaxSetup(beforeSend: @.onAjaxBeforeSend)
 

@@ -9,8 +9,8 @@ module.exports =
   index: (req, res)->
     req.db.task((t)->
       t.batch([
-        Character.fetchForRead(t, req.user.id)
-        CharacterState.fetchForRead(t, req.user.id)
+        Character.fetchForRead(t, req.currentUser.id)
+        CharacterState.fetchForRead(t, req.currentUser.id)
       ])
     )
     .then((character, state)->
@@ -33,7 +33,7 @@ module.exports =
 
   perform: (req, res)->
     req.db.tx((t)->
-      character = new Character(yield Character.fetchForUpdate(t, req.user.id))
+      character = new Character(yield Character.fetchForUpdate(t, req.currentUser.id))
       character.state = new CharacterState(yield character.fetchStateForUpdate(t))
 
       result = executor.performQuest(_.toInteger(req.body.quest_id), character)

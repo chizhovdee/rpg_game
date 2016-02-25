@@ -4,6 +4,15 @@ md5 = require('md5')
 Api = require('./api')
 
 class User
+  SOCIAL_FIELDS = [
+    'session_key'
+    'logged_user_id'
+    'session_secret_key'
+    'apiconnection'
+    'refplace'
+    'referer'
+  ]
+
   config: null
   options: null
 
@@ -40,29 +49,20 @@ class User
     md5(paramString + config.secretKey)
 
   constructor: (@config, @options = {})->
+    for field in SOCIAL_FIELDS
+      name = (if field == 'logged_user_id' then 'uid' else field)
+
+      Object.defineProperty(@, name,
+        value: @options[field]
+        enumerable: false
+        configurable: false
+        writable: false
+      )
 
   isAuthenticated: ->
-
-  sessionKey: ->
-    @options['session_key']
-
-  uid: ->
-    @options['logged_user_id']
-
-  sessionSecretKey: ->
-    @options['session_secret_key']
-
-  apiconnection: ->
-    @options['apiconnection']
-
-  # referrer data
-  refplace: ->
-    @options['refplace']
-
-  referer: ->
-    @options['referer']
+    @options['session_key']? && @options['session_key'].length > 0
 
   apiClient: ->
-    @_apiClient ?= new Api(@config, @.sessionKey(), @.sessionSecretKey())
+    @_apiClient ?= new Api(@config, @sessionKey, @sessionSecretKey)
 
 module.exports = User
