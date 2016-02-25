@@ -88,7 +88,7 @@ class Middleware
 module.exports = (req, res, next)->
   middleware = new Middleware(req)
 
-  req.okConfig = middleware.config
+  #req.okConfig = middleware.config разлочить если понадобится
   req.currentOkUser = middleware.currentOkUser()
   req.okSignedParams = middleware.okSignedParams()
 

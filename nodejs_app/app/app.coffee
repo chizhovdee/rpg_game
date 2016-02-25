@@ -5,11 +5,11 @@ logger = require('morgan')
 cookieParser = require('cookie-parser')
 bodyParser = require('body-parser')
 fs = require("fs")
+
 Ok = require('./lib/odnoklassniki')
 middleware = require('./lib/middleware')
 
 app = express()
-
 
 # загрузка и инициализации дополнительного функциоанала
 boot = require('./boot')
@@ -28,26 +28,18 @@ app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded(extended: false))
 app.use(cookieParser())
-app.use(boot.createSession(app.get('env')))
+#app.use(boot.createSession(app.get('env'))) нет пока надобности
 
 # статика
 publicDir = path.join(__dirname, '../public')
 app.use(favicon(path.join(publicDir, 'favicon.ico')));
 app.use(express.static(publicDir))
 
-
+app.use(Ok.middleware)
+app.use(middleware.assignment(db: db, redis: redis))
 app.use(middleware.requestParamsLog)
 app.use(middleware.eventResponse)
-
-# присваивание глобальных переменных в объект request
-app.use((req, res, next)->
-  req.db = db
-  req.redis = redis
-
-  next()
-)
-
-app.use(Ok.middleware)
+app.use(middleware.currentUser)
 
 app.use((req, res, next)->
   req.user = {id: 1}
