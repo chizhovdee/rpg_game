@@ -11,9 +11,6 @@ exports.setup = (app)->
   do (apiRoutes = express.Router())->
     app.use("/api/:version", apiRoutes)
 
-    apiRoutes.use(middleware.apiRequestParamsLog)
-    apiRoutes.use(middleware.eventResponse)
-
     # characters
     apiRoutes.get("/characters/game_data.json", controllers.characters.gameData)
     apiRoutes.get("/characters/status.json", controllers.characters.status)

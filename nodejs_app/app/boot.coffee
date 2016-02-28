@@ -4,14 +4,8 @@ path = require("path")
 Redis = require('ioredis')
 session = require('express-session')
 
-AUTHORIZED_USERS_KEY = 'authorized_users'
-
-addUserToRedis = (redis, user)->
-  redis.hset(AUTHORIZED_USERS_KEY, user.id, JSON.stringify(user))
-  redis.expire(AUTHORIZED_USERS_KEY, 1000) # 1000 seconds
-
 module.exports =
-  setupPostgresqlConnection: ->
+  setupPostgresqlConnection: (environment)->
     pgpOptions = {
       promiseLib: promise
     }
@@ -25,15 +19,10 @@ module.exports =
     monitor.log = (msg, info)->
       # save the screen messages into your own log file
 
-    # в случае проблемы path.resolve('./server', '../config/database.json')
-    configPath = path.join(__dirname, '../config/database.json')
+    pgp(@.loadConfig('database.json')[environment])
 
-    cn = fs.readFileSync(configPath)
-
-    pgp(JSON.parse(cn).dev)
-
-  setupRedisConnection: ->
-    redis = new Redis()
+  setupRedisConnection: (environment)->
+    redis = new Redis(@.loadConfig('redis.json')[environment])
 
     redis.monitor((err, monitor)->
       monitor.on('monitor', (time, args)-> console.log 'Redis:', args, 'time -', time)
@@ -47,11 +36,18 @@ module.exports =
   registerLodashMixins: ->
     require("./lib/lodash_mixin").register()
 
-  createSession: ->
+  createSession: (environment)->
     session(
-      secret: "91f37227fa77d78001ba5be1469d0d0d1cbbc60ebb1e4b65eeba3588268a13d1e79f9e9999b9968af04234b3dd17367d2a84b4a7b0372be8ffbf55459c564061"
+      secret: @.loadConfig('secrets.json')[environment].secret_key_base
       resave: false
       saveUninitialized: false
       cookie:
         path: '/'
     )
+
+  loadConfig: (file_name)->
+    configPath = path.join(__dirname, '../config/', file_name)
+
+    cn = fs.readFileSync(configPath)
+
+    JSON.parse(cn)

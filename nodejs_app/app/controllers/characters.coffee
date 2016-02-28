@@ -1,7 +1,7 @@
 Character = require('../models/character')
 
 exports.gameData = (req, res)->
-  Character.fetchForRead(req.db, req.user.id)
+  Character.fetchForRead(req.db, req.currentUser.id)
   .then((data)->
     character = new Character(data)
 
@@ -14,7 +14,7 @@ exports.gameData = (req, res)->
   )
 
 exports.status = (req, res)->
-  Character.fetchForRead(req.db, req.user.id)
+  Character.fetchForRead(req.db, req.currentUser.id)
   .then((data)->
     character = new Character(data)
 

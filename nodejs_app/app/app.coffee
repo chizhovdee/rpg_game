@@ -6,14 +6,19 @@ cookieParser = require('cookie-parser')
 bodyParser = require('body-parser')
 fs = require("fs")
 
+app = express()
+
 # загрузка и инициализации дополнительного функциоанала
 boot = require('./boot')
-db = boot.setupPostgresqlConnection()
-redis = boot.setupRedisConnection()
+db = boot.setupPostgresqlConnection(app.get('env'))
+redis = boot.setupRedisConnection(app.get('env'))
+
 boot.loadGameData()
 boot.registerLodashMixins()
 
-app = express()
+# собственные модули загружаем здесь
+Ok = require('./lib/odnoklassniki')
+middleware = require('./lib/middleware')
 
 # view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -24,26 +29,18 @@ app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded(extended: false))
 app.use(cookieParser())
-app.use(boot.createSession())
+#app.use(boot.createSession(app.get('env'))) нет пока надобности
 
 # статика
 publicDir = path.join(__dirname, '../public')
 app.use(favicon(path.join(publicDir, 'favicon.ico')));
 app.use(express.static(publicDir))
 
-# присваивание глобальных переменных в объект request
-app.use((req, res, next)->
-  req.db = db
-  req.redis = redis
-
-  next()
-)
-
-app.use((req, res, next)->
-  req.user = {id: 1}
-
-  next()
-)
+app.use(Ok.middleware)
+app.use(middleware.assignment(db: db, redis: redis))
+app.use(middleware.requestParamsLog)
+app.use(middleware.eventResponse)
+app.use(middleware.currentUser)
 
 require('./routes').setup(app)
 
