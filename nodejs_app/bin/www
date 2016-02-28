@@ -8,7 +8,8 @@ require('coffee-script/register');
 
 var app = require('../build/app');
 var debug = require('debug')('rpg_game:server');
-var https = require('https');
+//var https = require('https');
+var http = require('http');
 var fs = require('fs');
 var path = require('path');
 
@@ -32,7 +33,8 @@ var serverOptions = {
   )
 };
 
-var server = https.createServer(serverOptions, app);
+//var server = https.createServer(serverOptions, app);
+var server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.

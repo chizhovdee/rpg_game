@@ -7,6 +7,10 @@ class SignatureKeeper
       @.setSignature(window.okSignedParams)
 
       @_signatureName = 'signed_params'
+    else if window.offlineSignedParams
+      @.setSignature(window.offlineSignedParams)
+
+      @_signatureName = 'signed_params'
 
   setSignature: (value)->
     @_signature = value
