@@ -1,7 +1,6 @@
 _ = require('lodash')
 Character = require('../../models').Character
 
-AUTHENTICATED_USERS_KEY = 'authenticated_users'
 USER_FIELDS = ['id', 'social_id', 'last_visited_at']
 
 VISIT_DURATION = _(1).minutes()
@@ -100,7 +99,7 @@ middleware = (request, callback)->
 module.exports = (req, res, next)->
   # TODO определение платформы здесь
 
-  req.currentSocialUser = req.currentOkUser
+  req.currentSocialUser = req.currentOkUser || req.currentOfflineUser
 
   if req.currentSocialUser?.isAuthenticated()
     middleware(req, (error, currentUser)->

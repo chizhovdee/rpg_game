@@ -36,7 +36,8 @@ publicDir = path.join(__dirname, '../public')
 app.use(favicon(path.join(publicDir, 'favicon.ico')));
 app.use(express.static(publicDir))
 
-app.use(Ok.middleware)
+#app.use(Ok.middleware)
+app.use(middleware.offlineUser)
 app.use(middleware.assignment(db: db, redis: redis))
 app.use(middleware.requestParamsLog)
 app.use(middleware.eventResponse)
