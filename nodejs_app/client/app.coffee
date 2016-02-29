@@ -1,13 +1,12 @@
 require("./lib/lodash_mixin").register()
 require("./populate_game_data") # замещается автоматически при сборке
 
-transport = require("./lib/transport")
-Character = require("./models/character")
-pageManager = require("./lib/page_manager")
-pageManager.setup(require("./controllers/pages/export"))
+request = require("./lib/request")
+Character = require("./models").Character
 preloader = require("./lib/preloader")
 signatureKeeper = require('./lib/signature_keeper')
-HeaderLayer = require("./controllers/layers/header")
+HeaderLayout = require("./controllers/layouts").HeaderLayout
+HomePage = require('./controllers/pages').HomePage
 
 # сначала грузиться манифест с помощью прелоадера
 # затем загружается персонаж
@@ -30,9 +29,9 @@ class App
     preloader.on("progress", @.onManifestLoadProgress, this)
 
     # события транспорта
-    transport.one("character_game_data_loaded", (response)=> @.onCharacterGameDataLoaded(response))
-    transport.bind("character_status_loaded", (response)=> @.onCharacterStatusLoaded(response))
-    transport.bind('not_authenticated', @.onCharacterNotAuthorized)
+    request.one("character_game_data_loaded", (response)=> @.onCharacterGameDataLoaded(response))
+    request.bind("character_status_loaded", (response)=> @.onCharacterStatusLoaded(response))
+    request.bind('not_authenticated', @.onCharacterNotAuthorized)
 
     $.ajaxSetup(beforeSend: @.onAjaxBeforeSend)
 
@@ -46,16 +45,18 @@ class App
 
     @.setTranslations()
 
-    transport.send("loadCharacterGameData")
+    request.send("loadCharacterGameData")
 
   onCharacterGameDataLoaded: (response)->
     console.log "onCharacterGameDataLoaded", response.character
 
     Character.create(response.character)
 
-    HeaderLayer.show(el: $("#application .header"))
+    HeaderLayout.show(el: $("#application .header"))
 
-    pageManager.run("home")
+    #pageManager.run("home")
+
+    HomePage.show()
 
   onCharacterStatusLoaded: (response)->
     console.log "onCharacterStatusLoaded"

@@ -1,7 +1,7 @@
-BaseGameData = require("../lib/base_game_data")
+Base = require("./base")
 Level = require('./quest_level')
 
-class Quest extends BaseGameData
+class Quest extends Base
   levels_count: null
 
   @configure "Quest", "key", "quest_group_key", "levels_count"

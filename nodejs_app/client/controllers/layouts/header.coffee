@@ -1,10 +1,9 @@
-Layer = require("../../lib/base_layer")
-Character = require("../../models/character")
+Layout = require("../layout")
+Character = require("../../models").Character
 VisualTimer = require("../../lib/visual_timer")
-transport = require("../../lib/transport")
-pageManager = require("../../lib/page_manager")
+request = require("../../lib/request")
 
-class HeaderLayer extends Layer
+class HeaderLayout extends Layout
   elements:
     '.energy': 'energyEl'
     '.health': 'healthEl'
@@ -51,7 +50,8 @@ class HeaderLayer extends Layer
 
     @el.on("click", ".menu.quests", ->
       console.log "HUI"
-      pageManager.run('quests')
+      #pageManager.run('quests')
+      require('../pages').QuestPage.show()
     )
 
   setupTimers: ->
@@ -111,7 +111,7 @@ class HeaderLayer extends Layer
       @hpTimer.start(@character.hp_restore_in)
 
   onUpdateTimerFinish: ->
-    transport.send("load_character_status")
+    request.send("load_character_status")
 
   onCharacterUpdate: (character)->
     console.log "Character Update"
@@ -124,4 +124,4 @@ class HeaderLayer extends Layer
 
     @.setupUpdateTimer(true)
 
-module.exports = HeaderLayer
+module.exports = HeaderLayout

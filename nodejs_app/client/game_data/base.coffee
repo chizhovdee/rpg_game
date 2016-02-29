@@ -1,4 +1,4 @@
-class BaseGameData extends Spine.Model
+class Base extends Spine.Model
   @populate: (data)->
     @refresh(
       for values in data.values
@@ -10,4 +10,4 @@ class BaseGameData extends Spine.Model
         obj
     )
 
-module.exports = BaseGameData
+module.exports = Base

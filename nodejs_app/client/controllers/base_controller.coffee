@@ -1,7 +1,7 @@
 class BaseController extends Spine.Controller
-  @include require("../utils/render")
-  @include require("../utils/time")
-  @include require("../utils/design")
+  @include require("../utils").render
+  @include require("../utils").time
+  @include require("../utils").design
 
   @show: ->
 

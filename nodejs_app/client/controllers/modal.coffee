@@ -1,6 +1,6 @@
 BaseController = require('./base_controller')
 
-class Popup extends BaseController
+class Modal extends BaseController
   @show: (data = {})->
     super
 
@@ -60,4 +60,4 @@ class Popup extends BaseController
 
     @.close()
 
-module.exports = Popup
+module.exports = Modal

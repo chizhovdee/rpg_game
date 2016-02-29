@@ -1,6 +1,6 @@
 BaseController = require("./base_controller")
 
-class Layer extends BaseController
+class Layout extends BaseController
   @show: (data = {})->
     super
 
@@ -21,4 +21,4 @@ class Layer extends BaseController
   hide: ->
     super
 
-module.exports = Layer
+module.exports = Layout

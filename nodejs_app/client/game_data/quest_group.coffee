@@ -1,6 +1,6 @@
-BaseGameData = require("../lib/base_game_data")
+Base = require("./base")
 
-class QuestGroup extends BaseGameData
+class QuestGroup extends Base
   @configure "QuestGroup", "key"
 
 module.exports = QuestGroup
