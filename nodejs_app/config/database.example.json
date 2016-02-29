@@ -1,10 +1,10 @@
 {
   "development": {
     "driver": "pg",
-    "user": "deewild",
-    "password": "satch",
+    "user": "user",
+    "password": "password",
     "host": "localhost",
-    "database": "game_development",
+    "database": "rpg_game_development",
     "schema": "public",
     "port": 5432
   }

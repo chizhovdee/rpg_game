@@ -25,3 +25,5 @@ doc/
 /public/stylesheets
 /public/locales
 /build
+
+/config/database.json
