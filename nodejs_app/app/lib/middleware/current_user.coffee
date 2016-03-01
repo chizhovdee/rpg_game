@@ -3,7 +3,7 @@ Character = require('../../models').Character
 
 USER_FIELDS = ['id', 'social_id', 'last_visited_at']
 
-VISIT_DURATION = _(1).minutes()
+VISIT_DURATION = _(30).minutes()
 
 addToRedis = (redis, key, user)->
   redis.set(key, JSON.stringify(user))

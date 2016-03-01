@@ -40,7 +40,7 @@ class QuestsState
     progress = @.progressForQuest(quest)
     progress[0] += 1 # 1 step for one
 
-    @_state.quests[quest.id] = progress
+    @state.quests[quest.id] = progress
 
     @isChanged = true
 

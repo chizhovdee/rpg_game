@@ -21,10 +21,10 @@ module.exports = (req, res, next)->
   res.sendEventError = (error, type = '')->
     type = 'server_error' if type == ''
 
-    console.error(error)
+    console.error(error.stack)
 
     @eventResponse.add(type, (data)->
-      data.error = error.toString()
+      data.error = error.message
     )
 
     @.sendEvents()

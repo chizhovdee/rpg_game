@@ -1,5 +1,4 @@
 _ = require("lodash")
-State = require("./character_state")
 
 class Character
   FULL_REFILL_DURATION = _(12).hours()
@@ -69,12 +68,6 @@ class Character
                     values(#{ fields.map((f)-> "${#{ f }}").join(', ') })
                     returning *
     """, @)
-
-  fetchStateForRead: (db)->
-    State.fetchForRead(db, @id)
-
-  fetchStateForUpdate: (db)->
-    State.fetchForUpdate(db, @id)
 
 #  setState: (data)->
 #    new State(data)

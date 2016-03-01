@@ -29,18 +29,20 @@ module.exports =
 
   perform: (req, res)->
     req.db.tx((t)->
-      character = new Character(yield Character.fetchForUpdate(t, req.currentUser.id))
-      character.state = new CharacterState(yield character.fetchStateForUpdate(t))
-
-      result = executor.performQuest(_.toInteger(req.body.quest_id), character)
-
-      yield t.none('update characters set experience=$1 where id=$2', [
-        character.experience + 1, character.id, character.level
-      ])
-
-      yield t.none("update character_states set quests=$1 where character_id=$2",
-        [character.quests().state(), character.id]
+      characterState = new CharacterState(yield CharacterState.fetchForUpdate(t, req.currentUser.id))
+      characterState.setCharacter(
+        new Character(yield Character.fetchForUpdate(t, req.currentUser.id))
       )
+
+      result = executor.performQuest(_.toInteger(req.body.quest_id), characterState)
+
+#      yield t.none('update characters set experience=$1 where id=$2', [
+#        character.experience + 1, character.id, character.level
+#      ])
+#
+#      yield t.none("update character_states set quests=$1 where character_id=$2",
+#        [character.quests().state(), character.id]
+#      )
 
       result = {}
     )
