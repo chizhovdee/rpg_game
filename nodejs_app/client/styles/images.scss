@@ -1,0 +1,71 @@
+// ВНИМАНИЕ
+//
+// Этот файл автоматически генерируется программой TexturePacker! Вы НЕ должны менять его вручную.
+// Чтобы внести изменения в этот файл нужно внести изменения в шаблон и перегенерировать спрайт.
+
+
+$images_image_url: image-url('images.png');
+
+$images_piece_names: icons/accept, icons/achievement, icons/add, icons/alliance, icons/app_requests, icons/attack, icons/basic_money, icons/chat, icons/collections, icons/credits, icons/defence, icons/delete, icons/drag_n_drop_item, icons/energy, icons/energy_yellow, icons/exchange, icons/experience, icons/fights, icons/gift, icons/health, icons/health_red, icons/heart, icons/help, icons/hide, icons/home, icons/inventory, icons/level, icons/lock, icons/monsters, icons/next, icons/previous, icons/profile, icons/properties, icons/publish, icons/quests, icons/rating, icons/shop, icons/stamina, icons/stamina_blue, icons/step, icons/time, icons/vip_money, odnoklassniki/noimage128x128, odnoklassniki/noimage18x18, odnoklassniki/noimage230x150, odnoklassniki/noimage50x50, quest_placeholder, ui/add, ui/arrow_left, ui/arrow_right, ui/button-OLD, ui/button, ui/close_icon, ui/left_btn, ui/middle_btn, ui/right_btn, ui/round, ui/round_checked, ui/upgrade;
+$images_piece_widths: 20px, 16px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 16px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 128px, 18px, 230px, 50px, 125px, 28px, 23px, 23px, 300px, 300px, 20px, 12px, 1px, 10px, 15px, 15px, 28px;
+$images_piece_heights: 20px, 16px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 16px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 20px, 128px, 18px, 150px, 50px, 125px, 27px, 34px, 33px, 23px, 23px, 20px, 23px, 23px, 23px, 15px, 15px, 28px;
+$images_piece_positions_x: 234px, 285px, 256px, 278px, 329px, 87px, 109px, 131px, 153px, 175px, 197px, 219px, 241px, 263px, 329px, 370px, 392px, 414px, 436px, 458px, 461px, 370px, 392px, 219px, 414px, 436px, 458px, 368px, 390px, 412px, 434px, 456px, 351px, 351px, 373px, 373px, 395px, 414px, 395px, 417px, 417px, 439px, 234px, 461px, 2px, 304px, 364px, 57px, 304px, 2px, 2px, 2px, 439px, 356px, 480px, 356px, 285px, 302px, 27px;
+$images_piece_positions_y: 132px, 204px, 132px, 132px, 184px, 204px, 204px, 204px, 204px, 204px, 204px, 204px, 204px, 204px, 206px, 129px, 129px, 129px, 129px, 129px, 215px, 151px, 151px, 204px, 151px, 151px, 151px, 173px, 173px, 173px, 173px, 173px, 195px, 217px, 195px, 217px, 195px, 129px, 217px, 195px, 217px, 195px, 2px, 195px, 2px, 132px, 2px, 204px, 184px, 204px, 154px, 179px, 217px, 132px, 129px, 157px, 222px, 222px, 204px;
+
+@function images-sprite-width($name) {
+  $index: index($images_piece_names, $name);
+
+  @if $index != null {
+    @return nth($images_piece_widths, $index)
+  } @else {
+    @warn "Wrong sprite name #{ $name }";
+  }
+}
+
+@function images-sprite-height($name) {
+  $index: index($images_piece_names, $name);
+
+  @if $index != null {
+    @return nth($images_piece_heights, $index)
+  } @else {
+    @warn "Wrong sprite name #{ $name }";
+  }
+}
+
+@function images-sprite-position($name, $x_offset: 0, $y_offset: 0) {
+  $index: index($images_piece_names, $name);
+
+  @if $index != null {
+    $x: nth($images_piece_positions_x, $index);
+    $y: nth($images_piece_positions_y, $index);
+
+    @return ($x_offset - $x) ($y_offset - $y);
+  } @else {
+    @warn "Wrong sprite name #{ $name }";
+  }
+}
+
+@mixin images-sprite-dimensions($name, $force: null) {
+  @if $force != null {
+    width: images-sprite-width($name) !important;
+    height: images-sprite-height($name) !important;
+  } @else {
+    width: images-sprite-width($name);
+    height: images-sprite-height($name);
+  }
+}
+
+@mixin images-sprite-background($name) {
+  background: {
+    repeat: no-repeat;
+    image: $images_image_url;
+    position: images-sprite-position($name);
+  }
+}
+
+@mixin images-sprite($name, $force_dimensions: null) {
+  @include images-sprite-dimensions($name, $force_dimensions);
+  @include images-sprite-background($name);
+}
+
+// $TexturePacker:SmartUpdate:e7f479b0162af1522df8a726472d33eb:1fd161dbba46e1e43f68955f5a9a1e84:376d2bb6512222bd8af7f4ca32620778$
