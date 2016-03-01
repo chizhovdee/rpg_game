@@ -1,6 +1,5 @@
 _ = require("lodash")
 State = require("./character_state")
-QuestsState  = require('./quests_state')
 
 class Character
   FULL_REFILL_DURATION = _(12).hours()
@@ -77,26 +76,11 @@ class Character
   fetchStateForUpdate: (db)->
     State.fetchForUpdate(db, @id)
 
+#  setState: (data)->
+#    new State(data)
 
-  quests: ->
-    @_quests ?= new QuestsState(@)
 
-#  withState: (db, callback)->
-#    throw new Error("Character state is already...") if @state
-#
-#    character = @
-#
-#    db.one("select * from character_states where character_id = $1", @id)
-#    .then((data)->
-#      console.log 'state db', data
-#
-#      character.state = new State(data)
-#
-#      callback?()
-#    )
-#    .error((error)->
-#      console.error error
-#    )
+
 
   healthPoints: ->
     @health

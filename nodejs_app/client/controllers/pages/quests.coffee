@@ -66,20 +66,13 @@ class QuestsPage extends Page
     @.renderTabs()
 
   onTabClick: (e)=>
+    console.log 'click'
     @el.find(".tab").removeClass("current")
 
     tabEl = $(e.currentTarget)
     tabEl.addClass("current")
 
-    @currentQuestGroupKey = tabEl.data('tab')
-
-    @quests = Quest.findAllByAttribute("quest_group_key", @currentQuestGroupKey)
-
-    @painatedQuests = @questsPagination.paginate(@quests, initialize: true)
-
-    @questsPagination.setSwitches(@quests)
-
-    @.renderQuestList()
+    request.send('load_quests', group_id: tabEl.data('group-id'))
 
   onQuestsPaginateClick: (e)=>
     @painatedQuests = @questsPagination.paginate(@quests,
@@ -114,7 +107,7 @@ class QuestsPage extends Page
       @questGroups = QuestGroup.all()
       @paginatedQuestGroups = @questGroupsPagination.paginate(@questGroups, initialize: true)
 
-    @currentGroup = QuestGroup.find(response.current_group)
+    @currentGroup = QuestGroup.find(response.current_group_id)
 
     @quests = (
       for [quest_id, steps, level_number, completed] in response.quests
@@ -132,6 +125,9 @@ class QuestsPage extends Page
     @painatedQuests = @questsPagination.paginate(@quests, initialize: true)
     @questsPagination.setSwitches(@quests)
 
-    @.render()
+    if response.by_group
+      @.renderQuestList()
+    else
+      @.render()
 
 module.exports = QuestsPage

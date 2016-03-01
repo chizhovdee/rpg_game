@@ -9,18 +9,26 @@ module.exports = (req, res, next)->
   res.sendEvents = ->
     @.json(@eventResponse.all())
 
+    null
+
   res.sendEvent = (type, callback)->
     @.addEvent(type, callback)
 
     @.sendEvents()
 
+    null
+
   res.sendEventError = (error, type = '')->
     type = 'server_error' if type == ''
 
+    console.error(error)
+
     @eventResponse.add(type, (data)->
-      data.error = error
+      data.error = error.toString()
     )
 
     @.sendEvents()
+
+    null
 
   next()

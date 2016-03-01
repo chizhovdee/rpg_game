@@ -32,6 +32,7 @@ class App
     request.one("character_game_data_loaded", (response)=> @.onCharacterGameDataLoaded(response))
     request.bind("character_status_loaded", (response)=> @.onCharacterStatusLoaded(response))
     request.bind('not_authenticated', @.onCharacterNotAuthorized)
+    request.bind('server_error', @.onServerError)
 
     $.ajaxSetup(beforeSend: @.onAjaxBeforeSend)
 
@@ -79,5 +80,8 @@ class App
     signatureName = signatureKeeper.getSignatureName()
 
     request.setRequestHeader(signatureName.split('_').join('-'), signature)
+
+  onServerError: (response)->
+    console.error 'Server Error:', response.error
 
 module.exports = App

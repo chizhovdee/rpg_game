@@ -7,23 +7,19 @@ Character = require('../models').Character
 
 module.exports =
   index: (req, res)->
-    req.db.task((t)->
-      t.batch([
-        Character.fetchForRead(t, req.currentUser.id)
-        CharacterState.fetchForRead(t, req.currentUser.id)
-      ])
-    )
-    .then((character, state)->
-      character = new Character(character)
-      character.state = new CharacterState(state)
+    CharacterState.fetchForRead(req.db, req.currentUser.id)
+    .then((state)->
+      characterState = new CharacterState(state)
 
-      group = QuestGroup.find(_.toInteger(req.query.group)) if req.query.group
-      group ?= character.quests().currentGroup()
+      if req.query.group_id
+        group = QuestGroup.find(_.toInteger(req.query.group_id))
+      else
+        group = characterState.getQuests().currentGroup()
 
       data = {}
-      data.quests = character.quests().questsWithProgressByGroup(group)
-      data.by_group = true if req.query.group
-      data.current_group = group.id
+      data.quests = characterState.getQuests().questsWithProgressByGroup(group)
+      data.by_group = true if req.query.group_id
+      data.current_group_id = group.id
 
       res.sendEvent("quest_loaded", data)
     )

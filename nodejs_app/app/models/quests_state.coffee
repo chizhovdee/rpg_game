@@ -11,22 +11,17 @@ class QuestsState
   }
 
   character: null
-  _state: null
+  state: null
   isChanged: false
 
-  constructor: (character)->
-    @character = character
+  constructor: (characterState)->
+    throw new Error("character state undefined") unless characterState?
 
-    throw new Error("character state undefined") unless @character.state?
-
-    @_state = @character.state.quests
-    @_state ?= _.defaultsDeep({}, DEFAULT_STATE)
-
-  state: ->
-    @_state
+    @state = characterState.quests
+    @state ?= _.defaultsDeep({}, DEFAULT_STATE)
 
   progressForQuest: (quest)->
-    @.state().quests[quest.id] || [0, 1, false] # [step, level, completed]
+    @state.quests[quest.id] || [0, 1, false] # [step, level, completed]
 
   currentGroup: ->
     group = QuestGroup.find(@state.current_group) if @state.current_group
