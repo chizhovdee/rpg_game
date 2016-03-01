@@ -1,8 +1,8 @@
-Page = require("../../lib/base_page")
-Character = require("../../models/character")
+Page = require("../page")
+Character = require("../../models").Character
 
 class HomePage extends Page
-  className: "home page_block"
+  className: "home page"
 
   hide: ->
     super

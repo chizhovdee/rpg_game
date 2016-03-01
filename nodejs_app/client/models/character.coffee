@@ -1,5 +1,3 @@
-utils = require("../utils/utils")
-
 class Character extends Spine.Model
   id: null
   level: null
@@ -24,7 +22,7 @@ class Character extends Spine.Model
     super
 
   setOldAttributes: (attributes)->
-    @oldAttributes = _.omit(_.cloneDeep(attributes), 'oldAttributes') #utils.deepClone(attributes, "oldAttributes")
+    @oldAttributes = _.omit(_.cloneDeep(attributes), 'oldAttributes')
 
   changes: ->
     changes = {}

@@ -53,11 +53,9 @@ $menu: quests, monsters, shop, inventory, profile, rating, alliance;
     position: absolute;
     right: -23px;
     top: -3px;
-    width: 20px;
-    height: 19px;
-    background-image: url("/images/add.png");
-    background-size: contain;
     cursor: pointer;
+
+    @include images-sprite(ui/add);
   }
 }
 
@@ -81,7 +79,7 @@ $menu: quests, monsters, shop, inventory, profile, rating, alliance;
     @include box-shadow(0px 0px 4px 1px rgba(126, 255, 0, 0.5));
 
     &:after {
-      background-image: url("/images/icons/experience.png");
+      @include images-sprite-background(icons/experience);
     }
 
     .progress_bar {
@@ -91,7 +89,7 @@ $menu: quests, monsters, shop, inventory, profile, rating, alliance;
     }
     
     .add {
-      background-image: url("/images/upgrade.png");
+      @include images-sprite-background(ui/upgrade)
     }
   }
 
@@ -104,11 +102,9 @@ $menu: quests, monsters, shop, inventory, profile, rating, alliance;
     @include box-shadow(0px 0px 4px 1px rgba(255, 0, 0, 0.5));
 
     &:after {
-      width: 16px;
-      height: 16px;
       top: -2px;
       left: -8px;
-      background-image: url("/images/icons/health_red.png");
+      @include images-sprite(icons/health_red);
     }
 
     .progress_bar {
@@ -126,7 +122,7 @@ $menu: quests, monsters, shop, inventory, profile, rating, alliance;
     @include box-shadow(1px 1px 4px 0px rgba(255, 255, 0, 0.5));
 
     &:after {
-      background-image: url("/images/icons/energy_yellow.png");
+      @include images-sprite-background(icons/energy_yellow);
     }
 
     .progress_bar {
@@ -144,7 +140,7 @@ $menu: quests, monsters, shop, inventory, profile, rating, alliance;
     @include box-shadow(1px 1px 4px 0px rgba(0, 204, 255, 0.5));
 
     &:after {
-      background-image: url("/images/icons/stamina_blue.png");
+      @include images-sprite-background(icons/stamina_blue);
     }
 
     .progress_bar {
@@ -167,9 +163,7 @@ $menu: quests, monsters, shop, inventory, profile, rating, alliance;
       top: 0px;
       left: -25px;
       content: "";
-      width: 20px;
-      height: 20px;
-      background-image: url("/images/icons/level.png");
+      @include images-sprite(icons/level);
     }
 
     .value {
@@ -194,9 +188,7 @@ $menu: quests, monsters, shop, inventory, profile, rating, alliance;
       top: 0px;
       left: -25px;
       content: "";
-      width: 20px;
-      height: 20px;
-      background-image: url("/images/icons/vip_money.png");
+      @include images-sprite(icons/vip_money);
     }
 
     .value {
@@ -210,9 +202,7 @@ $menu: quests, monsters, shop, inventory, profile, rating, alliance;
       position: absolute;
       top: -3px;
       right: -15px;
-      width: 28px;
-      height: 27px;
-      background-image: url("/images/add.png");
+      @include images-sprite(ui/add);
       cursor: pointer;
     }
   }
@@ -231,9 +221,8 @@ $menu: quests, monsters, shop, inventory, profile, rating, alliance;
       top: 0px;
       left: -25px;
       content: "";
-      width: 20px;
-      height: 20px;
-      background-image: url("/images/icons/basic_money.png");
+
+      @include images-sprite(icons/basic_money)
     }
 
     .value {
@@ -274,7 +263,7 @@ $menu: quests, monsters, shop, inventory, profile, rating, alliance;
     @each $menu_item in $menu {
       &.#{$menu_item} {
         &:before {
-          background-image: url("/images/icons/#{$menu_item}.png");
+          @include images-sprite-background(icons/#{$menu_item});
         }
       }
     }

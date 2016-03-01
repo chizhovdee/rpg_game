@@ -1,5 +1,5 @@
 Timer = require("./timer")
-TimeUtils = require("../utils/time")
+timeUtils = require("../utils").time
 
 class VisualTimer extends Timer
   constructor: (@element, @finishCallback, @tickCallback)->
@@ -17,7 +17,7 @@ class VisualTimer extends Timer
   render: ->
     if @element.length > 0
       @element.text(
-        TimeUtils.formatTime(@.secondsToFinish())
+        timeUtils.formatTime(@.secondsToFinish())
       )
     else
       @.stop()

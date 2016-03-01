@@ -1,6 +1,6 @@
-BaseGameData = require("../lib/base_game_data")
+Base = require("./base")
 
-class QuestLevel extends BaseGameData
+class QuestLevel extends Base
   quest_key: null
   number: null
   steps: null

@@ -52,9 +52,7 @@
       }
 
       .picture {
-        background-image: url("/images/quest_placeholder.png");
-        width: 125px;
-        height: 125px;
+        @include images-sprite('quest_placeholder');
         @include border-radius(10px);
       }
 

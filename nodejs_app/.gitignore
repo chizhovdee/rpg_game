@@ -24,4 +24,7 @@ doc/
 /public/javascripts
 /public/stylesheets
 /public/locales
+/public/assets
 /build
+
+/config/database.json

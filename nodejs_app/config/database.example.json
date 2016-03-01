@@ -1,0 +1,11 @@
+{
+  "development": {
+    "driver": "pg",
+    "user": "user",
+    "password": "password",
+    "host": "localhost",
+    "database": "rpg_game_development",
+    "schema": "public",
+    "port": 5432
+  }
+}

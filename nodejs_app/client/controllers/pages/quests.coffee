@@ -1,13 +1,13 @@
-Page = require("../../lib/base_page")
-Character = require("../../models/character")
-QuestGroup = require("../../game_data/quest_group")
-Quest = require("../../game_data/quest")
+Page = require("../page")
+Character = require("../../models").Character
+QuestGroup = require("../../game_data").QuestGroup
+Quest = require("../../game_data").Quest
 Pagination = require("../../lib/pagination")
-QuestPerformPopup = require('../popups/quest_perform_result')
-transport = require('../../lib/transport')
+#QuestPerformResultModal = require('../modals').QuestPerformResultModal
+request = require('../../lib/request')
 
 class QuestsPage extends Page
-  className: "quests page_block"
+  className: "quests page"
 
   QUEST_GROUPS_PER_PAGE = 5
   QUESTS_PER_PAGE = 3
@@ -22,7 +22,7 @@ class QuestsPage extends Page
 
     @.render()
 
-    transport.send('load_quests')
+    request.send('load_quests')
 
   render: ->
     if @loading
@@ -39,7 +39,7 @@ class QuestsPage extends Page
   bindEventListeners: ->
     super
 
-    transport.bind('quest_loaded', @.onDataLoaded)
+    request.bind('quest_loaded', @.onDataLoaded)
 
     @el.on('click', '.tabs .paginate:not(.disabled)', @.onTabsPaginateButtonClick)
     @el.on('click', '.tab:not(.current)', @.onTabClick)
@@ -50,13 +50,13 @@ class QuestsPage extends Page
   unbindEventListeners: ->
     super
 
-    transport.unbind('quest_loaded', @.onDataLoaded)
+    request.unbind('quest_loaded', @.onDataLoaded)
 
-    @el.on('click', '.tabs .paginate:not(.disabled)', @.onTabsPaginateButtonClick)
-    @el.on('click', '.tab:not(.current)', @.onTabClick)
-    @el.on('click', '.quest_list .paginate:not(.disabled)', @.onQuestsPaginateClick)
-    @el.on('click', '.switches .switch', @.onSwitchPageClick)
-    @el.on('click', 'button.perform:not(.disabled)', @.onPerformClick)
+    @el.off('click', '.tabs .paginate:not(.disabled)', @.onTabsPaginateButtonClick)
+    @el.off('click', '.tab:not(.current)', @.onTabClick)
+    @el.off('click', '.quest_list .paginate:not(.disabled)', @.onQuestsPaginateClick)
+    @el.off('click', '.switches .switch', @.onSwitchPageClick)
+    @el.off('click', 'button.perform:not(.disabled)', @.onPerformClick)
 
   onTabsPaginateButtonClick: (e)=>
     @paginatedQuestGroups = @questGroupsPagination.paginate(@questGroups,
@@ -100,20 +100,7 @@ class QuestsPage extends Page
     #button.addClass('disabled')
     #QuestPerformPopup.show()
 
-    #for i in [0...100]
-    transport.send('perform_quest', quest_id: button.data('quest-id'))
-
-#    i = 0
-#
-#    inter = setInterval(
-#      ->
-#        transport.send('perform_quest', quest_id: button.data('quest-id'))
-#        i += 1
-#
-#        clearInterval(inter)  if i >= 5
-#      50
-#    )
-
+    request.send('perform_quest', quest_id: button.data('quest-id'))
 
   onDataLoaded: (response)=>
     @loading = false
