@@ -11,16 +11,16 @@
       position: absolute;
       top: 0;
       left: 0;
-      width: 20px;
-      height: 20px;
+      @include images-sprite-dimensions(icons/energy_yellow);
     }
 
     &.energy {
       &:before {
         background: {
-          image: url("/images/icons/energy_yellow.png");
           repeat: no-repeat;
         }
+
+        @include images-sprite-background(icons/energy_yellow);
       }
     }
   }

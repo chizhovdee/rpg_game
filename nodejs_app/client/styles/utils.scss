@@ -1,0 +1,3 @@
+@function image-url($name) {
+  @return url("/assets/#{$name}");
+}

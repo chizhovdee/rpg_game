@@ -27,10 +27,11 @@
   letter-spacing: 0.5px;
   line-height: 23px;
   color: #ffedae;
-  height: 23px;
+  height: images-sprite-height('ui/button');
+
+  @include images-sprite-background('ui/button');
 
   background: {
-    image: url("/images/button.png");
     repeat: no-repeat;
     clip: content-box;
   }
@@ -41,18 +42,18 @@
     top: 0;
     content: '';
     width: 10px;
-    height: 23px;
-    background-image: url("/images/button.png");
+    height: images-sprite-height('ui/button');
+
+    @include images-sprite-background('ui/button');
   }
 
   &:before {
     left: 0;
-    background-position: left;
   }
 
   &:after {
     right: 0;
-    background-position: right;
+    background-position: images-sprite-position('ui/button', - images-sprite-width('ui/button') + 10px);
   }
 }
 

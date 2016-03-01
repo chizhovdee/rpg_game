@@ -33,7 +33,7 @@
 
       &:after {
         background: {
-          image: url("/images/arrows.png");
+          image: image-url("arrows.png"); // custom image
           repeat: no-repeat;
           position: left center;
         }
@@ -45,7 +45,7 @@
 
       &:after {
         background: {
-          image: url("/images/arrows.png");
+          image: image-url("arrows.png"); // custom image
           repeat: no-repeat;
           position: right center;
         }
@@ -68,13 +68,10 @@
       display: inline-block;
       cursor: pointer;
       margin: 0 1px;
-      width: 15px;
-      height: 15px;
-
-      background-image: url("/images/round.png");
+      @include images-sprite(ui/round);
 
       &.checked {
-        background-image: url("/images/round_checked.png");
+        @include images-sprite-background(ui/round_checked);
       }
     }
   }

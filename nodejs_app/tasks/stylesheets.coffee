@@ -7,7 +7,7 @@ fs = require("fs")
 
 gulp.task("stylesheets", ['sass-compile'], ->
   gulp.src("./build/client/styles/application.css")
-  .pipe(gulp.dest("./public/stylesheets"))
+  .pipe(gulp.dest("./public/assets"))
 )
 
 gulp.task('sass-compile', ->

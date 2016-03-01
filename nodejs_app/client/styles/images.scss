@@ -18,7 +18,7 @@ $images_piece_positions_y: 132px, 204px, 132px, 132px, 184px, 204px, 204px, 204p
   @if $index != null {
     @return nth($images_piece_widths, $index)
   } @else {
-    @warn "Wrong sprite name #{ $name }";
+    @warn "Wrong sprite name #{$name}";
   }
 }
 
@@ -28,7 +28,7 @@ $images_piece_positions_y: 132px, 204px, 132px, 132px, 184px, 204px, 204px, 204p
   @if $index != null {
     @return nth($images_piece_heights, $index)
   } @else {
-    @warn "Wrong sprite name #{ $name }";
+    @warn "Wrong sprite name #{$name}";
   }
 }
 
@@ -41,7 +41,7 @@ $images_piece_positions_y: 132px, 204px, 132px, 132px, 184px, 204px, 204px, 204p
 
     @return ($x_offset - $x) ($y_offset - $y);
   } @else {
-    @warn "Wrong sprite name #{ $name }";
+    @warn "Wrong sprite name #{$name}";
   }
 }
 

@@ -21,16 +21,17 @@ gulp.task("prepare:client", [
   'eco-compile',
   'client-vendors',
   'game_data:populate',
-  'stylesheets'
+  'stylesheets',
+  'images'
 ], ->
   vendors = fs.readFileSync("./build/client/vendors.js")
 
   browserify("./build/client/main.js", {debug:false})
   .bundle()
   .pipe(source("application.js"))
-  .pipe(gulp.dest("./public/javascripts/"))
+  .pipe(gulp.dest("./public/assets/"))
   .pipe(file("vendor.js", vendors))
   .pipe(buffer())
   .pipe(concat("application.js"))
-  .pipe(gulp.dest("./public/javascripts/"))
+  .pipe(gulp.dest("./public/assets/"))
 )
