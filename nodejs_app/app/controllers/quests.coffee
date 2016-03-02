@@ -14,10 +14,10 @@ module.exports =
       if req.query.group_id
         group = QuestGroup.find(_.toInteger(req.query.group_id))
       else
-        group = characterState.getQuests().currentGroup()
+        group = characterState.questsState().currentGroup()
 
       data = {}
-      data.quests = characterState.getQuests().questsWithProgressByGroup(group)
+      data.quests = characterState.questsState().questsWithProgressByGroup(group)
       data.by_group = true if req.query.group_id
       data.current_group_id = group.id
 
@@ -44,10 +44,17 @@ module.exports =
 #        [character.quests().state(), character.id]
 #      )
 
-      result = {}
     )
     .then((result)->
-      res.sendEvent("quest_performed", result)
+      result = res.parseResult(result)
+
+      if result.isError()
+        switch result.errorCode
+          when 'not_reached_level'
+            res.sendEvent('not_reached_level')
+
+      else
+        res.sendEvent("quest_performed", result)
     )
     .catch((error)->
       res.sendEventError(error)

@@ -1,5 +1,6 @@
 _ = require("lodash")
 Base = require("./base")
+Group = require('./quest_group')
 Level = require('./quest_level')
 
 class Quest extends Base
@@ -13,10 +14,13 @@ class Quest extends Base
 
     @levels_count = 0
 
+  levelKey: (number)->
+    "quest_#{@key}_level_#{number}"
+
   addLevel: (number, callback)->
     key = @key
 
-    Level.define("quest_#{@key}_level_#{number}", (l)->
+    Level.define(@.levelKey(number), (l)->
       l.quest_key = key
       l.number = number
 
@@ -24,6 +28,12 @@ class Quest extends Base
     )
 
     @levels_count += 1
+
+  group: ->
+    @_group ?= Group.find(@quest_group_key)
+
+  levelByNumber: (nubmer)->
+    Level.find(@.levelKey(nubmer))
 
   forClient: ->
     _.assign(

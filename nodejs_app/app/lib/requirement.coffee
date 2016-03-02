@@ -1,8 +1,7 @@
 class Requirement
   values: null
-  character: null
 
-  constructor: (@character = null)->
+  constructor: ->
     @values = {}
 
   get: (key)->
@@ -23,13 +22,11 @@ class Requirement
     else
       @values[key] = value
 
-  isSatisfied: (key, value)->
+  isSatisfiedFor: (characterState, key, value)->
     # TO DO
     # @character
 
   forClient: ->
-    if @character?
-    else
-      @values
+    @values
 
 module.exports = Requirement

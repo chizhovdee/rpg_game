@@ -3,3 +3,5 @@ ru:
     requires: "Требуется"
     rewards: "Награда"
     completed: "Завершено"
+    not_reached_level: "Вы не достигли нужного уровня!"
+    server_error: "Упс! Что-то пошло не так."

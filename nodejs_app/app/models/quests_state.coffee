@@ -34,9 +34,10 @@ class QuestsState
       [quest.id].concat(@.progressForQuest(quest))
     )
 
-  perform: (quest_id)->
-    quest = Quest.find(quest_id)
+  levelFor: (quest)->
+    quest.levelByNumber(@.progressForQuest(quest)[1])
 
+  perform: (quest)->
     progress = @.progressForQuest(quest)
     progress[0] += 1 # 1 step for one
 

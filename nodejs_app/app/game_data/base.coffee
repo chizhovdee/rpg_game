@@ -70,6 +70,9 @@ class Base
   @findAllByAttribute: (attribute, value)->
     _.filter(@all(), (record)-> record[attribute] == value)
 
+  @findByAttributes: (attributes = {})->
+    _.find(@all(), attributes)
+
   constructor: (attributes = {})->
     @id = null
     @key = null

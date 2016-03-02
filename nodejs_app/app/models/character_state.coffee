@@ -21,7 +21,7 @@ class CharacterState
       writable: false
     )
 
-  getQuests: ->
+  questsState: ->
     @_quests ?= new QuestsState(@)
 
 
