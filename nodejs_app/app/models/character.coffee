@@ -36,8 +36,9 @@ class Character
 #    'updated_at'
 #  ]
 
-  # states
-  _quests: null
+  isChanged: false
+  changed: null
+  changes: null
 
   @createDefault: ->
     new @(DEFAULT_ATTRIBUTES)
@@ -51,8 +52,30 @@ class Character
   @fetchForUpdate: (db, id)->
     db.one("select * from characters where id=$1 for update", id)
 
-  constructor: (attributes)->
-    _.assignIn(@, attributes) if attributes
+  constructor: (attributes = {})->
+    @changed = []
+    @changes = {}
+
+    for key, value of attributes
+      # определяем приватный невидимый аттрибут
+      Object.defineProperty(@, "_#{ key }", writable: true, value: value)
+
+      # публичный видимый аттрибут использующий невидимый, определенный выше
+      Object.defineProperty(@, key,
+        enumerable: true
+        get: -> @["_#{ key }"]
+
+        set: (value)->
+          return if @["_#{ key }"] == value
+
+          @changes[key] = [@["_#{ key }"], value] # [old, new]
+
+          @["_#{ key }"] = value
+
+          _.addUniq(@changed, key)
+
+          @isChanged = true
+      )
 
   insertToDb: (db)->
     fields = [
@@ -69,12 +92,6 @@ class Character
                     returning *
     """, @)
 
-#  setState: (data)->
-#    new State(data)
-
-
-
-
   healthPoints: ->
     @health
 
@@ -88,7 +105,10 @@ class Character
       when "ep"
         total = @.energyPoints()
 
-    if @["#{attribute}_updated_at"].valueOf() < Date.now() - FULL_REFILL_DURATION
+    if @[attribute] >= total
+      @[attribute]
+
+    else if @["#{attribute}_updated_at"].valueOf() < Date.now() - FULL_REFILL_DURATION
       total
     else
       value = @[attribute] + @.restoresSinceLastUpdate(attribute)
@@ -99,6 +119,32 @@ class Character
         total
       else
         value
+
+  updateRestorable: (attribute, value = 0)->
+    restorable = @.restorable(attribute)
+
+    result = (
+      if value > 0
+        if @.isFull(attribute)
+          0
+        else if (left = @.leftToFull(attribute)) && left < value
+          left
+        else
+          value
+
+      else if value < 0
+        if restorable - value < 0
+          value - restorable
+        else
+          value
+      else
+        0
+    )
+
+    @[attribute] = restorable + result
+    @["#{attribute}_updated_at"] = Date.now()
+
+    result # return result
 
   restoresSinceLastUpdate: (attribute)->
     Math.floor(
@@ -128,6 +174,13 @@ class Character
         @.restorable(attribute) >= @.healthPoints()
       when "hp"
         @.restorable(attribute) >= @.energyPoints()
+
+  leftToFull: (attribute)->
+    switch attribute
+      when "hp"
+        @.healthPoints() - @.restorable(attribute)
+      when "hp"
+        @.energyPoints() - @.restorable(attribute)
 
   restoreBonus: (attribute)->
     0

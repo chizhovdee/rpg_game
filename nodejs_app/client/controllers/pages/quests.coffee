@@ -40,6 +40,7 @@ class QuestsPage extends Page
     super
 
     request.bind('quest_loaded', @.onDataLoaded)
+    request.bind('quest_perform_failure', @.onQuestPerformFailure)
 
     @el.on('click', '.tabs .paginate:not(.disabled)', @.onTabsPaginateButtonClick)
     @el.on('click', '.tab:not(.current)', @.onTabClick)
@@ -51,6 +52,7 @@ class QuestsPage extends Page
     super
 
     request.unbind('quest_loaded', @.onDataLoaded)
+    request.unbind('quest_perform_failure', @.onQuestPerformFailure)
 
     @el.off('click', '.tabs .paginate:not(.disabled)', @.onTabsPaginateButtonClick)
     @el.off('click', '.tab:not(.current)', @.onTabClick)
@@ -129,5 +131,8 @@ class QuestsPage extends Page
       @.renderQuestList()
     else
       @.render()
+
+  onQuestPerformFailure: (response)=>
+    console.log response
 
 module.exports = QuestsPage

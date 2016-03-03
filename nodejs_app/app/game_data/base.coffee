@@ -82,12 +82,12 @@ class Base
     _.assignIn(@, attributes)
 
   addRequirement: (callback)->
-    @requirement ?= new Requirement()
+    @requirement ?= new Requirement(null, null)
 
     callback?(@requirement)
 
   addReward: (callback)->
-    @reward ?= new Reward()
+    @reward ?= new Reward(null, null)
 
     callback?(@reward)
 

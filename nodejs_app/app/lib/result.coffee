@@ -15,4 +15,11 @@ class Result
   isError: ->
     @errorCode?
 
+  toJSON: ->
+    {
+      is_error: @.isError()
+      errorCode: @errorCode
+      data: @data
+    }
+
 module.exports = Result

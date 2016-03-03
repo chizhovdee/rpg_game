@@ -53,6 +53,9 @@ module.exports =
           when 'not_reached_level'
             res.sendEvent('not_reached_level')
 
+          else
+            res.sendEvent('quest_perform_failure', result)
+
       else
         res.sendEvent("quest_performed", result)
     )

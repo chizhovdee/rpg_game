@@ -7,7 +7,7 @@ class QuestsState
   DEFAULT_STATE = {
     quests: {} # quest_id: [step, level, completed]
     groups_completed: []
-    current_group: null
+    current_group_id: null
   }
 
   character: null
@@ -24,7 +24,7 @@ class QuestsState
     @state.quests[quest.id] || [0, 1, false] # [step, level, completed]
 
   currentGroup: ->
-    group = QuestGroup.find(@state.current_group) if @state.current_group
+    group = QuestGroup.find(@state.current_group_id) if @state.current_group_id
     group ?= QuestGroup.first()
 
     group
@@ -42,6 +42,7 @@ class QuestsState
     progress[0] += 1 # 1 step for one
 
     @state.quests[quest.id] = progress
+    @state.current_group_id = quest.group().id
 
     @isChanged = true
 
