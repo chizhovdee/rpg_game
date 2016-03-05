@@ -12,15 +12,14 @@ class QuestsState
 
   character: null
   state: null
-  isChanged: false
 
-  constructor: (characterState)->
-    throw new Error("character state undefined") unless characterState?
+  constructor: (@characterState)->
+    throw new Error("character state undefined") unless @characterState?
 
-    @state = characterState.quests
+    @state = _.cloneDeep(@characterState.quests)
     @state ?= _.defaultsDeep({}, DEFAULT_STATE)
 
-  progressForQuest: (quest)->
+  progressFor: (quest)->
     @state.quests[quest.id] || [0, 1, false] # [step, level, completed]
 
   currentGroup: ->
@@ -31,20 +30,20 @@ class QuestsState
 
   questsWithProgressByGroup: (group)->
     Quest.findAllByAttribute('quest_group_key', group.key).map((quest)=>
-      [quest.id].concat(@.progressForQuest(quest))
+      [quest.id].concat(@.progressFor(quest))
     )
 
   levelFor: (quest)->
-    quest.levelByNumber(@.progressForQuest(quest)[1])
+    quest.levelByNumber(@.progressFor(quest)[1])
 
   perform: (quest)->
-    progress = @.progressForQuest(quest)
+    progress = @.progressFor(quest)
     progress[0] += 1 # 1 step for one
 
     @state.quests[quest.id] = progress
     @state.current_group_id = quest.group().id
 
-    @isChanged = true
+    @characterState.quests = @state
 
     true
 

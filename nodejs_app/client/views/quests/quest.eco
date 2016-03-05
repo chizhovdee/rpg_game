@@ -1,4 +1,4 @@
-<div class="quest">
+<div class="quest" id="quest_<%= @quest.id %>">
   <div class="picture"></div>
 
   <div class="info">

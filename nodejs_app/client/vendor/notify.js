@@ -1,3 +1,7 @@
+// Added custom option raw for content encoding
+// default raw is false
+// Example $.notify('<p>Text</p>', {raw: true})
+
 /* Notify.js - http://notifyjs.com/ Copyright (c) 2015 MIT */
 (function (factory) {
 	// UMD start
@@ -192,7 +196,8 @@
 		showDuration: 400,
 		hideAnimation: "slideUp",
 		hideDuration: 200,
-		gap: 5
+		gap: 5,
+		raw: false
 	};
 
 	var inherit = function(a, b) {
@@ -500,7 +505,10 @@
 				continue;
 			}
 			if (type === "text") {
-				d = encode(d);
+				if(!this.options.raw){
+					d = encode(d);
+				}
+
 				if (this.options.breakNewLines) {
 					d = d.replace(/\n/g, '<br/>');
 				}

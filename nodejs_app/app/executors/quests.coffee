@@ -3,33 +3,32 @@ Result = require('../lib/result')
 Reward = require('../lib/reward')
 
 module.exports =
-  performQuest: (quest_id, characterState)->
+  performQuest: (quest_id, character)->
     # TODO проверка на завершенность миссии
-
-    character = characterState.character
 
     quest = Quest.find(quest_id)
 
     if character.level < quest.group().level
       return new Result(errorCode: 'not_reached_level')
 
-    questsState = characterState.questsState()
+    questsState = character.state.questsState()
 
     level = questsState.levelFor(quest)
 
-    unless level.requirement.isSatisfiedFor(characterState)
+    unless level.requirement.isSatisfiedFor(character)
       return new Result(errorCode: 'requirements_not_satisfied')
 
-    if questsState.perform(quest_id)
-      reward = new Reward(characterState)
+    questsState.perform(quest)
 
-      #level.requirement.apply(reward)
+    reward = new Reward(character)
 
-      reward.energy(-1)
+    level.requirement.apply(reward)
 
-      console.log characterState.character
-
-
-    new Result() # return result
+    new Result(
+      data:
+        reward: reward
+        quest_id: quest.id
+        progress: questsState.progressFor(quest)
+    )
 
 

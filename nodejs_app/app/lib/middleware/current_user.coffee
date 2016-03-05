@@ -41,7 +41,7 @@ middleware = (request, callback)->
 
       null
     else # если небыл найден в редисе, то ищем в базе
-      Character.fetchBySocialId(db, socialId)
+      Character.fetchForRead(db, social_id: socialId)
   )
   .then((character)->
     if currentUser

@@ -5,3 +5,7 @@ ru:
     completed: "Завершено"
     not_reached_level: "Вы не достигли нужного уровня!"
     server_error: "Упс! Что-то пошло не так."
+    you_received: "Вы получили"
+    you_spent: "Вы потратили"
+    title_success: "Успех!"
+    title_failure: "Провал!"

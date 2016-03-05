@@ -7,7 +7,7 @@ Character = require('../models').Character
 
 module.exports =
   index: (req, res)->
-    CharacterState.fetchForRead(req.db, req.currentUser.id)
+    CharacterState.fetchForRead(req.db, character_id: req.currentUser.id)
     .then((state)->
       characterState = new CharacterState(state)
 
@@ -29,21 +29,15 @@ module.exports =
 
   perform: (req, res)->
     req.db.tx((t)->
-      characterState = new CharacterState(yield CharacterState.fetchForUpdate(t, req.currentUser.id))
-      characterState.setCharacter(
-        new Character(yield Character.fetchForUpdate(t, req.currentUser.id))
+      character = new Character(yield Character.fetchForUpdate(t, id: req.currentUser.id))
+
+      character.setState(
+        new CharacterState(yield CharacterState.fetchForUpdate(t, character_id: req.currentUser.id))
       )
 
-      result = executor.performQuest(_.toInteger(req.body.quest_id), characterState)
+      result = executor.performQuest(_.toInteger(req.body.quest_id), character)
 
-#      yield t.none('update characters set experience=$1 where id=$2', [
-#        character.experience + 1, character.id, character.level
-#      ])
-#
-#      yield t.none("update character_states set quests=$1 where character_id=$2",
-#        [character.quests().state(), character.id]
-#      )
-
+      @.batch([character.update(t), character.state.update(t), result])
     )
     .then((result)->
       result = res.parseResult(result)
@@ -57,7 +51,7 @@ module.exports =
             res.sendEvent('quest_perform_failure', result)
 
       else
-        res.sendEvent("quest_performed", result)
+        res.sendEvent("quest_perform_success", result)
     )
     .catch((error)->
       res.sendEventError(error)

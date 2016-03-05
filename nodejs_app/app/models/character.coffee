@@ -1,6 +1,7 @@
 _ = require("lodash")
+Base = require('./base')
 
-class Character
+class Character extends Base
   FULL_REFILL_DURATION = _(12).hours()
   HP_RESTORE_DURATION  = _(1).minutes()
   EP_RESTORE_DURATION  = _(5).minutes()
@@ -36,46 +37,56 @@ class Character
 #    'updated_at'
 #  ]
 
-  isChanged: false
-  changed: null
-  changes: null
+  constructor: ->
+    super
+
+    @.defineRestorableAttributes()
+
+  defineRestorableAttributes: ->
+    Object.defineProperty(@, 'hp',
+      enumerable: true
+      get: -> @.restorable('hp')
+      set: (newValue)->
+        newValue = @.restorable('hp') + @.updatedValueRestorable('hp', newValue)
+
+        return if @_hp == newValue
+
+        @changes.ep = [@_hp, newValue] # [old, new]
+
+        @_hp = newValue
+
+        @hp_updated_at = new Date()
+
+        _.addUniq(@changed, 'hp')
+
+        @isChanged = true
+
+        @_hp # return new value
+    ) if @_hp
+
+    Object.defineProperty(@, 'ep',
+      enumerable: true
+      get: -> @.restorable('ep')
+      set: (newValue)->
+        newValue = @.restorable('ep') + @.updatedValueRestorable('ep', newValue)
+
+        return if @_ep == newValue
+
+        @changes.ep = [@_ep, newValue] # [old, new]
+
+        @_ep = newValue
+
+        @ep_updated_at = new Date()
+
+        _.addUniq(@changed, 'ep')
+
+        @isChanged = true
+
+        @_ep # return new value
+    ) if @_ep
 
   @createDefault: ->
     new @(DEFAULT_ATTRIBUTES)
-
-  @fetchBySocialId: (db, social_id)->
-    db.oneOrNone("select * from characters where social_id=$1 limit 1", social_id)
-
-  @fetchForRead: (db, user_id)->
-    db.one("select * from characters where id=$1", user_id)
-
-  @fetchForUpdate: (db, id)->
-    db.one("select * from characters where id=$1 for update", id)
-
-  constructor: (attributes = {})->
-    @changed = []
-    @changes = {}
-
-    for key, value of attributes
-      # определяем приватный невидимый аттрибут
-      Object.defineProperty(@, "_#{ key }", writable: true, value: value)
-
-      # публичный видимый аттрибут использующий невидимый, определенный выше
-      Object.defineProperty(@, key,
-        enumerable: true
-        get: -> @["_#{ key }"]
-
-        set: (value)->
-          return if @["_#{ key }"] == value
-
-          @changes[key] = [@["_#{ key }"], value] # [old, new]
-
-          @["_#{ key }"] = value
-
-          _.addUniq(@changed, key)
-
-          @isChanged = true
-      )
 
   insertToDb: (db)->
     fields = [
@@ -92,6 +103,14 @@ class Character
                     returning *
     """, @)
 
+  setState: (state)->
+    Object.defineProperty(@, 'state'
+      value: state
+      configurable: false
+      enumerable: true
+      writable: false
+    )
+
   healthPoints: ->
     @health
 
@@ -105,13 +124,13 @@ class Character
       when "ep"
         total = @.energyPoints()
 
-    if @[attribute] >= total
-      @[attribute]
+    if @["_#{ attribute }"] >= total
+      @["_#{ attribute }"]
 
     else if @["#{attribute}_updated_at"].valueOf() < Date.now() - FULL_REFILL_DURATION
       total
     else
-      value = @[attribute] + @.restoresSinceLastUpdate(attribute)
+      value = @["_#{ attribute }"] + @.restoresSinceLastUpdate(attribute)
 
       value = 0 if value < 0
 
@@ -120,31 +139,24 @@ class Character
       else
         value
 
-  updateRestorable: (attribute, value = 0)->
+  updatedValueRestorable: (attribute, value)->
     restorable = @.restorable(attribute)
 
-    result = (
-      if value > 0
-        if @.isFull(attribute)
-          0
-        else if (left = @.leftToFull(attribute)) && left < value
-          left
-        else
-          value
-
-      else if value < 0
-        if restorable - value < 0
-          value - restorable
-        else
-          value
-      else
+    if value > 0
+      if @.isFull(attribute)
         0
-    )
+      else if (left = @.leftToFull(attribute)) && left < value
+        left
+      else
+        value
 
-    @[attribute] = restorable + result
-    @["#{attribute}_updated_at"] = Date.now()
-
-    result # return result
+    else if value < 0
+      if restorable - value < 0
+        value - restorable
+      else
+        value
+    else
+      0
 
   restoresSinceLastUpdate: (attribute)->
     Math.floor(
@@ -188,9 +200,9 @@ class Character
   forClient: ->
     id: @id
     level: @level
-    restorable_ep: @.restorable("ep")
+    restorable_ep: @ep
     energy_points: @.energyPoints()
-    restorable_hp: @.restorable("hp")
+    restorable_hp: @hp
     health_points: @.healthPoints()
     experience: @experience
     basic_money: @basic_money

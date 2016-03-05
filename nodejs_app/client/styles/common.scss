@@ -24,4 +24,28 @@ h3 {
   color: #FFFF00;
 }
 
+.notifyjs-game-base {
+  position: relative;
+  min-height: 10px;
+  padding: 5px;
+  color: #444;
+  @include border-radius(5px);
 
+  h2 {
+    font-size: 15px;
+    margin-bottom: 5px;
+
+    &.success {
+      color: #7eff00;
+    }
+  }
+
+  h3 {
+    font-size: 13px;
+    margin-bottom: 5px;
+  }
+
+  .rewards, .spendings {
+    margin: 0px;
+  }
+}

@@ -41,6 +41,7 @@ class QuestsPage extends Page
 
     request.bind('quest_loaded', @.onDataLoaded)
     request.bind('quest_perform_failure', @.onQuestPerformFailure)
+    request.bind('quest_perform_success', @.onQuestPerformSuccess)
 
     @el.on('click', '.tabs .paginate:not(.disabled)', @.onTabsPaginateButtonClick)
     @el.on('click', '.tab:not(.current)', @.onTabClick)
@@ -53,6 +54,7 @@ class QuestsPage extends Page
 
     request.unbind('quest_loaded', @.onDataLoaded)
     request.unbind('quest_perform_failure', @.onQuestPerformFailure)
+    request.unbind('quest_perform_success', @.onQuestPerformSuccess)
 
     @el.off('click', '.tabs .paginate:not(.disabled)', @.onTabsPaginateButtonClick)
     @el.off('click', '.tab:not(.current)', @.onTabClick)
@@ -92,7 +94,7 @@ class QuestsPage extends Page
 
   onPerformClick: (e)=>
     button = $(e.currentTarget)
-    #button.addClass('disabled')
+    button.addClass('disabled')
     #QuestPerformPopup.show()
 
     request.send('perform_quest', quest_id: button.data('quest-id'))
@@ -131,6 +133,22 @@ class QuestsPage extends Page
       @.renderQuestList()
     else
       @.render()
+
+  onQuestPerformSuccess: (response)=>
+    console.log response
+
+    button = $("#quest_#{response.data.quest_id} button.perform")
+    button.removeClass('disabled')
+
+    @.displayResult(button
+      {
+        reward: response.data.reward
+        type: 'success'
+      }
+      {
+        position: 'left'
+      }
+    )
 
   onQuestPerformFailure: (response)=>
     console.log response

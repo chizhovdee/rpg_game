@@ -1,5 +1,6 @@
 require("./lib/lodash_mixin").register()
 require("./populate_game_data") # замещается автоматически при сборке
+require('./lib/notify_styles')
 
 request = require("./lib/request")
 Character = require("./models").Character
