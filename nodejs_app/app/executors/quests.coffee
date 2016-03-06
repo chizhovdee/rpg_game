@@ -22,7 +22,8 @@ module.exports =
 
     reward = new Reward(character)
 
-    level.requirement.apply(reward)
+    level.requirement.applyOn('perform', reward)
+    level.reward.applyOn('perform', reward)
 
     new Result(
       data:

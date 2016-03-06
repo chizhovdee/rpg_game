@@ -4,7 +4,7 @@ Base = require('./base')
 class Character extends Base
   FULL_REFILL_DURATION = _(12).hours()
   HP_RESTORE_DURATION  = _(1).minutes()
-  EP_RESTORE_DURATION  = _(5).minutes()
+  EP_RESTORE_DURATION  = _(1).minutes()
 
   DEFAULT_ATTRIBUTES = {
     level: 1
@@ -62,7 +62,7 @@ class Character extends Base
         @isChanged = true
 
         @_hp # return new value
-    ) if @_hp
+    ) if @_hp?
 
     Object.defineProperty(@, 'ep',
       enumerable: true
@@ -83,7 +83,7 @@ class Character extends Base
         @isChanged = true
 
         @_ep # return new value
-    ) if @_ep
+    ) if @_ep?
 
   @createDefault: ->
     new @(DEFAULT_ATTRIBUTES)
@@ -184,14 +184,14 @@ class Character extends Base
     switch attribute
       when "hp"
         @.restorable(attribute) >= @.healthPoints()
-      when "hp"
+      when "ep"
         @.restorable(attribute) >= @.energyPoints()
 
   leftToFull: (attribute)->
     switch attribute
       when "hp"
         @.healthPoints() - @.restorable(attribute)
-      when "hp"
+      when "ep"
         @.energyPoints() - @.restorable(attribute)
 
   restoreBonus: (attribute)->

@@ -4,11 +4,23 @@
 # - basic_money
 # - vip_money
 
+_ = require('lodash')
+
 class Requirement
   values: null
 
   constructor: ->
     @values = {}
+    @triggers = {}
+
+  on: (trigger)->
+    if !trigger || trigger.trim().length == 0
+      throw new Error("Argument Error: no correct trigger name for reward")
+
+    @triggers[trigger] ?= new Requirement()
+
+  viewOn: (trigger)->
+    @triggers[trigger]
 
   get: (key)->
     @values[key]
@@ -46,8 +58,8 @@ class Requirement
     true
 
   # reward is instance of Reward class
-  apply: (reward)->
-    for key, value of @values
+  applyOn: (trigger, reward)->
+    for key, value of @.viewOn(trigger).values
       switch key
         when 'energy'
           reward.takeEnergy(value)
@@ -59,6 +71,9 @@ class Requirement
           reward.takeVipMoney(value)
 
   toJSON: ->
-    @values
+    if !_.isEmpty(@triggers)
+      @triggers
+    else
+      @values
 
 module.exports = Requirement

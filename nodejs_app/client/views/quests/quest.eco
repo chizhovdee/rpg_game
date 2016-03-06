@@ -6,13 +6,13 @@
     <div class="description"><%= @quest.description() %></div>
   </div>
 
-  <%= @.renderRequirements @level.requirements, (content)-> %>
+  <%= @.renderRequirements @level.requirements.perform, (content)-> %>
     <h3><%= I18n.t("common.requires") %></h3>
 
     <%= content %>
   <% end %>
 
-  <%= @.renderRewards @level.rewards, (content)-> %>
+  <%= @.renderRewards @level.rewards.perform, (content)-> %>
     <h3><%= I18n.t("common.rewards") %></h3>
 
     <%= content %>

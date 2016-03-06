@@ -10,8 +10,9 @@ class Base
   @getDBTableName: ->
     _.snakeCase(@name) + "s"
 
-  @fetchForRead: (db, where)->
-    db.one("""select * from #{ @getDBTableName() }
+  # for method argument see pg promise db methods
+  @fetchForRead: (db, where, method = 'one')->
+    db[method]("""select * from #{ @getDBTableName() }
       where #{ _.keys(where).map((field)-> "#{field}=${#{ field }}").join(', ') }
       limit 1""", where
     )

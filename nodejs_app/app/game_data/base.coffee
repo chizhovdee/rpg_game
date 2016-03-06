@@ -81,15 +81,15 @@ class Base
 
     _.assignIn(@, attributes)
 
-  addRequirement: (callback)->
+  addRequirement: (trigger, callback)->
     @requirement ?= new Requirement()
 
-    callback?(@requirement)
+    callback?(@requirement.on(trigger))
 
-  addReward: (callback)->
+  addReward: (trigger, callback)->
     @reward ?= new Reward()
 
-    callback?(@reward)
+    callback?(@reward.on(trigger))
 
   forClient: ->
     {

@@ -5,6 +5,8 @@
 # - vip_money
 # - experience
 
+_ = require('lodash')
+
 class Reward
   values: null
   character: null
@@ -12,6 +14,30 @@ class Reward
 
   constructor: (@character = null)->
     @values = {}
+    @triggers = {}
+
+  on: (trigger)->
+    if !trigger || trigger.trim().length == 0
+      throw new Error("Argument Error: no correct trigger name for reward")
+
+    @triggers[trigger] ?= new Reward()
+
+  viewOn: (trigger)->
+    @triggers[trigger]
+
+  applyOn: (trigger, reward)->
+    for key, value of @.viewOn(trigger).values
+      switch key
+        when 'energy'
+          reward.addEnergy(value)
+        when 'health'
+          reward.addHealth(value)
+        when 'basic_money'
+          reward.addBasicMoney(value)
+        when 'vip_money'
+          reward.addVipMoney(value)
+        when 'experience'
+          reward.addExperience(value)
 
   get: (key)->
     @values[key]
@@ -26,14 +52,12 @@ class Reward
           @character.ep = value
 
           res
-
         when 'health'
           res = @character.updatedValueRestorable('hp', value)
 
           @character.hp = value
 
           res
-
         when 'basic_money'
           if @character.basic_money + value < 0
             value = value - @character.basic_money
@@ -116,6 +140,9 @@ class Reward
       @values[key] = value
 
   toJSON: ->
-    @values
+    if !_.isEmpty(@triggers)
+      @triggers
+    else
+      @values
 
 module.exports = Reward

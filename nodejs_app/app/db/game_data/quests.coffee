@@ -7,10 +7,10 @@ Quest.define("quest_1", (obj)->
     obj.addLevel number, (l)->
       l.steps = 10
 
-      l.addRequirement (r)->
+      l.addRequirement 'perform', (r)->
         r.energy 1 * number
 
-      l.addReward (r)->
+      l.addReward 'perform', (r)->
         r.experience 5 * number
         r.basicMoney 10 * number
 )
@@ -21,10 +21,10 @@ Quest.define("quest_2", (obj)->
   obj.addLevel 1, (l)->
     l.steps = 15
 
-    l.addRequirement (r)->
+    l.addRequirement 'perform', (r)->
       r.energy 2
 
-    l.addReward (r)->
+    l.addReward 'perform', (r)->
       r.experience 15
       r.basicMoney 20
 )
@@ -35,10 +35,10 @@ Quest.define("quest_3", (obj)->
   obj.addLevel 1, (l)->
     l.steps = 20
 
-    l.addRequirement (r)->
+    l.addRequirement 'perform', (r)->
       r.energy 3
 
-    l.addReward (r)->
+    l.addReward 'perform', (r)->
       r.experience 25
       r.basicMoney 30
 )
@@ -49,10 +49,10 @@ Quest.define("quest_4", (obj)->
   obj.addLevel 1, (l)->
     l.steps = 20
 
-    l.addRequirement (r)->
+    l.addRequirement 'perform', (r)->
       r.energy 4
 
-    l.addReward (r)->
+    l.addReward 'perform', (r)->
       r.experience 35
       r.basicMoney 40
 )

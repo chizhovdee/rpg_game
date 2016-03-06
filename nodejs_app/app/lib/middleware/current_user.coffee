@@ -13,7 +13,7 @@ addToRedis = (redis, key, user)->
 middleware = (request, callback)->
   currentSocialUser = request.currentSocialUser
 
-  socialId = _.toInteger(currentSocialUser.uid)
+  socialId = currentSocialUser.uid
 
   authenticatedUserKey = "authenticated_user_#{ socialId }"
 
@@ -41,7 +41,7 @@ middleware = (request, callback)->
 
       null
     else # если небыл найден в редисе, то ищем в базе
-      Character.fetchForRead(db, social_id: socialId)
+      Character.fetchForRead(db, social_id: socialId, 'oneOrNone')
   )
   .then((character)->
     if currentUser
@@ -93,8 +93,6 @@ middleware = (request, callback)->
   .catch((error)->
     callback(error, null)
   )
-
-
 
 module.exports = (req, res, next)->
   # TODO определение платформы здесь
