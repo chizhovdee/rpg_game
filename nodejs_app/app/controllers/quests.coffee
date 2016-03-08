@@ -37,21 +37,19 @@ module.exports =
 
       result = executor.performQuest(_.toInteger(req.body.quest_id), character)
 
-      @.batch([character.update(t), character.state.update(t), result])
-    )
-    .then((result)->
-      result = res.parseResult(result)
-
       if result.isError()
-        switch result.errorCode
-          when 'not_reached_level'
-            res.sendEvent('not_reached_level')
-
-          else
-            res.sendEvent('quest_perform_failure', result)
-
+        res.addEvent('quest_perform_failure', result)
       else
-        res.sendEvent("quest_perform_success", result)
+        res.addEvent("quest_perform_success", result)
+
+      res.addEventProgress(character)
+
+      console.log 'energy', character.ep
+
+      @.batch([character.update(t), character.state.update(t)])
+    )
+    .then(->
+      res.sendEvents()
     )
     .catch((error)->
       res.sendEventError(error)

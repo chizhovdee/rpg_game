@@ -153,4 +153,18 @@ class QuestsPage extends Page
   onQuestPerformFailure: (response)=>
     console.log response
 
+    button = $("#quest_#{response.data.quest_id} button.perform")
+    button.removeClass('disabled')
+
+    @.displayResult(button
+      {
+        requirement: response.data.requirement
+        type: 'failure'
+        title: I18n.t('common.requirements_not_satisfied')
+      }
+      {
+        position: 'left'
+      }
+    )
+
 module.exports = QuestsPage

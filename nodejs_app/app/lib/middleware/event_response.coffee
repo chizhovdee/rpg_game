@@ -23,12 +23,13 @@ module.exports = (req, res, next)->
 
     console.error(error.stack)
 
-    @eventResponse.add(type, (data)->
-      data.error = error.message
-    )
+    @addEvent(type, error: error.message)
 
     @.sendEvents()
 
     null
+
+  res.addEventProgress = (character)->
+    @addEvent('character_updated', character.forClient())
 
   next()

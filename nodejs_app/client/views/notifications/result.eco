@@ -17,3 +17,9 @@
 
   <%= content %>
 <% end %>
+
+<%= @.renderRequirements @requirement, (content)-> %>
+  <h3><%= I18n.t("common.requires") %></h3>
+
+  <%= content %>
+<% end %>

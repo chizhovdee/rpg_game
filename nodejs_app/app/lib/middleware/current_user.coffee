@@ -104,7 +104,7 @@ module.exports = (req, res, next)->
       if error
         res.sendEventError(error)
       else
-        console.log 'currentUser', req.currentUser = currentUser
+        req.currentUser = currentUser
 
         next()
     )

@@ -30,16 +30,6 @@
     <span class="add"></span>
 </div>
 
-<div class="stamina">
-    <%=@safe @.progressBar(@character.epPercentage()) %>
-
-    <div class="value"><%= @character.restorable_ep %> / <%= @character.energy_points %></div>
-
-    <div class="timer"></div>
-
-    <span class="add"></span>
-</div>
-
 <div class="level">
     <span class="value"><%= @character.level %></span>
 </div>

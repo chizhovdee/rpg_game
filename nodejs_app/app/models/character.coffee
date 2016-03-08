@@ -4,7 +4,7 @@ Base = require('./base')
 class Character extends Base
   FULL_REFILL_DURATION = _(12).hours()
   HP_RESTORE_DURATION  = _(1).minutes()
-  EP_RESTORE_DURATION  = _(1).minutes()
+  EP_RESTORE_DURATION  = _(5).minutes()
 
   DEFAULT_ATTRIBUTES = {
     level: 1
@@ -37,56 +37,36 @@ class Character extends Base
 #    'updated_at'
 #  ]
 
+  @createDefault: ->
+    new @(DEFAULT_ATTRIBUTES)
+
   constructor: ->
     super
 
-    @.defineRestorableAttributes()
+    for attribute in ['hp', 'ep']
+      @.defineRestorableAttribute(attribute)
 
-  defineRestorableAttributes: ->
-    Object.defineProperty(@, 'hp',
+  defineRestorableAttribute: (attribute)->
+    Object.defineProperty(@, attribute,
       enumerable: true
-      get: -> @.restorable('hp')
+      get: -> @.restorable(attribute)
       set: (newValue)->
-        newValue = @.restorable('hp') + @.updatedValueRestorable('hp', newValue)
+        newValue = @.restorable(attribute) + @.updatedValueRestorable(attribute, newValue)
 
-        return if @_hp == newValue
+        return if @.restorable(attribute) == newValue
 
-        @changes.ep = [@_hp, newValue] # [old, new]
+        @changes[attribute] = [@["_#{ attribute }"], newValue] # [old, new]
 
-        @_hp = newValue
+        @["_#{ attribute }"] = newValue
 
-        @hp_updated_at = new Date()
+        @["#{attribute}_updated_at"] = new Date()
 
-        _.addUniq(@changed, 'hp')
+        _.addUniq(@changed, attribute)
 
         @isChanged = true
 
-        @_hp # return new value
-    ) if @_hp?
-
-    Object.defineProperty(@, 'ep',
-      enumerable: true
-      get: -> @.restorable('ep')
-      set: (newValue)->
-        newValue = @.restorable('ep') + @.updatedValueRestorable('ep', newValue)
-
-        return if @_ep == newValue
-
-        @changes.ep = [@_ep, newValue] # [old, new]
-
-        @_ep = newValue
-
-        @ep_updated_at = new Date()
-
-        _.addUniq(@changed, 'ep')
-
-        @isChanged = true
-
-        @_ep # return new value
-    ) if @_ep?
-
-  @createDefault: ->
-    new @(DEFAULT_ATTRIBUTES)
+        @["_#{ attribute }"] # return new value
+    ) if @["_#{ attribute }"]?
 
   insertToDb: (db)->
     fields = [

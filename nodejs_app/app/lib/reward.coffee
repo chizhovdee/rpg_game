@@ -47,17 +47,17 @@ class Reward
     result = (
       switch attribute
         when 'energy'
-          res = @character.updatedValueRestorable('ep', value)
+          oldValue = @character.ep
 
           @character.ep = value
 
-          res
+          @character.ep - oldValue
         when 'health'
-          res = @character.updatedValueRestorable('hp', value)
+          oldValue = @character.hp
 
           @character.hp = value
 
-          res
+          @character.hp - oldValue
         when 'basic_money'
           if @character.basic_money + value < 0
             value = value - @character.basic_money

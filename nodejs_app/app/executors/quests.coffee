@@ -1,6 +1,7 @@
 Quest = require('../game_data').Quest
 Result = require('../lib/result')
 Reward = require('../lib/reward')
+Requirement = require('../lib/requirement')
 
 module.exports =
   performQuest: (quest_id, character)->
@@ -15,8 +16,13 @@ module.exports =
 
     level = questsState.levelFor(quest)
 
-    unless level.requirement.isSatisfiedFor(character)
-      return new Result(errorCode: 'requirements_not_satisfied')
+    unless level.requirement.viewOn('perform').isSatisfiedFor(character)
+      return new Result(
+        errorCode: 'requirements_not_satisfied'
+        data:
+          quest_id: quest.id
+          requirement: level.requirement.viewOn('perform').unSatisfiedFor(character)
+      )
 
     questsState.perform(quest)
 

@@ -32,6 +32,7 @@ class App
     # события транспорта
     request.one("character_game_data_loaded", (response)=> @.onCharacterGameDataLoaded(response))
     request.bind("character_status_loaded", (response)=> @.onCharacterStatusLoaded(response))
+    request.bind('character_updated', @.onCharacterUpdated)
     request.bind('not_authenticated', @.onCharacterNotAuthorized)
     request.bind('server_error', @.onServerError)
     request.bind('not_reached_level', @.onNotReachedLevel)
@@ -57,8 +58,6 @@ class App
 
     HeaderLayout.show(el: $("#application .header"))
 
-    #pageManager.run("home")
-
     HomePage.show()
 
   onCharacterStatusLoaded: (response)->
@@ -67,6 +66,13 @@ class App
     @character ?= Character.first()
 
     @character.updateAttributes(response.character)
+
+  onCharacterUpdated: (response)=>
+    console.log response
+    console.log 'onCharacterUpdated'
+    @character ?= Character.first()
+
+    @character.updateAttributes(response)
 
   setTranslations: ->
     I18n.defaultLocale = window.lng

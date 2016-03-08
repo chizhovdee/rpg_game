@@ -67,7 +67,7 @@ $menu: quests, monsters, shop, inventory, profile, rating, alliance;
   height: 105px;
   border-bottom: 2px solid #ece7d3;
 
-  .experience, .basic_money, .vip_money, .health, .energy, .stamina, .level {
+  .experience, .basic_money, .vip_money, .health, .energy, .level {
     position: absolute;
   }
 
@@ -128,24 +128,6 @@ $menu: quests, monsters, shop, inventory, profile, rating, alliance;
     .progress_bar {
       .percentage {
         @include linear-gradient(to top, #b87a00, #f9ff57);
-      }
-    }
-  }
-
-  .stamina {
-    @extend %header_progress_bar;
-
-    left: 572px;
-    border: 1px solid #00ccff;
-    @include box-shadow(1px 1px 4px 0px rgba(0, 204, 255, 0.5));
-
-    &:after {
-      @include images-sprite-background(icons/stamina_blue);
-    }
-
-    .progress_bar {
-      .percentage {
-        @include linear-gradient(to top, #002677, #77e8f6);
       }
     }
   }

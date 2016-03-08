@@ -7,6 +7,10 @@ class HeaderLayout extends Layout
   elements:
     '.energy': 'energyEl'
     '.health': 'healthEl'
+    '.basic_money': 'basicMoneyEl'
+    '.vip_money': 'vipMoneyEl'
+    '.experience': 'experienceEl'
+    '.level': 'levelEl'
 
   epTimer: null
   hpTimer: null
@@ -121,6 +125,11 @@ class HeaderLayout extends Layout
 
     @.updateHp() if changes.restorable_hp?
     @.updateEp() if changes.restorable_ep?
+
+    @basicMoneyEl.find('.value').text(@character.basic_money) if changes.basic_money
+    @vipMoneyEl.find('.value').text(@character.vip_money) if changes.vip_money
+    @experienceEl.find('.value').text(@character.experience) if changes.experience
+    @levelEl.find('.value').text(@character.level) if changes.level
 
     @.setupUpdateTimer(true)
 

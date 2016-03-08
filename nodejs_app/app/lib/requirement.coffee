@@ -70,6 +70,25 @@ class Requirement
         when 'vip_money'
           reward.takeVipMoney(value)
 
+  unSatisfiedFor: (character)->
+    result = {}
+
+    for key, value of @values
+      switch key
+        when 'energy'
+          result[key] = [value, false] if value > character.ep
+
+        when 'health'
+          result[key] = [value, false] if value > character.hp
+
+        when 'basic_money'
+          result[key] = [value, false] if value > character.basic_money
+
+        when 'vip_money'
+          result[key] = [value, false] if value > character.vip_money
+
+    result
+
   toJSON: ->
     if !_.isEmpty(@triggers)
       @triggers

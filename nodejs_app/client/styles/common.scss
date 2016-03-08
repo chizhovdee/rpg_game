@@ -38,6 +38,10 @@ h3 {
     &.success {
       color: #7eff00;
     }
+
+    &.failure {
+      color: #ff3333;
+    }
   }
 
   h3 {
