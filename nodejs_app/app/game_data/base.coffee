@@ -39,6 +39,8 @@ class Base
 
     obj[cb]?() for cb in @afterDefineCallbacks
 
+    obj # возвращаем объект!
+
   @idByKey: (key)->
     crc.crc32(key)
 

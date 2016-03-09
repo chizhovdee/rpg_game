@@ -45,6 +45,7 @@ module.exports =
         reward: reward
         quest_id: quest.id
         progress: questsState.progressFor(quest)
+        groupCanComplete: questsState.questIsCompleted(quest) && questsState.groupCanComplete(quest.group)
     )
 
 

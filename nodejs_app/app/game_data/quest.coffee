@@ -5,7 +5,7 @@ Level = require('./quest_level')
 
 class Quest extends Base
   quest_group_key: null
-  levels_count: null
+  levelsCount: null
 
   @configure()
 
@@ -14,7 +14,19 @@ class Quest extends Base
   constructor: ->
     super
 
-    @levels_count = 0
+    @levelsCount = 0
+
+    Object.defineProperties(@,
+      _levels: {
+        value: []
+        writable: false
+      }
+
+      levels: {
+        enumerable: true
+        get: -> @_levels
+      }
+    )
 
   setGroup: ->
     Object.defineProperty(@, 'group'
@@ -28,25 +40,31 @@ class Quest extends Base
   levelKey: (number)->
     "quest_#{@key}_level_#{number}"
 
-  addLevel: (number, callback)->
+  addLevel: (callback)->
     key = @key
 
-    Level.define(@.levelKey(number), (l)->
+    number = @levels.length + 1
+
+    level = Level.define(@.levelKey(number), (l)->
       l.quest_key = key
       l.number = number
 
       callback(l)
     )
 
-    @levels_count += 1
+    @levels.push(level)
+    @levelsCount = @levels.length
 
   levelByNumber: (nubmer)->
     Level.find(@.levelKey(nubmer))
 
+  levelNumberIsLast: (number)->
+    _.last(@levels).number == number
+
   forClient: ->
     _.assign(
       quest_group_key: @quest_group_key
-      levels_count: @levels_count
+      levels_count: @levelsCount
       ,
       super
     )

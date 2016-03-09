@@ -58,7 +58,14 @@ class QuestsState
     group.id in @state.groups_completed
 
   groupCanComplete: (group)->
+    return false if @.groupIsCompleted(group)
 
+    for quest in group.quests
+      progress = @.progressFor(quest)
 
+      return false unless progress[2] # if quest not completed
+      return false unless quest.levelNumberIsLast(progress[1])
+
+    true
 
 module.exports = QuestsState

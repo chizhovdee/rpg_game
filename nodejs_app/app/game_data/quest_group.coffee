@@ -3,14 +3,14 @@ Base = require("./base")
 
 class QuestGroup extends Base
   level: null
-  _quests: null
 
   @configure()
 
   constructor: ->
-    @_quests = []
+    Object.defineProperty(@, '_quests', value: [], writable: false)
 
     Object.defineProperty(@, 'quests'
+      enumerable: true
       get: -> @_quests
     )
 

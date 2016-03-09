@@ -5,7 +5,7 @@ Quest = require("../../game_data").Quest
 Quest.define("quest_1", (obj)->
   obj.quest_group_key = "quest_group_1"
 
-  obj.addLevel 1, (l)->
+  obj.addLevel (l)->
     l.steps = 5
 
     l.addRequirement 'perform', (r)->
@@ -19,7 +19,7 @@ Quest.define("quest_1", (obj)->
 Quest.define("quest_2", (obj)->
   obj.quest_group_key = "quest_group_1"
 
-  obj.addLevel 1, (l)->
+  obj.addLevel (l)->
     l.steps = 6
 
     l.addRequirement 'perform', (r)->
@@ -33,7 +33,7 @@ Quest.define("quest_2", (obj)->
 Quest.define("quest_3", (obj)->
   obj.quest_group_key = "quest_group_1"
 
-  obj.addLevel 1, (l)->
+  obj.addLevel (l)->
     l.steps = 7
 
     l.addRequirement 'perform', (r)->
@@ -47,7 +47,7 @@ Quest.define("quest_3", (obj)->
 Quest.define("quest_4", (obj)->
   obj.quest_group_key = "quest_group_1"
 
-  obj.addLevel 1, (l)->
+  obj.addLevel (l)->
     l.steps = 20
 
     l.addRequirement 'perform', (r)->
