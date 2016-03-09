@@ -3,6 +3,7 @@ ru:
     scene:
       title: "Квесты"
     progress: "Прогресс: %{value}%"
+    quest_is_completed: "Квест уже завершен!"
     buttons:
       perform: "Выполнить"
       start: "Начать"

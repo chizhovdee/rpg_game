@@ -9,10 +9,21 @@ class Quest extends Base
 
   @configure()
 
+  @afterDefine 'setGroup'
+
   constructor: ->
     super
 
     @levels_count = 0
+
+  setGroup: ->
+    Object.defineProperty(@, 'group'
+      value: Group.find(@quest_group_key)
+      writable: false
+      enumerable: true
+    )
+
+    @group.addQuest(@)
 
   levelKey: (number)->
     "quest_#{@key}_level_#{number}"
@@ -28,9 +39,6 @@ class Quest extends Base
     )
 
     @levels_count += 1
-
-  group: ->
-    @_group ?= Group.find(@quest_group_key)
 
   levelByNumber: (nubmer)->
     Level.find(@.levelKey(nubmer))

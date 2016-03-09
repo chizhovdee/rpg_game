@@ -115,15 +115,7 @@ class QuestsPage extends Page
 
     @quests = (
       for [quest_id, steps, level_number, completed] in response.quests
-        quest = Quest.find(quest_id)
-        level = quest.levelByNumber(level_number)
-
-        progress = {
-          steps: steps
-          completed: completed
-        }
-
-        [quest, level, progress]
+        @.prepareQuestData(quest_id, steps, level_number, completed)
     )
 
     @painatedQuests = @questsPagination.paginate(@quests, initialize: true)
@@ -134,10 +126,36 @@ class QuestsPage extends Page
     else
       @.render()
 
+  prepareQuestData: (quest_id, steps, level_number, completed)->
+    quest = Quest.find(quest_id)
+    level = quest.levelByNumber(level_number)
+
+    progress = {
+      steps: steps
+      completed: completed
+    }
+
+    [quest, level, progress]
+
+  updatedQuestList: (quest, level, progress)->
+    if index = _.findIndex(@quests, (data)-> data[0].id == quest.id)
+      @quests[index] = [quest, level, progress]
+
   onQuestPerformSuccess: (response)=>
     console.log response
 
-    button = $("#quest_#{response.data.quest_id} button.perform")
+    [quest, level, progress] = @.prepareQuestData(
+      response.data.quest_id, response.data.progress...
+    )
+
+    @.updatedQuestList(quest, level, progress)
+
+    quest_el = @el.find("#quest_#{response.data.quest_id}")
+    quest_el.find('.progress_info').replaceWith(
+      @.renderTemplate('quests/quest_progress', quest: quest, level: level, progress: progress)
+    )
+
+    button = quest_el.find("button.perform")
     button.removeClass('disabled')
 
     @.displayResult(button
@@ -153,14 +171,38 @@ class QuestsPage extends Page
   onQuestPerformFailure: (response)=>
     console.log response
 
-    button = $("#quest_#{response.data.quest_id} button.perform")
-    button.removeClass('disabled')
+    [quest, level, progress] = @.prepareQuestData(
+      response.data.quest_id, response.data.progress...
+    )
 
-    @.displayResult(button
+    @.updatedQuestList(quest, level, progress)
+
+    quest_el = @el.find("#quest_#{response.data.quest_id}")
+    quest_el.find('.progress_info').replaceWith(
+      @.renderTemplate('quests/quest_progress', quest: quest, level: level, progress: progress)
+    )
+
+    if response.errorCode == 'quest_is_completed'
+      completedEl = quest_el.find('.completed')
+    else
+      button = quest_el.find("button.perform")
+      button.removeClass('disabled')
+
+    title = (
+      switch response.errorCode
+        when 'requirements_not_satisfied'
+          I18n.t('common.requirements_not_satisfied')
+        when 'quest_is_completed'
+          I18n.t('quests.quest_is_completed')
+        else
+          null
+    )
+
+    @.displayResult(button || completedEl
       {
         requirement: response.data.requirement
         type: 'failure'
-        title: I18n.t('common.requirements_not_satisfied')
+        title: title
       }
       {
         position: 'left'

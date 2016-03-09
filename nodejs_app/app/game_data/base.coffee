@@ -14,8 +14,19 @@ class Base
     @idsStore = {}
     @keysStore = {}
 
+    @beforeDefineCallbacks = []
+    @afterDefineCallbacks = []
+
+  @beforeDefine: (callbacks...)->
+    @beforeDefineCallbacks = callbacks
+
+  @afterDefine: (callbacks...)->
+    @afterDefineCallbacks = callbacks
+
   @define: (key, callback)->
     obj = new @()
+
+    obj[cb]?() for cb in @beforeDefineCallbacks
 
     obj.id = @idByKey(key)
     obj.key = key
@@ -25,6 +36,8 @@ class Base
     index = @records.push(obj)
     @idsStore[obj.id] = index - 1
     @keysStore[obj.key] = index - 1
+
+    obj[cb]?() for cb in @afterDefineCallbacks
 
   @idByKey: (key)->
     crc.crc32(key)

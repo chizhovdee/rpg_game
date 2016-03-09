@@ -5,26 +5,35 @@ Requirement = require('../lib/requirement')
 
 module.exports =
   performQuest: (quest_id, character)->
-    # TODO проверка на завершенность миссии
-
     quest = Quest.find(quest_id)
 
-    if character.level < quest.group().level
+    if character.level < quest.group.level
       return new Result(errorCode: 'not_reached_level')
 
     questsState = character.state.questsState()
 
     level = questsState.levelFor(quest)
 
+    # TODO if group in groups_completed
+
+    if questsState.questIsCompleted(quest)
+      return new Result(
+        errorCode: 'quest_is_completed'
+        data:
+          quest_id: quest.id
+          progress: questsState.progressFor(quest)
+      )
+
     unless level.requirement.viewOn('perform').isSatisfiedFor(character)
       return new Result(
         errorCode: 'requirements_not_satisfied'
         data:
           quest_id: quest.id
+          progress: questsState.progressFor(quest)
           requirement: level.requirement.viewOn('perform').unSatisfiedFor(character)
       )
 
-    questsState.perform(quest)
+    questsState.perform(quest, level)
 
     reward = new Reward(character)
 

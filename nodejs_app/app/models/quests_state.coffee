@@ -29,22 +29,36 @@ class QuestsState
     group
 
   questsWithProgressByGroup: (group)->
-    Quest.findAllByAttribute('quest_group_key', group.key).map((quest)=>
+    group.quests.map((quest)=>
       [quest.id].concat(@.progressFor(quest))
     )
 
   levelFor: (quest)->
     quest.levelByNumber(@.progressFor(quest)[1])
 
-  perform: (quest)->
+  perform: (quest, level)->
     progress = @.progressFor(quest)
     progress[0] += 1 # 1 step for one
 
+    progress[2] = true if progress[0] >= level.steps # complete this level
+
     @state.quests[quest.id] = progress
-    @state.current_group_id = quest.group().id
+    @state.current_group_id = quest.group.id
 
     @characterState.quests = @state
 
     true
+
+  questIsCompleted: (quest)->
+    @.progressFor(quest)[2]
+
+  canGoToNextLevel: (group, level)->
+
+  groupIsCompleted: (group)->
+    group.id in @state.groups_completed
+
+  groupCanComplete: (group)->
+
+
 
 module.exports = QuestsState

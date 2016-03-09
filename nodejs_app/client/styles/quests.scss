@@ -93,6 +93,21 @@
         bottom: 10px;
         right: 10px;
       }
+
+      .completed {
+        position: absolute;
+        top: 5px;
+        right: 10px;
+        color: $game_color_green;
+
+        &:before {
+          content: '';
+          display: inline-block;
+          @include images-sprite('icons/accept');
+          vertical-align: bottom;
+        }
+      }
+
     }
   }
 }

@@ -4,7 +4,7 @@ Base = require('./base')
 class Character extends Base
   FULL_REFILL_DURATION = _(12).hours()
   HP_RESTORE_DURATION  = _(1).minutes()
-  EP_RESTORE_DURATION  = _(5).minutes()
+  EP_RESTORE_DURATION  = _(1).minutes()
 
   DEFAULT_ATTRIBUTES = {
     level: 1
