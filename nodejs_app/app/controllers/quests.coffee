@@ -11,15 +11,19 @@ module.exports =
     .then((state)->
       characterState = new CharacterState(state)
 
+      questsState = characterState.questsState()
+
       if req.query.group_id
         group = QuestGroup.find(_.toInteger(req.query.group_id))
       else
-        group = characterState.questsState().currentGroup()
+        group = questsState.currentGroup()
 
       data = {}
-      data.quests = characterState.questsState().questsWithProgressByGroup(group)
+      data.quests = questsState.questsWithProgressByGroup(group)
       data.by_group = true if req.query.group_id
       data.current_group_id = group.id
+      data.groupIsCompleted = questsState.groupIsCompleted(group)
+      data.groupCanComplete = questsState.groupCanComplete(group)
 
       res.sendEvent("quest_loaded", data)
     )
@@ -37,14 +41,9 @@ module.exports =
 
       result = executor.performQuest(_.toInteger(req.body.quest_id), character)
 
-      if result.isError()
-        res.addEvent('quest_perform_failure', result)
-      else
-        res.addEvent("quest_perform_success", result)
+      res.addEvent('quest_performed', result)
 
       res.addEventProgress(character)
-
-      console.log 'energy', character.ep
 
       @.batch([character.update(t), character.state.update(t)])
     )
@@ -54,6 +53,30 @@ module.exports =
     .catch((error)->
       res.sendEventError(error)
     )
+
+  completeGroup: (req, res)->
+    req.db.tx((t)->
+      character = new Character(yield Character.fetchForUpdate(t, id: req.currentUser.id))
+
+      character.setState(
+        new CharacterState(yield CharacterState.fetchForUpdate(t, character_id: req.currentUser.id))
+      )
+
+      result = executor.completeGroup(_.toInteger(req.body.group_id), character)
+
+      res.addEvent('quest_group_completed', result)
+
+      res.addEventProgress(character)
+
+      @.batch([character.update(t), character.state.update(t)])
+    )
+    .then(->
+      res.sendEvents()
+    )
+    .catch((error)->
+      res.sendEventError(error)
+    )
+
 
 
 

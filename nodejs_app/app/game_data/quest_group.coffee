@@ -17,4 +17,11 @@ class QuestGroup extends Base
   addQuest: (quest)->
     _.addUniq(@_quests, quest)
 
+  forClient: ->
+    _.assign(
+      reward: @reward
+      ,
+      super
+    )
+
 module.exports = QuestGroup

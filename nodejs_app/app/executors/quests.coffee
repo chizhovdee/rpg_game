@@ -1,4 +1,5 @@
 Quest = require('../game_data').Quest
+QuestGroup = require('../game_data').QuestGroup
 Result = require('../lib/result')
 Reward = require('../lib/reward')
 Requirement = require('../lib/requirement')
@@ -35,17 +36,47 @@ module.exports =
 
     questsState.perform(quest, level)
 
-    reward = new Reward(character)
+    questCompleted = questsState.questIsCompleted(quest)
 
+    # здесь проверяем на возможность перехода на новый уровень
+    # здесь также меняется стейт
+    if questCompleted && questsState.canGoToNextLevelFor(quest.group)
+      questsState.goToNextLevelFor(quest.group)
+
+    # apply rewards
+    reward = new Reward(character)
     level.requirement.applyOn('perform', reward)
     level.reward.applyOn('perform', reward)
+    level.reward.applyOn('complete', reward) if questCompleted
 
     new Result(
       data:
         reward: reward
         quest_id: quest.id
         progress: questsState.progressFor(quest)
-        groupCanComplete: questsState.questIsCompleted(quest) && questsState.groupCanComplete(quest.group)
+        questCompleted: questCompleted
+        groupCanComplete: questCompleted && questsState.groupCanComplete(quest.group)
     )
 
+  completeGroup: (group_id, character)->
+    group = QuestGroup.find(group_id)
+
+    questsState = character.state.questsState()
+
+    if questsState.groupIsCompleted(group)
+      return new Result(errorCode: 'quest_group_is_completed')
+
+    unless questsState.groupCanComplete(group)
+      return new Result(errorCode: 'quest_group_cannot_complete')
+
+    questsState.completeGroup(group)
+
+    reward = new Reward(character)
+    group.reward.applyOn('collect', reward)
+
+    new Result(
+      data:
+        reward: reward
+        group_id: group.id
+    )
 

@@ -1,59 +1,59 @@
 BaseController = require('./base_controller')
 
 class Modal extends BaseController
-  @show: (data = {})->
+  @show: (data)->
     super
 
-    @popup ?= new @()
-    @popup.show(data)
+    @modal ?= new @()
+    @modal.show(data)
 
   @hide: ->
-    @popup?.hide()
+    @modal?.hide()
 
-    @popup = null
+    @modal = null
 
     super
 
   constructor: ->
     super
 
-    @popupsEl ?= $("#popups")
+    @modalsEl ?= $("#modals")
 
   bindEventListeners: ->
     super
 
-    @popupsEl.on('click', @.onPopupsElementClick)
+    @modalsEl.on('click', @.onModalsElementClick)
 
     @el.on('click', '.close:not(.disabled)', @.onCloseClick)
 
   unbindEventListeners: ->
     super
 
-    @popupsEl.off('click', @.onPopupsElementClick)
+    @modalsEl.off('click', @.onModalsElementClick)
 
     @el.off('click', '.close:not(.disabled)', @.onCloseClick)
 
-  show: (data)->
+  show: ->
     super
 
-    @popupsEl.show()
+    @modalsEl.show()
 
-    @popupsEl.append(@el)
+    @modalsEl.append(@el)
 
   hide: ->
     super
 
-    if $('.popup').length == 0
-      @popupsEl.hide()
+    if $('.modal').length == 0
+      @modalsEl.hide()
 
   close: ->
     @.hide()
 
   updateContent: (content)->
-    @.html(@.renderTemplate('popup', content: content))
+    @.html(@.renderTemplate('modal', content: content))
 
-  onPopupsElementClick: (e)=>
-    @.close() if e.target.id == 'popups'
+  onModalsElementClick: (e)=>
+    @.close() if e.target.id == 'modals'
 
   onCloseClick: (e)=>
     $(e.currentTarget).addClass('disabled')

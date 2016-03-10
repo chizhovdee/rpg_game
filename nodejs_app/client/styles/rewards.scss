@@ -34,6 +34,16 @@
       }
     }
 
+    &.vip_money {
+      &:before {
+        background: {
+          repeat: no-repeat;
+        }
+
+        @include images-sprite-background(icons/vip_money);
+      }
+    }
+
     &.experience {
       &:before {
         background: {

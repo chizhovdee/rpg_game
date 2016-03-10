@@ -28,7 +28,7 @@
   }
 }
 
-#popups {
+#modals {
   display: none;
   position: fixed;
   width: 100%;
@@ -38,7 +38,7 @@
   background-color: rgba(0, 0, 0, 0.6);
   z-index: 1000;
 
-  .popup {
+  .modal {
     position: relative;
     width: 600px;
     border: 1px solid #ca9943;
@@ -57,6 +57,32 @@
 
     .content {
       padding: 10px;
+
+      .success {
+        color: $game_color_green;
+      }
+
+      .failure {
+        color: $game_color_red;
+      }
+
+      .text {
+        margin: 10px 0;
+
+        strong {
+          font-weight: bold;
+        }
+      }
+
+      .rewards_info {
+        margin: 10px 0;
+
+        .rewards, .spendings {
+          display: inline-block;
+          vertical-align: top;
+          width: 130px;
+        }
+      }
     }
   }
 }

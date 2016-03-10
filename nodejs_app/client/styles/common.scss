@@ -52,3 +52,15 @@ h3 {
     margin: 5px 0 0 0;
   }
 }
+
+.tips {
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ca9943;
+  background: rgba(82, 67, 12, 0.5);
+  @include border-radius(5px);
+
+  strong {
+    font-weight: bold;
+  }
+}

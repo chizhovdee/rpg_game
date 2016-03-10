@@ -3,7 +3,7 @@ Character = require("../../models").Character
 QuestGroup = require("../../game_data").QuestGroup
 Quest = require("../../game_data").Quest
 Pagination = require("../../lib/pagination")
-#QuestPerformResultModal = require('../modals').QuestPerformResultModal
+QuestPerformResultModal = require('../modals').QuestPerformResultModal
 request = require('../../lib/request')
 
 class QuestsPage extends Page
@@ -40,27 +40,31 @@ class QuestsPage extends Page
     super
 
     request.bind('quest_loaded', @.onDataLoaded)
-    request.bind('quest_perform_failure', @.onQuestPerformFailure)
-    request.bind('quest_perform_success', @.onQuestPerformSuccess)
+    request.bind('quest_performed', @.onQuestPerformed)
+    request.bind('quest_group_completed', @.onQuestGroupCompleted)
 
     @el.on('click', '.tabs .paginate:not(.disabled)', @.onTabsPaginateButtonClick)
     @el.on('click', '.tab:not(.current)', @.onTabClick)
     @el.on('click', '.quest_list .paginate:not(.disabled)', @.onQuestsPaginateClick)
     @el.on('click', '.switches .switch', @.onSwitchPageClick)
     @el.on('click', 'button.perform:not(.disabled)', @.onPerformClick)
+    @el.on('click', '.group_reward .view', @.onGroupRewardViewClick)
+    @el.on('click', '.group_reward .collect:not(.disabled)', @.onGroupRewardCollectClick)
 
   unbindEventListeners: ->
     super
 
     request.unbind('quest_loaded', @.onDataLoaded)
-    request.unbind('quest_perform_failure', @.onQuestPerformFailure)
-    request.unbind('quest_perform_success', @.onQuestPerformSuccess)
+    request.unbind('quest_performed', @.onQuestPerformed)
+    request.unbind('quest_group_completed', @.onQuestGroupCompleted)
 
     @el.off('click', '.tabs .paginate:not(.disabled)', @.onTabsPaginateButtonClick)
     @el.off('click', '.tab:not(.current)', @.onTabClick)
     @el.off('click', '.quest_list .paginate:not(.disabled)', @.onQuestsPaginateClick)
     @el.off('click', '.switches .switch', @.onSwitchPageClick)
     @el.off('click', 'button.perform:not(.disabled)', @.onPerformClick)
+    @el.off('click', '.group_reward .view', @.onGroupRewardViewClick)
+    @el.off('click', '.group_reward .collect:not(.disabled)', @.onGroupRewardCollectClick)
 
   onTabsPaginateButtonClick: (e)=>
     @paginatedQuestGroups = @questGroupsPagination.paginate(@questGroups,
@@ -92,13 +96,6 @@ class QuestsPage extends Page
 
     @.renderQuestList()
 
-  onPerformClick: (e)=>
-    button = $(e.currentTarget)
-    button.addClass('disabled')
-    #QuestPerformPopup.show()
-
-    request.send('perform_quest', quest_id: button.data('quest-id'))
-
   onDataLoaded: (response)=>
     @loading = false
 
@@ -121,6 +118,9 @@ class QuestsPage extends Page
     @painatedQuests = @questsPagination.paginate(@quests, initialize: true)
     @questsPagination.setSwitches(@quests)
 
+    @groupIsCompleted = response.groupIsCompleted
+    @groupCanComplete = response.groupCanComplete
+
     if response.by_group
       @.renderQuestList()
     else
@@ -141,7 +141,13 @@ class QuestsPage extends Page
     if index = _.findIndex(@quests, (data)-> data[0].id == quest.id)
       @quests[index] = [quest, level, progress]
 
-  onQuestPerformSuccess: (response)=>
+  onPerformClick: (e)->
+    button = $(e.currentTarget)
+    button.addClass('disabled')
+
+    request.send('perform_quest', quest_id: button.data('quest-id'))
+
+  onQuestPerformed: (response)=>
     console.log response
 
     [quest, level, progress] = @.prepareQuestData(
@@ -150,41 +156,19 @@ class QuestsPage extends Page
 
     @.updatedQuestList(quest, level, progress)
 
-    quest_el = @el.find("#quest_#{response.data.quest_id}")
-    quest_el.find('.progress_info').replaceWith(
-      @.renderTemplate('quests/quest_progress', quest: quest, level: level, progress: progress)
-    )
+    if @groupCanComplete != response.data.groupCanComplete
+      @groupCanComplete = response.data.groupCanComplete
 
-    button = quest_el.find("button.perform")
-    button.removeClass('disabled')
-
-    @.displayResult(button
-      {
-        reward: response.data.reward
-        type: 'success'
-      }
-      {
-        position: 'left'
-      }
-    )
-
-  onQuestPerformFailure: (response)=>
-    console.log response
-
-    [quest, level, progress] = @.prepareQuestData(
-      response.data.quest_id, response.data.progress...
-    )
-
-    @.updatedQuestList(quest, level, progress)
-
-    quest_el = @el.find("#quest_#{response.data.quest_id}")
-    quest_el.find('.progress_info').replaceWith(
-      @.renderTemplate('quests/quest_progress', quest: quest, level: level, progress: progress)
-    )
-
-    if response.errorCode == 'quest_is_completed'
-      completedEl = quest_el.find('.completed')
+      @el.find('.group_reward').replaceWith(@.renderTemplate("quests/group_reward"))
     else
+      @groupCanComplete = response.data.groupCanComplete
+
+    quest_el = @el.find("#quest_#{response.data.quest_id}")
+    quest_el.find('.progress_info').replaceWith(
+      @.renderTemplate('quests/quest_progress', quest: quest, level: level, progress: progress)
+    )
+
+    unless response.errorCode == 'quest_is_completed'
       button = quest_el.find("button.perform")
       button.removeClass('disabled')
 
@@ -198,15 +182,35 @@ class QuestsPage extends Page
           null
     )
 
-    @.displayResult(button || completedEl
-      {
-        requirement: response.data.requirement
-        type: 'failure'
-        title: title
-      }
-      {
-        position: 'left'
-      }
+    if response.data.questCompleted || response.data.groupCanComplete
+      QuestPerformResultModal.show(response)
+    else
+      @.displayResult(button || quest_el.find('.completed')
+        {
+          reward: response.data.reward
+          requirement: response.data.requirement
+          type: if response.errorCode? then 'failure' else 'success'
+          title: title
+        }
+        {
+          position: 'left'
+        }
+      )
+
+  onGroupRewardViewClick: (e)=>
+    @.displayReward($(e.currentTarget)
+      @currentGroup.reward.collect
+      {position: 'left'}
     )
+
+  onGroupRewardCollectClick: (e)=>
+    $(e.currentTarget).addClass('disabled')
+
+    request.send('complete_quests_group', @currentGroup.id)
+
+  onQuestGroupCompleted: (response)=>
+    console.log response
+
+
 
 module.exports = QuestsPage

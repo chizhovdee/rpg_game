@@ -1,3 +1,5 @@
+<%=@safe @.renderTemplate("quests/group_reward") %>
+
 <div class="page">
   <div class="paginate left <%= 'disabled' unless @questsPagination.canBack() %>" data-type="back"></div>
 

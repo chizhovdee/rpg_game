@@ -8,3 +8,12 @@ ru:
       perform: "Выполнить"
       start: "Начать"
       continue: "Продолжить"
+    quest_perform_result:
+      title: "Вы завершили квест!"
+      text: "Поздравляем. Вы завершили квест <strong>%{name}</strong>"
+      group_completed: "Вы завершили эту группу. Заберите свою награду!"
+      collect: "Получить награду"
+    group_reward:
+      collected: "Награда за группу получена!"
+      collect: "Получить награду"
+      view: "Награда за группу"

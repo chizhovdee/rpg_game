@@ -57,7 +57,7 @@
   }
 }
 
-.page, .dialog {
+.page, .modal {
   button, a.button {
     @extend %common-button;
   }

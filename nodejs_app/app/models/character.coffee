@@ -4,14 +4,14 @@ Base = require('./base')
 class Character extends Base
   FULL_REFILL_DURATION = _(12).hours()
   HP_RESTORE_DURATION  = _(1).minutes()
-  EP_RESTORE_DURATION  = _(1).minutes()
+  EP_RESTORE_DURATION  = _(15).seconds()
 
   DEFAULT_ATTRIBUTES = {
     level: 1
     hp: 100
     health: 100
-    energy: 10
-    ep: 10
+    energy: 20
+    ep: 20
     basic_money: 50
     vip_money: 1
     experience: 0

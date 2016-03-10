@@ -47,3 +47,19 @@ module.exports =
       }, options)
     )
 
+  displayReward: (element, reward, options = {})->
+    element.notify(
+      {
+        content: @.renderTemplate('notifications/reward', reward: reward)
+      },
+      _.assignIn({
+        raw: true
+        style: 'game'
+        className: 'black'
+        showAnimation: 'fadeIn'
+        hideAnimation: 'fadeOut'
+        showDuration: 200
+        hideDuration: 200
+      }, options)
+    )
+

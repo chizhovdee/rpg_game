@@ -52,7 +52,27 @@ class QuestsState
   questIsCompleted: (quest)->
     @.progressFor(quest)[2]
 
-  canGoToNextLevel: (group, level)->
+  canGoToNextLevelFor: (group)->
+    for quest in group.quests
+      progress = @.progressFor(quest)
+
+      return false if !progress[2] || quest.levelNumberIsLast(progress[1])
+
+    true
+
+  # переход на новый уровень всей группы квестов и сбрасвание прогресса
+  goToNextLevelFor: (group)->
+    for quest in group.quests
+      progress = @.progressFor(quest)
+      progress[0] = 0
+      progress[1] += 1 # increment number level by one
+      progress[2] = false
+
+      @state.quests[quest.id] = progress
+
+    @characterState.quests = @state
+
+    true
 
   groupIsCompleted: (group)->
     group.id in @state.groups_completed
@@ -63,9 +83,19 @@ class QuestsState
     for quest in group.quests
       progress = @.progressFor(quest)
 
-      return false unless progress[2] # if quest not completed
-      return false unless quest.levelNumberIsLast(progress[1])
+      return false if !progress[2] || !quest.levelNumberIsLast(progress[1])
 
     true
+
+  completeGroup: (group)->
+    for quest in group.quests
+      delete @state.quests[quest.id]
+
+    _.addUniq(@state.groups_completed, group.id)
+
+    @characterState.quests = @state
+
+    true
+
 
 module.exports = QuestsState
