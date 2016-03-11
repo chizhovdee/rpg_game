@@ -3,7 +3,7 @@ Character = require("../../models").Character
 QuestGroup = require("../../game_data").QuestGroup
 Quest = require("../../game_data").Quest
 Pagination = require("../../lib/pagination")
-QuestPerformResultModal = require('../modals').QuestPerformResultModal
+modals = require('../modals')
 request = require('../../lib/request')
 
 class QuestsPage extends Page
@@ -15,14 +15,22 @@ class QuestsPage extends Page
   hide: ->
     super
 
-  show: ->
+  show: (groupId)->
     super
+
+    @.load(groupId)
+
+  load: (groupId)->
+    @firstLoading = true
 
     @loading = true
 
     @.render()
 
-    request.send('load_quests')
+    data = {}
+    data.group_id = groupId
+
+    request.send('load_quests', data)
 
   render: ->
     if @loading
@@ -80,6 +88,8 @@ class QuestsPage extends Page
     tabEl = $(e.currentTarget)
     tabEl.addClass("current")
 
+    @el.find('.quest_list').html("<div class='loading'></div>")
+
     request.send('load_quests', group_id: tabEl.data('group-id'))
 
   onQuestsPaginateClick: (e)=>
@@ -101,7 +111,7 @@ class QuestsPage extends Page
 
     console.log response
 
-    unless response.by_group
+    if @firstLoading
       @questGroupsPagination = new Pagination(QUEST_GROUPS_PER_PAGE)
       @questsPagination = new Pagination(QUESTS_PER_PAGE)
 
@@ -109,6 +119,9 @@ class QuestsPage extends Page
       @paginatedQuestGroups = @questGroupsPagination.paginate(@questGroups, initialize: true)
 
     @currentGroup = QuestGroup.find(response.current_group_id)
+
+    @groupIsCompleted = response.groupIsCompleted
+    @groupCanComplete = response.groupCanComplete
 
     @quests = (
       for [quest_id, steps, level_number, completed] in response.quests
@@ -118,21 +131,20 @@ class QuestsPage extends Page
     @painatedQuests = @questsPagination.paginate(@quests, initialize: true)
     @questsPagination.setSwitches(@quests)
 
-    @groupIsCompleted = response.groupIsCompleted
-    @groupCanComplete = response.groupCanComplete
-
-    if response.by_group
-      @.renderQuestList()
-    else
+    if @firstLoading
       @.render()
+    else
+      @.renderQuestList()
+
+    @firstLoading = false
 
   prepareQuestData: (quest_id, steps, level_number, completed)->
     quest = Quest.find(quest_id)
-    level = quest.levelByNumber(level_number)
+    level = if @groupIsCompleted then quest.lastLevel() else quest.levelByNumber(level_number)
 
     progress = {
       steps: steps
-      completed: completed
+      completed: @groupIsCompleted || completed
     }
 
     [quest, level, progress]
@@ -173,17 +185,17 @@ class QuestsPage extends Page
       button.removeClass('disabled')
 
     title = (
-      switch response.errorCode
-        when 'requirements_not_satisfied'
-          I18n.t('common.requirements_not_satisfied')
-        when 'quest_is_completed'
-          I18n.t('quests.quest_is_completed')
+      if response.is_error
+        if response.errorCode in ['requirements_not_satisfied', 'not_reached_level']
+          I18n.t("common.errors.#{ response.errorCode }")
         else
-          null
+          I18n.t("quests.errors.#{ response.errorCode }")
+      else
+        null
     )
 
     if response.data.questCompleted || response.data.groupCanComplete
-      QuestPerformResultModal.show(response)
+      modals.QuestPerformResultModal.show(response, @currentGroup.id)
     else
       @.displayResult(button || quest_el.find('.completed')
         {
@@ -210,6 +222,24 @@ class QuestsPage extends Page
 
   onQuestGroupCompleted: (response)=>
     console.log response
+
+    modals.QuestGroupCompleteResultModal.close()
+
+    @groupCanComplete = response.data.groupCanComplete
+    @groupIsCompleted = response.data.groupIsCompleted
+
+    @el.find('.group_reward').replaceWith(@.renderTemplate("quests/group_reward"))
+
+    if response.is_error
+      @.displayError(I18n.t("quests.errors.#{ response.errorCode }"))
+    else
+      nextGroup = QuestGroup.findByAttribute('position', @currentGroup.position + 1)
+
+      modals.QuestGroupCompleteResultModal.show(
+        context: @
+        reward: response.data.reward
+        nextGroupId: nextGroup?.id
+      )
 
 
 

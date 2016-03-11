@@ -8,6 +8,9 @@ $.notify.addStyle("game", {
       "color": "#fafafa !important",
       "background-color": "#F71919",
       "border": "1px solid #FF0026"
+      "min-width": "250px"
+      "max-width:": "400px"
+      "text-align": "center"
     },
     success: {
       "background-color": "#32CD32",

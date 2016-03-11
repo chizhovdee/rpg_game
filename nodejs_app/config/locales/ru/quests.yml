@@ -3,7 +3,10 @@ ru:
     scene:
       title: "Квесты"
     progress: "Прогресс: %{value}%"
-    quest_is_completed: "Квест уже завершен!"
+    errors:
+      quest_is_completed: "Квест уже завершен!"
+      quest_group_is_completed: "Группа уже завершена полностью"
+      quest_group_cannot_complete: "Нельзя завершить группу"
     buttons:
       perform: "Выполнить"
       start: "Начать"
@@ -17,3 +20,6 @@ ru:
       collected: "Награда за группу получена!"
       collect: "Получить награду"
       view: "Награда за группу"
+    quest_qroup_complete_result:
+      title: "Вы успешно получили награду!"
+      next_group: "Перейти к следующей группе"

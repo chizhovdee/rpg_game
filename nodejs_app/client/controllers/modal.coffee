@@ -1,11 +1,14 @@
 BaseController = require('./base_controller')
 
 class Modal extends BaseController
-  @show: (data)->
+  @show: (args...)->
     super
 
     @modal ?= new @()
-    @modal.show(data)
+    @modal.show(args...)
+
+  @close: ->
+    @hide()
 
   @hide: ->
     @modal?.hide()

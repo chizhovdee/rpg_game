@@ -5,6 +5,7 @@
         <div class="tab <%= 'current' if group.key == @currentGroup.key %>"
              data-tab="<%= group.key %>"
              data-group-id="<%= group.id %>"
+             id="quest_group_<%= group.id%>_tab"
         >
             <%= group.key %>
         </div>

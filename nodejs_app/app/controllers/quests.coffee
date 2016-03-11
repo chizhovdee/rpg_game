@@ -20,7 +20,6 @@ module.exports =
 
       data = {}
       data.quests = questsState.questsWithProgressByGroup(group)
-      data.by_group = true if req.query.group_id
       data.current_group_id = group.id
       data.groupIsCompleted = questsState.groupIsCompleted(group)
       data.groupCanComplete = questsState.groupCanComplete(group)

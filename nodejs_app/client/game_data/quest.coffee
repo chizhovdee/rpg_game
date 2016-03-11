@@ -18,4 +18,8 @@ class Quest extends Base
   levelByNumber: (number)->
     _.find(@.levels(), (l)-> l.number == number)
 
+  lastLevel: ->
+    _.find(@.levels(), (l)=> l.number == @levels_count)
+
+
 module.exports = Quest

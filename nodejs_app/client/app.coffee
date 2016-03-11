@@ -92,7 +92,7 @@ class App
   onServerError: (response)->
     console.error 'Server Error:', response.error
 
-    $('#application .notification').notify(I18n.t('common.server_error')
+    $('#application .notification').notify(I18n.t('common.errors.server_error')
         {
           elementPosition: 'top center'
           arrowShow: false
@@ -102,7 +102,7 @@ class App
     )
 
   onNotReachedLevel: ->
-    $('#application .notification').notify(I18n.t('common.not_reached_level')
+    $('#application .notification').notify(I18n.t('common.errors.not_reached_level')
       {
         elementPosition: 'top center'
         arrowShow: false

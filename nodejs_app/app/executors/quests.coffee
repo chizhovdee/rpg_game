@@ -8,10 +8,13 @@ module.exports =
   performQuest: (quest_id, character)->
     quest = Quest.find(quest_id)
 
+    questsState = character.state.questsState()
+
+    if questsState.groupIsCompleted(quest.group)
+      return new Result(errorCode: 'quest_group_is_completed')
+
     if character.level < quest.group.level
       return new Result(errorCode: 'not_reached_level')
-
-    questsState = character.state.questsState()
 
     level = questsState.levelFor(quest)
 
@@ -63,11 +66,24 @@ module.exports =
 
     questsState = character.state.questsState()
 
-    if questsState.groupIsCompleted(group)
-      return new Result(errorCode: 'quest_group_is_completed')
+    groupIsCompleted = questsState.groupIsCompleted(group)
+    groupCanComplete = questsState.groupCanComplete(group)
 
-    unless questsState.groupCanComplete(group)
-      return new Result(errorCode: 'quest_group_cannot_complete')
+    if groupIsCompleted
+      return new Result(
+        errorCode: 'quest_group_is_completed'
+        data:
+          groupIsCompleted: groupIsCompleted
+          groupCanComplete: groupCanComplete
+      )
+
+    unless groupCanComplete
+      return new Result(
+        errorCode: 'quest_group_cannot_complete'
+        data:
+          groupIsCompleted: groupIsCompleted
+          groupCanComplete: groupCanComplete
+      )
 
     questsState.completeGroup(group)
 
@@ -77,6 +93,7 @@ module.exports =
     new Result(
       data:
         reward: reward
-        group_id: group.id
+        groupIsCompleted: true
+        groupCanComplete: false
     )
 

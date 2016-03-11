@@ -5,6 +5,7 @@ class QuestGroup extends Base
   level: null
 
   @configure()
+  @afterDefine 'setPosition'
 
   constructor: ->
     Object.defineProperty(@, '_quests', value: [], writable: false)
@@ -17,9 +18,13 @@ class QuestGroup extends Base
   addQuest: (quest)->
     _.addUniq(@_quests, quest)
 
+  setPosition: ->
+    Object.defineProperty(@, 'position', value: QuestGroup.count - 1, writable: false)
+
   forClient: ->
     _.assign(
       reward: @reward
+      position: @position
       ,
       super
     )

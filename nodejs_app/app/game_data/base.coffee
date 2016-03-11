@@ -8,11 +8,13 @@ class Base
   key: null
   requirement: null
   reward: null
+  count: 0
 
   @configure: ->
     @records = []
     @idsStore = {}
     @keysStore = {}
+    @count = 0
 
     @beforeDefineCallbacks = []
     @afterDefineCallbacks = []
@@ -36,6 +38,7 @@ class Base
     index = @records.push(obj)
     @idsStore[obj.id] = index - 1
     @keysStore[obj.key] = index - 1
+    @count += 1
 
     obj[cb]?() for cb in @afterDefineCallbacks
 

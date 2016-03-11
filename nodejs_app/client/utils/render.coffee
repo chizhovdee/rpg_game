@@ -63,3 +63,15 @@ module.exports =
       }, options)
     )
 
+  displayError: (message)->
+    $('#application .notification').notify(
+      {content: message}
+      {
+        elementPosition: 'top center'
+        arrowShow: false
+        style: 'game'
+        className: 'error'
+        showDuration: 200
+      }
+    )
+

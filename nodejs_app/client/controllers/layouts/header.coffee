@@ -2,6 +2,7 @@ Layout = require("../layout")
 Character = require("../../models").Character
 VisualTimer = require("../../lib/visual_timer")
 request = require("../../lib/request")
+pages = require('../pages')
 
 class HeaderLayout extends Layout
   elements:
@@ -52,11 +53,7 @@ class HeaderLayout extends Layout
 
     @character.bind("update", (args...)=> @.onCharacterUpdate(args...))
 
-    @el.on("click", ".menu.quests", ->
-      console.log "HUI"
-      #pageManager.run('quests')
-      require('../pages').QuestPage.show()
-    )
+    @el.on("click", ".menu.quests", -> pages.QuestPage.show())
 
   setupTimers: ->
     @epTimer = new VisualTimer(@energyEl.find(".timer"))
