@@ -1,43 +1,63 @@
 BaseController = require('./base_controller')
 
+modalList = []
+
 class Modal extends BaseController
   @show: (args...)->
     super
 
-    @modal ?= new @()
-    @modal.show(args...)
+    modal = new @()
+
+    modalList.push([modal, args])
+
+    if modalList.length > 1
+      if _.find(modalList, (m)-> m[0].showed)? # проверяем есть ли открытый диалог
+        $('.modal .close').notify(
+          {content: @newDialogMessage || I18n.t('common.new_dialog')}
+          {
+            elementPosition: 'top right'
+            autoHide: false
+            style: "game"
+            className: 'info'
+            showDuration: 200
+          }
+        )
+      else
+        if modalData = modalList[0]
+          modalData[0].show(modalData[1]...)
+    else
+      modal.show(args...)
 
   @close: ->
     @hide()
 
   @hide: ->
-    @modal?.hide()
-
-    @modal = null
+    _.find(modalList, (m)=> m[0].dialogKey == @name && m[0].showed)?[0].hide()
 
     super
 
   constructor: ->
     super
 
+    @dialogId = Date.now()
+    @dialogKey = @constructor.name
+
     @modalsEl ?= $("#modals")
 
   bindEventListeners: ->
     super
-
-    @modalsEl.on('click', @.onModalsElementClick)
 
     @el.on('click', '.close:not(.disabled)', @.onCloseClick)
 
   unbindEventListeners: ->
     super
 
-    @modalsEl.off('click', @.onModalsElementClick)
-
     @el.off('click', '.close:not(.disabled)', @.onCloseClick)
 
   show: ->
     super
+
+    @showed = true
 
     @modalsEl.show()
 
@@ -45,6 +65,15 @@ class Modal extends BaseController
 
   hide: ->
     super
+
+    @showed = false
+
+    # удаление текущего диалога
+    modalList = _.reject(modalList, (m)=> m[0].dialogId == @dialogId && m[0].dialogKey == @dialogKey)
+
+    # проверяем следующий по списку диалог
+    if modalData = modalList[0]
+      modalData[0].show(modalData[1]...)
 
     if $('.modal').length == 0
       @modalsEl.hide()

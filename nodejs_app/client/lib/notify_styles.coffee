@@ -9,7 +9,6 @@ $.notify.addStyle("game", {
       "background-color": "#F71919",
       "border": "1px solid #FF0026"
       "min-width": "250px"
-      "max-width:": "400px"
       "text-align": "center"
     },
     success: {
@@ -20,6 +19,8 @@ $.notify.addStyle("game", {
       "color": "#fafafa !important",
       "background-color": "#1E90FF",
       "border": "1px solid #1E90FF"
+      "min-width": "250px"
+      "text-align": "center"
     },
     warning: {
       "background-color": "#FAFA47",

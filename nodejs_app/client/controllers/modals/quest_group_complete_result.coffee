@@ -32,7 +32,7 @@ class QuestGroupCompleteResultModal extends Modal
   onNextGroupClick: =>
     @.close()
 
-    @context.load(@nextGroupId) if @nextGroupId
+    @context.show(@nextGroupId) if @nextGroupId
 
 
 module.exports = QuestGroupCompleteResultModal

@@ -18,9 +18,6 @@ class QuestsPage extends Page
   show: (groupId)->
     super
 
-    @.load(groupId)
-
-  load: (groupId)->
     @firstLoading = true
 
     @loading = true
@@ -223,7 +220,7 @@ class QuestsPage extends Page
   onQuestGroupCompleted: (response)=>
     console.log response
 
-    modals.QuestGroupCompleteResultModal.close()
+    modals.QuestPerformResultModal.close()
 
     @groupCanComplete = response.data.groupCanComplete
     @groupIsCompleted = response.data.groupIsCompleted
