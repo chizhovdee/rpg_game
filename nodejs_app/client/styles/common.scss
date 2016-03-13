@@ -1,7 +1,7 @@
 body {
   background-color: #ffffff;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 13px;
+  font-size: 14px; // optimal font
   color: #fff;
   text-shadow: 1px 1px 2px #000;
   @include user-select(none);

@@ -25,3 +25,4 @@ ru:
     quest_qroup_complete_result:
       title: "Вы успешно получили награду!"
       next_group: "Перейти к следующей группе"
+    locked_group: "Группа разблокируется на уровне <strong>%{level}</strong>"

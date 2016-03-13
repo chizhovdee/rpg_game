@@ -77,6 +77,14 @@ module.exports =
     groupIsCompleted = questsState.groupIsCompleted(group)
     groupCanComplete = questsState.groupCanComplete(group)
 
+    if character.level < group.level
+      return new Result(
+        errorCode: 'not_reached_level'
+        data:
+          groupIsCompleted: groupIsCompleted
+          groupCanComplete: groupCanComplete
+      )
+
     if groupIsCompleted
       return new Result(
         errorCode: 'quest_group_is_completed'

@@ -22,6 +22,8 @@ class QuestsPage extends Page
 
     @loading = true
 
+    @character = Character.first()
+
     @.render()
 
     data = {}
@@ -112,10 +114,12 @@ class QuestsPage extends Page
       @questGroupsPagination = new Pagination(QUEST_GROUPS_PER_PAGE)
       @questsPagination = new Pagination(QUESTS_PER_PAGE)
 
-      @questGroups = QuestGroup.all()
+      @questGroups = _.sortBy(QuestGroup.all(), (q)-> q.position)
       @paginatedQuestGroups = @questGroupsPagination.paginate(@questGroups, initialize: true)
 
     @currentGroup = QuestGroup.find(response.current_group_id)
+
+    @completedGroupIds = response.completedGroupIds
 
     @groupIsCompleted = response.groupIsCompleted
     @groupCanComplete = response.groupCanComplete

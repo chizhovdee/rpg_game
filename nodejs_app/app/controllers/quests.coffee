@@ -23,6 +23,7 @@ module.exports =
       data.current_group_id = group.id
       data.groupIsCompleted = questsState.groupIsCompleted(group)
       data.groupCanComplete = questsState.groupCanComplete(group)
+      data.completedGroupIds = questsState.completedGroupIds()
 
       res.sendEvent("quest_loaded", data)
     )

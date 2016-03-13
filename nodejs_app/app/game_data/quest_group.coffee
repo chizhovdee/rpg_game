@@ -25,6 +25,7 @@ class QuestGroup extends Base
     _.assign(
       reward: @reward
       position: @position
+      level: @level
       ,
       super
     )

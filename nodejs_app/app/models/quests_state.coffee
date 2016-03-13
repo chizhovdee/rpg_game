@@ -97,5 +97,8 @@ class QuestsState
 
     true
 
+  completedGroupIds: ->
+    @state.groups_completed
+
 
 module.exports = QuestsState
