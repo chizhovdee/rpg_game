@@ -1,10 +1,12 @@
 class Result
   errorCode: null
   data: null
+  reload: false
 
   constructor: (options = {})->
     @errorCode = options.errorCode
     @data = options.data
+    @reload = options.reload || false
 
   setErrorCode: (code)->
     @errorCode = code
@@ -17,9 +19,10 @@ class Result
 
   toJSON: ->
     {
-      is_error: @.isError()
+      isError: @.isError()
       errorCode: @errorCode
       data: @data
+      reload: @reload
     }
 
 module.exports = Result

@@ -52,3 +52,47 @@ Quest.define("quest_3", (obj)->
     l.addReward 'complete', (r)->
       r.vipMoney 1
 )
+
+
+Quest.define("quest_1_2", (obj)->
+  obj.quest_group_key = "quest_group_2"
+
+  for i in [0...2]
+    obj.addLevel (l)->
+      l.steps = 5 + i
+
+      l.addRequirement 'perform', (r)->
+        r.energy 1 + i
+
+      l.addReward 'perform', (r)->
+        r.experience 5 + i
+        r.basicMoney 10 + i
+
+      l.addReward 'complete', (r)->
+        r.vipMoney 1 + i
+)
+
+
+Quest.define("quest_2_2", (obj)->
+  obj.quest_group_key = "quest_group_2"
+
+  for i in [0...2]
+    obj.addLevel (l)->
+      l.steps = 6 + i
+
+      l.addRequirement 'perform', (r)->
+        r.energy 2 + i
+
+      l.addReward 'perform', (r)->
+        r.experience 6 + i
+        r.basicMoney 11 + i
+
+      l.addReward 'complete', (r)->
+        r.vipMoney 2 + i
+)
+
+
+
+
+
+

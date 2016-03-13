@@ -9,7 +9,7 @@ QuestGroup.define("quest_group_1", (obj)->
 )
 
 QuestGroup.define("quest_group_2", (obj)->
-  obj.level = 5
+  obj.level = 2
 
   obj.addReward 'collect', (r)->
     r.vipMoney 2

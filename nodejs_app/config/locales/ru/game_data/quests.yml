@@ -25,3 +25,11 @@ ru:
       quest_8:
         name: "Квест 8"
         description: "Сделай квест"
+
+      quest_1_2:
+        name: "Квест 1 2"
+        description: "Сделай квест по добру по здорову"
+      quest_2_2:
+        name: "Квест 2 2"
+        description: "Сделай квест"
+

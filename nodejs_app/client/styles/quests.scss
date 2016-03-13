@@ -97,12 +97,30 @@
         width: 120px;
       }
 
-      .progress {
-        @include progress-bar(100, 10);
-
+      .progress_info {
         position: absolute;
         top: 5px;
         right: 5px;
+
+        .level {
+          margin-bottom: 10px;
+          text-align: right;
+        }
+
+        .progress {
+          @include progress-bar(100, 10);
+        }
+
+        .completed {
+          color: $game_color_green;
+
+          &:before {
+            content: '';
+            display: inline-block;
+            @include images-sprite('icons/accept');
+            vertical-align: bottom;
+          }
+        }
       }
 
       button.perform {
@@ -110,21 +128,6 @@
         bottom: 10px;
         right: 10px;
       }
-
-      .completed {
-        position: absolute;
-        top: 5px;
-        right: 10px;
-        color: $game_color_green;
-
-        &:before {
-          content: '';
-          display: inline-block;
-          @include images-sprite('icons/accept');
-          vertical-align: bottom;
-        }
-      }
-
     }
   }
 }

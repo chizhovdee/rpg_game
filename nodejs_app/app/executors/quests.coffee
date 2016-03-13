@@ -10,15 +10,15 @@ module.exports =
 
     questsState = character.state.questsState()
 
+    questsProgress = null # используется для передачи на клиент
+
     if questsState.groupIsCompleted(quest.group)
-      return new Result(errorCode: 'quest_group_is_completed')
+      return new Result(errorCode: 'quest_group_is_completed', reload: true)
 
     if character.level < quest.group.level
       return new Result(errorCode: 'not_reached_level')
 
     level = questsState.levelFor(quest)
-
-    # TODO if group in groups_completed
 
     if questsState.questIsCompleted(quest)
       return new Result(
@@ -46,20 +46,28 @@ module.exports =
     if questCompleted && questsState.canGoToNextLevelFor(quest.group)
       questsState.goToNextLevelFor(quest.group)
 
+      questsProgress = questsState.questsWithProgressByGroup(quest.group)
+
     # apply rewards
     reward = new Reward(character)
     level.requirement.applyOn('perform', reward)
     level.reward.applyOn('perform', reward)
     level.reward.applyOn('complete', reward) if questCompleted
 
-    new Result(
+    result = new Result(
       data:
         reward: reward
         quest_id: quest.id
-        progress: questsState.progressFor(quest)
         questCompleted: questCompleted
         groupCanComplete: questCompleted && questsState.groupCanComplete(quest.group)
     )
+
+    if questsProgress
+      result.data.questsProgress = questsProgress
+    else
+      result.data.progress = questsState.progressFor(quest)
+
+    result
 
   completeGroup: (group_id, character)->
     group = QuestGroup.find(group_id)

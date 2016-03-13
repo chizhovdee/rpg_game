@@ -7,6 +7,8 @@ ru:
       quest_is_completed: "Квест уже завершен!"
       quest_group_is_completed: "Группа уже завершена полностью"
       quest_group_cannot_complete: "Нельзя завершить группу"
+      not_reached_level: "Вы не достигли нужного уровня!"
+      requirements_not_satisfied: "Требования не удовлетворены!"
     buttons:
       perform: "Выполнить"
       start: "Начать"
