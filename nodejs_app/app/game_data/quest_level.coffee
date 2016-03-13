@@ -13,8 +13,8 @@ class QuestLevel extends Base
       quest_key: @quest_key
       steps: @steps
       number: @number
-      requirements: @requirement?.forClient()
-      rewards: @reward?.forClient()
+      requirements: @requirement
+      rewards: @reward
       ,
       super
     )

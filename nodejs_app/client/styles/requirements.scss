@@ -6,6 +6,10 @@
     margin-top: 5px;
     line-height: 20px;
 
+    &.unsatisfied {
+      color: #ff3333;
+    }
+
     &:before {
       content: "";
       position: absolute;

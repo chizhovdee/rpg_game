@@ -30,11 +30,11 @@ browserifyConcat = ->
   browserify("./build/client/main.js", debug: false)
   .bundle()
   .pipe(source("application.js"))
-  .pipe(gulp.dest("./public/javascripts/"))
+  .pipe(gulp.dest("./public/assets/"))
   .pipe(file("vendor.js", vendors))
   .pipe(buffer())
   .pipe(concat("application.js"))
-  .pipe(gulp.dest("./public/javascripts/"))
+  .pipe(gulp.dest("./public/assets/"))
 
 
 gulp.task("game-data-populate-browserify", ['game_data:populate'], ->

@@ -1,0 +1,25 @@
+<h2><%= I18n.t('quests.quest_perform_result.title') %></h2>
+
+<div class="text">
+  <%=@safe I18n.t('quests.quest_perform_result.text', name: @quest.name()) %>
+</div>
+
+<div class="rewards_info">
+  <%= @.renderRewards @reward, (content)-> %>
+    <h3><%= I18n.t("common.you_received") %></h3>
+
+    <%= content %>
+  <% end %>
+
+  <%= @.renderSpendings @reward, (content)-> %>
+    <h3><%= I18n.t("common.you_spent") %></h3>
+
+    <%= content %>
+  <% end %>
+</div>
+
+<% if @groupCanComplete: %>
+  <div class="text success"><%= I18n.t('quests.quest_perform_result.group_completed') %></div>
+
+  <button class="collect_group_reward"><%= I18n.t('quests.quest_perform_result.collect') %></button>
+<% end %>

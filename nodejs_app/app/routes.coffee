@@ -18,3 +18,4 @@ exports.setup = (app)->
     # quests
     apiRoutes.get('/quests.json', controllers.quests.index)
     apiRoutes.put('/quests/perform.json', controllers.quests.perform)
+    apiRoutes.put('/quests/complete_group.json', controllers.quests.completeGroup)

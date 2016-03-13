@@ -1,34 +1,70 @@
 _ = require("lodash")
 Base = require("./base")
+Group = require('./quest_group')
 Level = require('./quest_level')
 
 class Quest extends Base
   quest_group_key: null
-  levels_count: null
+  levelsCount: null
 
   @configure()
+
+  @afterDefine 'setGroup'
 
   constructor: ->
     super
 
-    @levels_count = 0
+    @levelsCount = 0
 
-  addLevel: (number, callback)->
+    Object.defineProperties(@,
+      _levels: {
+        value: []
+        writable: false
+      }
+
+      levels: {
+        enumerable: true
+        get: -> @_levels
+      }
+    )
+
+  setGroup: ->
+    Object.defineProperty(@, 'group'
+      value: Group.find(@quest_group_key)
+      writable: false
+      enumerable: true
+    )
+
+    @group.addQuest(@)
+
+  levelKey: (number)->
+    "quest_#{@key}_level_#{number}"
+
+  addLevel: (callback)->
     key = @key
 
-    Level.define("quest_#{@key}_level_#{number}", (l)->
+    number = @levels.length + 1
+
+    level = Level.define(@.levelKey(number), (l)->
       l.quest_key = key
       l.number = number
 
       callback(l)
     )
 
-    @levels_count += 1
+    @levels.push(level)
+    @levelsCount = @levels.length
+
+  levelByNumber: (nubmer)->
+    Level.find(@.levelKey(nubmer))
+
+  levelNumberIsLast: (number)->
+    _.last(@levels).number == number
 
   forClient: ->
     _.assign(
       quest_group_key: @quest_group_key
-      levels_count: @levels_count
+      levels_count: @levelsCount
       ,
       super
     )

@@ -3,3 +3,12 @@ ru:
     requires: "Требуется"
     rewards: "Награда"
     completed: "Завершено"
+    you_received: "Вы получили"
+    you_spent: "Вы потратили"
+    title_success: "Успех!"
+    title_failure: "Провал!"
+    new_dialog: "Новое диалоговое окно. Закройте это, чтобы увидеть следующее."
+    errors:
+      not_reached_level: "Вы не достигли нужного уровня!"
+      requirements_not_satisfied: "Требования не удовлетворены!"
+      server_error: "Упс! Что-то пошло не так."

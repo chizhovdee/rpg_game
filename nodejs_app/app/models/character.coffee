@@ -1,18 +1,17 @@
 _ = require("lodash")
-State = require("./character_state")
-QuestsState  = require('./quests_state')
+Base = require('./base')
 
-class Character
+class Character extends Base
   FULL_REFILL_DURATION = _(12).hours()
   HP_RESTORE_DURATION  = _(1).minutes()
-  EP_RESTORE_DURATION  = _(5).minutes()
+  EP_RESTORE_DURATION  = _(15).seconds()
 
   DEFAULT_ATTRIBUTES = {
     level: 1
     hp: 100
     health: 100
-    energy: 10
-    ep: 10
+    energy: 20
+    ep: 20
     basic_money: 50
     vip_money: 1
     experience: 0
@@ -38,23 +37,36 @@ class Character
 #    'updated_at'
 #  ]
 
-  # states
-  _quests: null
-
   @createDefault: ->
     new @(DEFAULT_ATTRIBUTES)
 
-  @fetchBySocialId: (db, social_id)->
-    db.oneOrNone("select * from characters where social_id=$1 limit 1", social_id)
+  constructor: ->
+    super
 
-  @fetchForRead: (db, user_id)->
-    db.one("select * from characters where id=$1", user_id)
+    for attribute in ['hp', 'ep']
+      @.defineRestorableAttribute(attribute)
 
-  @fetchForUpdate: (db, id)->
-    db.one("select * from characters where id=$1 for update", id)
+  defineRestorableAttribute: (attribute)->
+    Object.defineProperty(@, attribute,
+      enumerable: true
+      get: -> @.restorable(attribute)
+      set: (newValue)->
+        newValue = @.restorable(attribute) + @.updatedValueRestorable(attribute, newValue)
 
-  constructor: (attributes)->
-    _.assignIn(@, attributes) if attributes
+        return if @.restorable(attribute) == newValue
+
+        @changes[attribute] = [@["_#{ attribute }"], newValue] # [old, new]
+
+        @["_#{ attribute }"] = newValue
+
+        @["#{attribute}_updated_at"] = new Date()
+
+        _.addUniq(@changed, attribute)
+
+        @isChanged = true
+
+        @["_#{ attribute }"] # return new value
+    ) if @["_#{ attribute }"]?
 
   insertToDb: (db)->
     fields = [
@@ -71,32 +83,13 @@ class Character
                     returning *
     """, @)
 
-  fetchStateForRead: (db)->
-    State.fetchForRead(db, @id)
-
-  fetchStateForUpdate: (db)->
-    State.fetchForUpdate(db, @id)
-
-
-  quests: ->
-    @_quests ?= new QuestsState(@)
-
-#  withState: (db, callback)->
-#    throw new Error("Character state is already...") if @state
-#
-#    character = @
-#
-#    db.one("select * from character_states where character_id = $1", @id)
-#    .then((data)->
-#      console.log 'state db', data
-#
-#      character.state = new State(data)
-#
-#      callback?()
-#    )
-#    .error((error)->
-#      console.error error
-#    )
+  setState: (state)->
+    Object.defineProperty(@, 'state'
+      value: state
+      configurable: false
+      enumerable: true
+      writable: false
+    )
 
   healthPoints: ->
     @health
@@ -111,10 +104,13 @@ class Character
       when "ep"
         total = @.energyPoints()
 
-    if @["#{attribute}_updated_at"].valueOf() < Date.now() - FULL_REFILL_DURATION
+    if @["_#{ attribute }"] >= total
+      @["_#{ attribute }"]
+
+    else if @["#{attribute}_updated_at"].valueOf() < Date.now() - FULL_REFILL_DURATION
       total
     else
-      value = @[attribute] + @.restoresSinceLastUpdate(attribute)
+      value = @["_#{ attribute }"] + @.restoresSinceLastUpdate(attribute)
 
       value = 0 if value < 0
 
@@ -122,6 +118,25 @@ class Character
         total
       else
         value
+
+  updatedValueRestorable: (attribute, value)->
+    restorable = @.restorable(attribute)
+
+    if value > 0
+      if @.isFull(attribute)
+        0
+      else if (left = @.leftToFull(attribute)) && left < value
+        left
+      else
+        value
+
+    else if value < 0
+      if restorable - value < 0
+        value - restorable
+      else
+        value
+    else
+      0
 
   restoresSinceLastUpdate: (attribute)->
     Math.floor(
@@ -149,8 +164,15 @@ class Character
     switch attribute
       when "hp"
         @.restorable(attribute) >= @.healthPoints()
-      when "hp"
+      when "ep"
         @.restorable(attribute) >= @.energyPoints()
+
+  leftToFull: (attribute)->
+    switch attribute
+      when "hp"
+        @.healthPoints() - @.restorable(attribute)
+      when "ep"
+        @.energyPoints() - @.restorable(attribute)
 
   restoreBonus: (attribute)->
     0
@@ -158,9 +180,9 @@ class Character
   forClient: ->
     id: @id
     level: @level
-    restorable_ep: @.restorable("ep")
+    restorable_ep: @ep
     energy_points: @.energyPoints()
-    restorable_hp: @.restorable("hp")
+    restorable_hp: @hp
     health_points: @.healthPoints()
     experience: @experience
     basic_money: @basic_money

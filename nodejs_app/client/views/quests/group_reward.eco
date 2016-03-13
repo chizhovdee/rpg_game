@@ -1,0 +1,9 @@
+<div class="group_reward">
+  <% if @groupIsCompleted: %>
+  <div class="done"><%= I18n.t('quests.group_reward.collected') %></div>
+  <% else if @groupCanComplete: %>
+  <button class="collect"><%= I18n.t('quests.group_reward.collect') %></button>
+  <% else: %>
+  <button class="view"><%= I18n.t('quests.group_reward.view') %></button>
+  <% end %>
+</div>

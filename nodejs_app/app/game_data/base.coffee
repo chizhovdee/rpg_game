@@ -8,14 +8,27 @@ class Base
   key: null
   requirement: null
   reward: null
+  count: 0
 
   @configure: ->
     @records = []
     @idsStore = {}
     @keysStore = {}
+    @count = 0
+
+    @beforeDefineCallbacks = []
+    @afterDefineCallbacks = []
+
+  @beforeDefine: (callbacks...)->
+    @beforeDefineCallbacks = callbacks
+
+  @afterDefine: (callbacks...)->
+    @afterDefineCallbacks = callbacks
 
   @define: (key, callback)->
     obj = new @()
+
+    obj[cb]?() for cb in @beforeDefineCallbacks
 
     obj.id = @idByKey(key)
     obj.key = key
@@ -25,6 +38,11 @@ class Base
     index = @records.push(obj)
     @idsStore[obj.id] = index - 1
     @keysStore[obj.key] = index - 1
+    @count += 1
+
+    obj[cb]?() for cb in @afterDefineCallbacks
+
+    obj # возвращаем объект!
 
   @idByKey: (key)->
     crc.crc32(key)
@@ -70,6 +88,9 @@ class Base
   @findAllByAttribute: (attribute, value)->
     _.filter(@all(), (record)-> record[attribute] == value)
 
+  @findByAttributes: (attributes = {})->
+    _.find(@all(), attributes)
+
   constructor: (attributes = {})->
     @id = null
     @key = null
@@ -78,15 +99,15 @@ class Base
 
     _.assignIn(@, attributes)
 
-  addRequirement: (callback)->
+  addRequirement: (trigger, callback)->
     @requirement ?= new Requirement()
 
-    callback?(@requirement)
+    callback?(@requirement.on(trigger))
 
-  addReward: (callback)->
+  addReward: (trigger, callback)->
     @reward ?= new Reward()
 
-    callback?(@reward)
+    callback?(@reward.on(trigger))
 
   forClient: ->
     {

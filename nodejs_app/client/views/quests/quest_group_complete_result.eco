@@ -1,0 +1,13 @@
+<h2><%= I18n.t('quests.quest_qroup_complete_result.title') %></h2>
+
+<div class="rewards_info">
+  <%= @.renderRewards @reward, (content)-> %>
+    <h3><%= I18n.t("common.you_received") %></h3>
+
+    <%= content %>
+  <% end %>
+</div>
+
+<% if @nextGroupId?: %>
+  <button class="next_group"><%= I18n.t('quests.quest_qroup_complete_result.next_group') %></button>
+<% end %>

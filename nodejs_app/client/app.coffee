@@ -1,5 +1,6 @@
 require("./lib/lodash_mixin").register()
 require("./populate_game_data") # замещается автоматически при сборке
+require('./lib/notify_styles')
 
 request = require("./lib/request")
 Character = require("./models").Character
@@ -31,7 +32,10 @@ class App
     # события транспорта
     request.one("character_game_data_loaded", (response)=> @.onCharacterGameDataLoaded(response))
     request.bind("character_status_loaded", (response)=> @.onCharacterStatusLoaded(response))
+    request.bind('character_updated', @.onCharacterUpdated)
     request.bind('not_authenticated', @.onCharacterNotAuthorized)
+    request.bind('server_error', @.onServerError)
+    request.bind('not_reached_level', @.onNotReachedLevel)
 
     $.ajaxSetup(beforeSend: @.onAjaxBeforeSend)
 
@@ -54,8 +58,6 @@ class App
 
     HeaderLayout.show(el: $("#application .header"))
 
-    #pageManager.run("home")
-
     HomePage.show()
 
   onCharacterStatusLoaded: (response)->
@@ -64,6 +66,13 @@ class App
     @character ?= Character.first()
 
     @character.updateAttributes(response.character)
+
+  onCharacterUpdated: (response)=>
+    console.log response
+    console.log 'onCharacterUpdated'
+    @character ?= Character.first()
+
+    @character.updateAttributes(response)
 
   setTranslations: ->
     I18n.defaultLocale = window.lng
@@ -79,5 +88,27 @@ class App
     signatureName = signatureKeeper.getSignatureName()
 
     request.setRequestHeader(signatureName.split('_').join('-'), signature)
+
+  onServerError: (response)->
+    console.error 'Server Error:', response.error
+
+    $('#application .notification').notify(I18n.t('common.errors.server_error')
+        {
+          elementPosition: 'top center'
+          arrowShow: false
+          className: 'error'
+          showDuration: 200
+        }
+    )
+
+  onNotReachedLevel: ->
+    $('#application .notification').notify(I18n.t('common.errors.not_reached_level')
+      {
+        elementPosition: 'top center'
+        arrowShow: false
+        className: 'error'
+        showDuration: 200
+      }
+    )
 
 module.exports = App

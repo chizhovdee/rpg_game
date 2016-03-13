@@ -10,11 +10,13 @@ app = express()
 
 # загрузка и инициализации дополнительного функциоанала
 boot = require('./boot')
+
+boot.registerLodashMixins()
+boot.loadGameData()
+
 db = boot.setupPostgresqlConnection(app.get('env'))
 redis = boot.setupRedisConnection(app.get('env'))
 
-boot.loadGameData()
-boot.registerLodashMixins()
 
 # собственные модули загружаем здесь
 Ok = require('./lib/odnoklassniki')
@@ -41,6 +43,7 @@ app.use(middleware.offlineUser)
 app.use(middleware.assignment(db: db, redis: redis))
 app.use(middleware.requestParamsLog)
 app.use(middleware.eventResponse)
+app.use(middleware.parseResult)
 app.use(middleware.currentUser)
 
 require('./routes').setup(app)

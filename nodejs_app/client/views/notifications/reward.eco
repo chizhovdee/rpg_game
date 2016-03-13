@@ -1,0 +1,5 @@
+<%= @.renderRewards @reward, (content)-> %>
+  <h3><%= I18n.t("common.rewards") %></h3>
+
+  <%= content %>
+<% end %>

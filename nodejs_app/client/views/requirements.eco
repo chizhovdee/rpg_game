@@ -1,3 +1,7 @@
 <% for key, value of @requirements: %>
-  <div class="requirement <%= key %>"><%= value %></div>
+  <% if _.isArray(value): %>
+    <div class="requirement <%= key %> <%= 'unsatisfied' unless value[1] %>"><%= value[0] %></div>
+  <% else: %>
+    <div class="requirement <%= key %>"><%= value %></div>
+  <% end %>
 <% end %>

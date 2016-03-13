@@ -3,7 +3,7 @@ Character = require('../../models').Character
 
 USER_FIELDS = ['id', 'social_id', 'last_visited_at']
 
-VISIT_DURATION = _(1).minutes()
+VISIT_DURATION = _(30).minutes()
 
 addToRedis = (redis, key, user)->
   redis.set(key, JSON.stringify(user))
@@ -13,7 +13,7 @@ addToRedis = (redis, key, user)->
 middleware = (request, callback)->
   currentSocialUser = request.currentSocialUser
 
-  socialId = _.toInteger(currentSocialUser.uid)
+  socialId = currentSocialUser.uid
 
   authenticatedUserKey = "authenticated_user_#{ socialId }"
 
@@ -41,7 +41,7 @@ middleware = (request, callback)->
 
       null
     else # если небыл найден в редисе, то ищем в базе
-      Character.fetchBySocialId(db, socialId)
+      Character.fetchForRead(db, social_id: socialId, 'oneOrNone')
   )
   .then((character)->
     if currentUser
@@ -94,8 +94,6 @@ middleware = (request, callback)->
     callback(error, null)
   )
 
-
-
 module.exports = (req, res, next)->
   # TODO определение платформы здесь
 
@@ -106,7 +104,7 @@ module.exports = (req, res, next)->
       if error
         res.sendEventError(error)
       else
-        console.log 'currentUser', req.currentUser = currentUser
+        req.currentUser = currentUser
 
         next()
     )

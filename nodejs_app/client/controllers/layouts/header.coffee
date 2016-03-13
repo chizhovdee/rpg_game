@@ -2,11 +2,16 @@ Layout = require("../layout")
 Character = require("../../models").Character
 VisualTimer = require("../../lib/visual_timer")
 request = require("../../lib/request")
+pages = require('../pages')
 
 class HeaderLayout extends Layout
   elements:
     '.energy': 'energyEl'
     '.health': 'healthEl'
+    '.basic_money': 'basicMoneyEl'
+    '.vip_money': 'vipMoneyEl'
+    '.experience': 'experienceEl'
+    '.level': 'levelEl'
 
   epTimer: null
   hpTimer: null
@@ -48,11 +53,7 @@ class HeaderLayout extends Layout
 
     @character.bind("update", (args...)=> @.onCharacterUpdate(args...))
 
-    @el.on("click", ".menu.quests", ->
-      console.log "HUI"
-      #pageManager.run('quests')
-      require('../pages').QuestPage.show()
-    )
+    @el.on("click", ".menu.quests", -> pages.QuestPage.show())
 
   setupTimers: ->
     @epTimer = new VisualTimer(@energyEl.find(".timer"))
@@ -121,6 +122,11 @@ class HeaderLayout extends Layout
 
     @.updateHp() if changes.restorable_hp?
     @.updateEp() if changes.restorable_ep?
+
+    @basicMoneyEl.find('.value').text(@character.basic_money) if changes.basic_money
+    @vipMoneyEl.find('.value').text(@character.vip_money) if changes.vip_money
+    @experienceEl.find('.value').text(@character.experience) if changes.experience
+    @levelEl.find('.value').text(@character.level) if changes.level
 
     @.setupUpdateTimer(true)
 

@@ -9,18 +9,27 @@ module.exports = (req, res, next)->
   res.sendEvents = ->
     @.json(@eventResponse.all())
 
+    null
+
   res.sendEvent = (type, callback)->
     @.addEvent(type, callback)
 
     @.sendEvents()
 
+    null
+
   res.sendEventError = (error, type = '')->
     type = 'server_error' if type == ''
 
-    @eventResponse.add(type, (data)->
-      data.error = error
-    )
+    console.error(error.stack)
+
+    @addEvent(type, error: error.message)
 
     @.sendEvents()
+
+    null
+
+  res.addEventProgress = (character)->
+    @addEvent('character_updated', character.forClient())
 
   next()

@@ -1,0 +1,34 @@
+<div class="progress_wrapper">
+  <% if @progress.completed: %>
+    <div class="progress_info">
+      <% if @quest.levels_count > 1: %>
+        <div class="level">Уровень: <%= @level.number %></div>
+      <% end %>
+
+      <div class="completed"><%= I18n.t('common.completed') %></div>
+    </div>
+
+  <% else: %>
+    <div class="progress_info">
+      <% if @quest.levels_count > 1 && (@level.number > 1 || @progress.steps > 0): %>
+        <div class="level">Уровень: <%= @level.number %></div>
+      <% end %>
+
+      <% if @progress.steps > 0: %>
+        <div class="progress">
+          <%=@safe @.progressBar(@level.progress(@progress.steps), I18n.t('quests.progress', value: @level.progress(@progress.steps))) %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="controls">
+      <button class="perform" data-quest-id="<%= @quest.id %>">
+        <% if @progress.steps == 0: %>
+        <%= I18n.t('quests.buttons.start') %>
+        <% else: %>
+        <%= I18n.t('quests.buttons.continue') %>
+        <% end %>
+      </button>
+    </div>
+  <% end %>
+</div>

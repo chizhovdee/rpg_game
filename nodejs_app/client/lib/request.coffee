@@ -59,3 +59,6 @@ module.exports =
 
   perform_quest: (data)->
     @.put('quests/perform.json', data)
+
+  complete_quests_group: (group_id)->
+    @.put('quests/complete_group.json', group_id: group_id)

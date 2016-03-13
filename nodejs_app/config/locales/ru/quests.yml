@@ -3,7 +3,26 @@ ru:
     scene:
       title: "Квесты"
     progress: "Прогресс: %{value}%"
+    errors:
+      quest_is_completed: "Квест уже завершен!"
+      quest_group_is_completed: "Группа уже завершена полностью"
+      quest_group_cannot_complete: "Нельзя завершить группу"
+      not_reached_level: "Вы не достигли нужного уровня!"
+      requirements_not_satisfied: "Требования не удовлетворены!"
     buttons:
       perform: "Выполнить"
       start: "Начать"
       continue: "Продолжить"
+    quest_perform_result:
+      title: "Вы завершили квест!"
+      text: "Поздравляем. Вы завершили квест <strong>%{name}</strong>"
+      group_completed: "Вы завершили эту группу. Заберите свою награду!"
+      collect: "Получить награду"
+    group_reward:
+      collected: "Награда за группу получена!"
+      collect: "Получить награду"
+      view: "Награда за группу"
+    quest_qroup_complete_result:
+      title: "Вы успешно получили награду!"
+      next_group: "Перейти к следующей группе"
+    locked_group: "Группа разблокируется на уровне <strong>%{level}</strong>"

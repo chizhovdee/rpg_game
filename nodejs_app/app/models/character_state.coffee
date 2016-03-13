@@ -1,16 +1,10 @@
 _ = require('lodash')
+Base = require('./base')
+QuestsState = require('./quests_state')
 
-class CharacterState
-  quests: null
-
-  @fetchForRead: (db, character_id)->
-    db.one("select * from character_states where character_id = $1", character_id)
-
-  @fetchForUpdate: (db, character_id)->
-    db.one("select * from character_states where character_id = $1 for update", character_id)
-
-  constructor: (attributes)->
-    _.assignIn(@, attributes) if attributes
+class CharacterState extends Base
+  questsState: ->
+    @_questsState ?= new QuestsState(@)
 
 
 module.exports = CharacterState

@@ -1,59 +1,91 @@
 BaseController = require('./base_controller')
 
+modalList = []
+
 class Modal extends BaseController
-  @show: (data = {})->
+  @show: (args...)->
     super
 
-    @popup ?= new @()
-    @popup.show(data)
+    modal = new @()
+
+    modalList.push([modal, args])
+
+    if modalList.length > 1
+      if _.find(modalList, (m)-> m[0].showed)? # проверяем есть ли открытый диалог
+        $('.modal .close').notify(
+          {content: @newDialogMessage || I18n.t('common.new_dialog')}
+          {
+            elementPosition: 'top right'
+            autoHide: false
+            style: "game"
+            className: 'info'
+            showDuration: 200
+          }
+        )
+      else
+        if modalData = modalList[0]
+          modalData[0].show(modalData[1]...)
+    else
+      modal.show(args...)
+
+  @close: ->
+    @hide()
 
   @hide: ->
-    @popup?.hide()
-
-    @popup = null
+    _.find(modalList, (m)=> m[0].dialogKey == @name && m[0].showed)?[0].hide()
 
     super
 
   constructor: ->
     super
 
-    @popupsEl ?= $("#popups")
+    @dialogId = Date.now()
+    @dialogKey = @constructor.name
+
+    @modalsEl ?= $("#modals")
 
   bindEventListeners: ->
     super
-
-    @popupsEl.on('click', @.onPopupsElementClick)
 
     @el.on('click', '.close:not(.disabled)', @.onCloseClick)
 
   unbindEventListeners: ->
     super
 
-    @popupsEl.off('click', @.onPopupsElementClick)
-
     @el.off('click', '.close:not(.disabled)', @.onCloseClick)
 
-  show: (data)->
+  show: ->
     super
 
-    @popupsEl.show()
+    @showed = true
 
-    @popupsEl.append(@el)
+    @modalsEl.show()
+
+    @modalsEl.append(@el)
 
   hide: ->
     super
 
-    if $('.popup').length == 0
-      @popupsEl.hide()
+    @showed = false
+
+    # удаление текущего диалога
+    modalList = _.reject(modalList, (m)=> m[0].dialogId == @dialogId && m[0].dialogKey == @dialogKey)
+
+    # проверяем следующий по списку диалог
+    if modalData = modalList[0]
+      modalData[0].show(modalData[1]...)
+
+    if $('.modal').length == 0
+      @modalsEl.hide()
 
   close: ->
     @.hide()
 
   updateContent: (content)->
-    @.html(@.renderTemplate('popup', content: content))
+    @.html(@.renderTemplate('modal', content: content))
 
-  onPopupsElementClick: (e)=>
-    @.close() if e.target.id == 'popups'
+  onModalsElementClick: (e)=>
+    @.close() if e.target.id == 'modals'
 
   onCloseClick: (e)=>
     $(e.currentTarget).addClass('disabled')

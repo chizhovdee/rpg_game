@@ -7,23 +7,23 @@ Character = require('../models').Character
 
 module.exports =
   index: (req, res)->
-    req.db.task((t)->
-      t.batch([
-        Character.fetchForRead(t, req.currentUser.id)
-        CharacterState.fetchForRead(t, req.currentUser.id)
-      ])
-    )
-    .then((character, state)->
-      character = new Character(character)
-      character.state = new CharacterState(state)
+    CharacterState.fetchForRead(req.db, character_id: req.currentUser.id)
+    .then((state)->
+      characterState = new CharacterState(state)
 
-      group = QuestGroup.find(_.toInteger(req.query.group)) if req.query.group
-      group ?= character.quests().currentGroup()
+      questsState = characterState.questsState()
+
+      if req.query.group_id
+        group = QuestGroup.find(_.toInteger(req.query.group_id))
+      else
+        group = questsState.currentGroup()
 
       data = {}
-      data.quests = character.quests().questsWithProgressByGroup(group)
-      data.by_group = true if req.query.group
-      data.current_group = group.id
+      data.quests = questsState.questsWithProgressByGroup(group)
+      data.current_group_id = group.id
+      data.groupIsCompleted = questsState.groupIsCompleted(group)
+      data.groupCanComplete = questsState.groupCanComplete(group)
+      data.completedGroupIds = questsState.completedGroupIds()
 
       res.sendEvent("quest_loaded", data)
     )
@@ -33,27 +33,50 @@ module.exports =
 
   perform: (req, res)->
     req.db.tx((t)->
-      character = new Character(yield Character.fetchForUpdate(t, req.currentUser.id))
-      character.state = new CharacterState(yield character.fetchStateForUpdate(t))
+      character = new Character(yield Character.fetchForUpdate(t, id: req.currentUser.id))
+
+      character.setState(
+        new CharacterState(yield CharacterState.fetchForUpdate(t, character_id: req.currentUser.id))
+      )
 
       result = executor.performQuest(_.toInteger(req.body.quest_id), character)
 
-      yield t.none('update characters set experience=$1 where id=$2', [
-        character.experience + 1, character.id, character.level
-      ])
+      res.addEvent('quest_performed', result)
 
-      yield t.none("update character_states set quests=$1 where character_id=$2",
-        [character.quests().state(), character.id]
-      )
+      res.addEventProgress(character)
 
-      result = {}
+      @.batch([character.update(t), character.state.update(t)])
     )
-    .then((result)->
-      res.sendEvent("quest_performed", result)
+    .then(->
+      res.sendEvents()
     )
     .catch((error)->
       res.sendEventError(error)
     )
+
+  completeGroup: (req, res)->
+    req.db.tx((t)->
+      character = new Character(yield Character.fetchForUpdate(t, id: req.currentUser.id))
+
+      character.setState(
+        new CharacterState(yield CharacterState.fetchForUpdate(t, character_id: req.currentUser.id))
+      )
+
+      result = executor.completeGroup(_.toInteger(req.body.group_id), character)
+
+      res.addEvent('quest_group_completed', result)
+
+      res.addEventProgress(character)
+
+      @.batch([character.update(t), character.state.update(t)])
+    )
+    .then(->
+      res.sendEvents()
+    )
+    .catch((error)->
+      res.sendEventError(error)
+    )
+
 
 
 

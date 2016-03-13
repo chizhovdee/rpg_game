@@ -1,17 +1,24 @@
-<div class="page">
-  <div class="paginate left <%= 'disabled' unless @questsPagination.canBack() %>" data-type="back"></div>
+<% if @character.level < @currentGroup.level: %>
+  <div class="locked tips"><%=@safe I18n.t('quests.locked_group', level: @currentGroup.level) %></div>
 
-  <% for [quest, level, progress] in @painatedQuests: %>
-    <%=@safe @.renderTemplate('quests/quest', quest: quest, level: level, progress: progress) %>
-  <% end %>
+<% else: %>
+  <%=@safe @.renderTemplate("quests/group_reward") %>
 
-  <div class="paginate right <%= 'disabled' unless @questsPagination.canForward() %>" data-type="forward"></div>
-</div>
+  <div class="page">
+    <div class="paginate left <%= 'disabled' unless @questsPagination.canBack() %>" data-type="back"></div>
 
-<% if @questsPagination.switches.length > 1: %>
-  <div class="switches">
-    <% for [page, start_count] in @questsPagination.switches: %>
-      <div class="switch <%= 'checked' if start_count == @questsPagination.start_count %>" data-page='<%= page %>'></div>
+    <% for [quest, level, progress] in @painatedQuests: %>
+      <%=@safe @.renderTemplate('quests/quest', quest: quest, level: level, progress: progress) %>
     <% end %>
+
+    <div class="paginate right <%= 'disabled' unless @questsPagination.canForward() %>" data-type="forward"></div>
   </div>
+
+  <% if @questsPagination.switches.length > 1: %>
+    <div class="switches">
+      <% for [page, start_count] in @questsPagination.switches: %>
+        <div class="switch <%= 'checked' if start_count == @questsPagination.start_count %>" data-page='<%= page %>'></div>
+      <% end %>
+    </div>
+  <% end %>
 <% end %>

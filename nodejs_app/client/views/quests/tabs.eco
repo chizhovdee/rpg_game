@@ -1,10 +1,16 @@
 <div class="page">
     <div class="paginate left <%= 'disabled' unless @questGroupsPagination.canBack() %>" data-type="back"></div>
 
-    <% for group, index in @paginatedQuestGroups: %>
-        <div class="tab <%= 'current' if group.key == @currentQuestGroupKey %>"
-                data-tab="<%= group.key %>">
-            <%= group.key %>
+    <% for group in @paginatedQuestGroups: %>
+        <div class="tab
+               <%= 'current' if group.key == @currentGroup.key %>
+               <%= 'locked' if @character.level < group.level %>
+               <%= 'completed' if group.id in @completedGroupIds %>"
+             data-tab="<%= group.key %>"
+             data-group-id="<%= group.id %>"
+             id="quest_group_<%= group.id%>_tab"
+        >
+            <%= group.name() %>
         </div>
     <% end %>
 

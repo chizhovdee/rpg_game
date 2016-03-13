@@ -1,4 +1,4 @@
-<div class="quest">
+<div class="quest" id="quest_<%= @quest.id %>">
   <div class="picture"></div>
 
   <div class="info">
@@ -6,34 +6,17 @@
     <div class="description"><%= @quest.description() %></div>
   </div>
 
-  <%= @.renderRequirements @level.requirements, (content)-> %>
+  <%= @.renderRequirements @level.requirements.perform, (content)-> %>
     <h3><%= I18n.t("common.requires") %></h3>
 
     <%= content %>
   <% end %>
 
-  <%= @.renderRewards @level.rewards, (content)-> %>
+  <%= @.renderRewards @level.rewards.perform, (content)-> %>
     <h3><%= I18n.t("common.rewards") %></h3>
 
     <%= content %>
   <% end %>
 
-  <% if @progress.completed: %>
-    <div class="completed"><%= I18n.t('common.completed') %></div>
-
-  <% else: %>
-    <div class="progress">
-      <%=@safe @.progressBar(@level.progress(@progress.steps), I18n.t('quests.progress', value: @level.progress(@progress.steps))) %>
-    </div>
-
-    <div class="controls">
-      <button class="perform" data-quest-id="<%= @quest.id %>">
-        <% if @progress.steps == 0: %>
-          <%= I18n.t('quests.buttons.start') %>
-        <% else: %>
-          <%= I18n.t('quests.buttons.continue') %>
-        <% end %>
-      </button>
-    </div>
-  <% end %>
+  <%=@safe @.renderTemplate('quests/quest_progress', quest: @quest, level: @level, progress: @progress) %>
 </div>

@@ -1,7 +1,7 @@
 body {
   background-color: #ffffff;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 13px;
+  font-size: 14px; // optimal font
   color: #fff;
   text-shadow: 1px 1px 2px #000;
   @include user-select(none);
@@ -10,7 +10,7 @@ body {
 h1 {
   font-size: 22px;
   font-weight: bold;
-  color: #FFFF00;;
+  color: #FFFF00;
 }
 
 h2 {
@@ -24,4 +24,43 @@ h3 {
   color: #FFFF00;
 }
 
+.notifyjs-game-base {
+  position: relative;
+  min-height: 10px;
+  padding: 5px;
+  color: #444;
+  @include border-radius(5px);
 
+  h2 {
+    font-size: 15px;
+    margin-bottom: 5px;
+
+    &.success {
+      color: #7eff00;
+    }
+
+    &.failure {
+      color: #ff3333;
+    }
+  }
+
+  h3 {
+    font-size: 13px;
+  }
+
+  .rewards, .spendings {
+    margin: 5px 0 0 0;
+  }
+}
+
+.tips {
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ca9943;
+  background: rgba(82, 67, 12, 0.5);
+  @include border-radius(5px);
+
+  strong {
+    font-weight: bold;
+  }
+}

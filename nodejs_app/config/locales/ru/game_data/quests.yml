@@ -1,5 +1,14 @@
 ru:
   game_data:
+    quest_groups:
+      quest_group_1: "Quest Group 1"
+      quest_group_2: "Quest Group 2"
+      quest_group_3: "Quest Group 3"
+      quest_group_4: "Quest Group 4"
+      quest_group_5: "Quest Group 5"
+      quest_group_6: "Quest Group 6"
+      quest_group_7: "Quest Group 7"
+      quest_group_8: "Quest Group 8"
     quests:
       quest_1:
         name: "Квест 1"
@@ -25,3 +34,11 @@ ru:
       quest_8:
         name: "Квест 8"
         description: "Сделай квест"
+
+      quest_1_2:
+        name: "Квест 1 2"
+        description: "Сделай квест по добру по здорову"
+      quest_2_2:
+        name: "Квест 2 2"
+        description: "Сделай квест"
+

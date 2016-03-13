@@ -8,6 +8,7 @@ class BaseController extends Spine.Controller
   @hide: ->
 
   show: ->
+    @.unbindEventListeners()
     @.bindEventListeners()
 
   hide: ->

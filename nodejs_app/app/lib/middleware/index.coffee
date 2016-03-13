@@ -4,3 +4,4 @@ module.exports =
   requestParamsLog: require('./request_params_log')
   currentUser: require('./current_user')
   offlineUser: require('./offline_user')
+  parseResult: require('./parseResult')

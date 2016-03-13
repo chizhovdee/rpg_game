@@ -7,48 +7,98 @@ class QuestsState
   DEFAULT_STATE = {
     quests: {} # quest_id: [step, level, completed]
     groups_completed: []
-    current_group: null
+    current_group_id: null
   }
 
   character: null
-  _state: null
-  isChanged: false
+  state: null
 
-  constructor: (character)->
-    @character = character
+  constructor: (@characterState)->
+    throw new Error("character state undefined") unless @characterState?
 
-    throw new Error("character state undefined") unless @character.state?
+    @state = _.cloneDeep(@characterState.quests)
+    @state ?= _.defaultsDeep({}, DEFAULT_STATE)
 
-    @_state = @character.state.quests
-    @_state ?= _.defaultsDeep({}, DEFAULT_STATE)
-
-  state: ->
-    @_state
-
-  progressForQuest: (quest)->
-    @.state().quests[quest.id] || [0, 1, false] # [step, level, completed]
+  progressFor: (quest)->
+    @state.quests[quest.id] || [0, 1, false] # [step, level, completed]
 
   currentGroup: ->
-    group = QuestGroup.find(@state.current_group) if @state.current_group
+    group = QuestGroup.find(@state.current_group_id) if @state.current_group_id
     group ?= QuestGroup.first()
 
     group
 
   questsWithProgressByGroup: (group)->
-    Quest.findAllByAttribute('quest_group_key', group.key).map((quest)=>
-      [quest.id].concat(@.progressForQuest(quest))
+    group.quests.map((quest)=>
+      [quest.id].concat(@.progressFor(quest))
     )
 
-  perform: (quest_id)->
-    quest = Quest.find(quest_id)
+  levelFor: (quest)->
+    quest.levelByNumber(@.progressFor(quest)[1])
 
-    progress = @.progressForQuest(quest)
+  perform: (quest, level)->
+    progress = @.progressFor(quest)
     progress[0] += 1 # 1 step for one
 
-    @_state.quests[quest.id] = progress
+    progress[2] = true if progress[0] >= level.steps # complete this level
 
-    @isChanged = true
+    @state.quests[quest.id] = progress
+    @state.current_group_id = quest.group.id
+
+    @characterState.quests = @state
 
     true
+
+  questIsCompleted: (quest)->
+    @.progressFor(quest)[2]
+
+  canGoToNextLevelFor: (group)->
+    for quest in group.quests
+      progress = @.progressFor(quest)
+
+      return false if !progress[2] || quest.levelNumberIsLast(progress[1])
+
+    true
+
+  # переход на новый уровень всей группы квестов и сбрасвание прогресса
+  goToNextLevelFor: (group)->
+    for quest in group.quests
+      progress = @.progressFor(quest)
+      progress[0] = 0
+      progress[1] += 1 # increment number level by one
+      progress[2] = false
+
+      @state.quests[quest.id] = progress
+
+    @characterState.quests = @state
+
+    true
+
+  groupIsCompleted: (group)->
+    group.id in @state.groups_completed
+
+  groupCanComplete: (group)->
+    return false if @.groupIsCompleted(group)
+
+    for quest in group.quests
+      progress = @.progressFor(quest)
+
+      return false if !progress[2] || !quest.levelNumberIsLast(progress[1])
+
+    true
+
+  completeGroup: (group)->
+    for quest in group.quests
+      delete @state.quests[quest.id]
+
+    _.addUniq(@state.groups_completed, group.id)
+
+    @characterState.quests = @state
+
+    true
+
+  completedGroupIds: ->
+    @state.groups_completed
+
 
 module.exports = QuestsState
