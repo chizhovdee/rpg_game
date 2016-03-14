@@ -17,8 +17,10 @@ ActiveRecord::Schema.define(version: 20160221211133) do
   enable_extension "plpgsql"
 
   create_table "character_states", force: :cascade do |t|
-    t.integer "character_id"
-    t.jsonb   "quests"
+    t.integer  "character_id"
+    t.jsonb    "quests"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   add_index "character_states", ["character_id"], name: "index_character_states_on_character_id", using: :btree

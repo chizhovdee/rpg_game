@@ -32,6 +32,8 @@ class CreateCharacterResources < ActiveRecord::Migration
     create_table :character_states do |t|
       t.references :character, index: true, foreign_key: true
       t.jsonb :quests
+      t.column :created_at, :timestamptz, null: false
+      t.column :updated_at, :timestamptz, null: false
     end
 
     reversible do |dir|
@@ -41,7 +43,8 @@ class CreateCharacterResources < ActiveRecord::Migration
           create or replace FUNCTION insert_character_state_func()
           RETURNS trigger AS $first_trigger$
           begin
-            insert into character_states (character_id) values (new.id);
+            insert into character_states (character_id, created_at, updated_at) 
+                                  values (new.id, now(), now());
             return new;
           end;
           $first_trigger$ language plpgsql;
