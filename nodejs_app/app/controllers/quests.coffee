@@ -7,7 +7,7 @@ Character = require('../models').Character
 
 module.exports =
   index: (req, res)->
-    CharacterState.fetchForRead(req.db, character_id: req.currentUser.id)
+    CharacterState.fetchForRead(req.db, character_id: req.currentCharacter.id)
     .then((state)->
       characterState = new CharacterState(state)
 
@@ -33,10 +33,10 @@ module.exports =
 
   perform: (req, res)->
     req.db.tx((t)->
-      character = new Character(yield Character.fetchForUpdate(t, id: req.currentUser.id))
+      character = new Character(yield Character.fetchForUpdate(t, id: req.currentCharacter.id))
 
       character.setState(
-        new CharacterState(yield CharacterState.fetchForUpdate(t, character_id: req.currentUser.id))
+        new CharacterState(yield CharacterState.fetchForUpdate(t, character_id: req.currentCharacter.id))
       )
 
       result = executor.performQuest(_.toInteger(req.body.quest_id), character)
@@ -56,10 +56,10 @@ module.exports =
 
   completeGroup: (req, res)->
     req.db.tx((t)->
-      character = new Character(yield Character.fetchForUpdate(t, id: req.currentUser.id))
+      character = new Character(yield Character.fetchForUpdate(t, id: req.currentCharacter.id))
 
       character.setState(
-        new CharacterState(yield CharacterState.fetchForUpdate(t, character_id: req.currentUser.id))
+        new CharacterState(yield CharacterState.fetchForUpdate(t, character_id: req.currentCharacter.id))
       )
 
       result = executor.completeGroup(_.toInteger(req.body.group_id), character)

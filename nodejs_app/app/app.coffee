@@ -44,7 +44,7 @@ app.use(middleware.assignment(db: db, redis: redis))
 app.use(middleware.requestParamsLog)
 app.use(middleware.eventResponse)
 app.use(middleware.parseResult)
-app.use(middleware.currentUser)
+app.use(middleware.currentCharacter)
 
 require('./routes').setup(app)
 
