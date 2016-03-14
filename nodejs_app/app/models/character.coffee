@@ -177,7 +177,7 @@ class Character extends Base
   restoreBonus: (attribute)->
     0
 
-  forClient: ->
+  toJSON: ->
     id: @id
     level: @level
     restorable_ep: @ep

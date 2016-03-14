@@ -21,9 +21,9 @@ module.exports =
       data = {}
       data.quests = questsState.questsWithProgressByGroup(group)
       data.current_group_id = group.id
-      data.groupIsCompleted = questsState.groupIsCompleted(group)
-      data.groupCanComplete = questsState.groupCanComplete(group)
-      data.completedGroupIds = questsState.completedGroupIds()
+      data.group_is_completed = questsState.groupIsCompleted(group)
+      data.group_can_complete = questsState.groupCanComplete(group)
+      data.completed_group_ids = questsState.completedGroupIds()
 
       res.sendEvent("quest_loaded", data)
     )

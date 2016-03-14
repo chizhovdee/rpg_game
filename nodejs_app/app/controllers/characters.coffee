@@ -6,7 +6,7 @@ exports.gameData = (req, res)->
     character = new Character(data)
 
     res.sendEvent("character_game_data_loaded", (data)->
-      data.character = character.forClient()
+      data.character = character.toJSON()
     )
   )
   .catch(
@@ -19,7 +19,7 @@ exports.status = (req, res)->
     character = new Character(data)
 
     res.sendEvent("character_status_loaded", (data)->
-      data.character = character.forClient()
+      data.character = character.toJSON()
     )
   )
   .catch(

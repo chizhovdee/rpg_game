@@ -3,7 +3,7 @@ require('./quest_groups') # загружаем в первую очередь
 Quest = require("../../game_data").Quest
 
 Quest.define("quest_1", (obj)->
-  obj.quest_group_key = "quest_group_1"
+  obj.questGroupKey = "quest_group_1"
 
   obj.addLevel (l)->
     l.steps = 5
@@ -20,7 +20,7 @@ Quest.define("quest_1", (obj)->
 )
 
 Quest.define("quest_2", (obj)->
-  obj.quest_group_key = "quest_group_1"
+  obj.questGroupKey = "quest_group_1"
 
   obj.addLevel (l)->
     l.steps = 6
@@ -37,7 +37,7 @@ Quest.define("quest_2", (obj)->
 )
 
 Quest.define("quest_3", (obj)->
-  obj.quest_group_key = "quest_group_1"
+  obj.questGroupKey = "quest_group_1"
 
   obj.addLevel (l)->
     l.steps = 7
@@ -55,7 +55,7 @@ Quest.define("quest_3", (obj)->
 
 
 Quest.define("quest_1_2", (obj)->
-  obj.quest_group_key = "quest_group_2"
+  obj.questGroupKey = "quest_group_2"
 
   for i in [0...2]
     obj.addLevel (l)->
@@ -74,7 +74,7 @@ Quest.define("quest_1_2", (obj)->
 
 
 Quest.define("quest_2_2", (obj)->
-  obj.quest_group_key = "quest_group_2"
+  obj.questGroupKey = "quest_group_2"
 
   for i in [0...2]
     obj.addLevel (l)->

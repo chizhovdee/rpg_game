@@ -13,16 +13,16 @@ module.exports =
     questsProgress = null # используется для передачи на клиент
 
     if questsState.groupIsCompleted(quest.group)
-      return new Result(errorCode: 'quest_group_is_completed', reload: true)
+      return new Result(error_code: 'quest_group_is_completed', reload: true)
 
     if character.level < quest.group.level
-      return new Result(errorCode: 'not_reached_level')
+      return new Result(error_code: 'not_reached_level')
 
     level = questsState.levelFor(quest)
 
     if questsState.questIsCompleted(quest)
       return new Result(
-        errorCode: 'quest_is_completed'
+        error_code: 'quest_is_completed'
         data:
           quest_id: quest.id
           progress: questsState.progressFor(quest)
@@ -30,7 +30,7 @@ module.exports =
 
     unless level.requirement.viewOn('perform').isSatisfiedFor(character)
       return new Result(
-        errorCode: 'requirements_not_satisfied'
+        error_code: 'requirements_not_satisfied'
         data:
           quest_id: quest.id
           progress: questsState.progressFor(quest)
@@ -58,8 +58,8 @@ module.exports =
       data:
         reward: reward
         quest_id: quest.id
-        questCompleted: questCompleted
-        groupCanComplete: questCompleted && questsState.groupCanComplete(quest.group)
+        quest_completed: questCompleted
+        group_can_complete: questCompleted && questsState.groupCanComplete(quest.group)
     )
 
     if questsProgress
@@ -79,26 +79,26 @@ module.exports =
 
     if character.level < group.level
       return new Result(
-        errorCode: 'not_reached_level'
+        error_code: 'not_reached_level'
         data:
-          groupIsCompleted: groupIsCompleted
-          groupCanComplete: groupCanComplete
+          group_is_completed: groupIsCompleted
+          group_can_complete: groupCanComplete
       )
 
     if groupIsCompleted
       return new Result(
-        errorCode: 'quest_group_is_completed'
+        error_code: 'quest_group_is_completed'
         data:
-          groupIsCompleted: groupIsCompleted
-          groupCanComplete: groupCanComplete
+          group_is_completed: groupIsCompleted
+          group_can_complete: groupCanComplete
       )
 
     unless groupCanComplete
       return new Result(
-        errorCode: 'quest_group_cannot_complete'
+        error_code: 'quest_group_cannot_complete'
         data:
-          groupIsCompleted: groupIsCompleted
-          groupCanComplete: groupCanComplete
+          group_is_completed: groupIsCompleted
+          group_can_complete: groupCanComplete
       )
 
     questsState.completeGroup(group)
@@ -109,7 +109,7 @@ module.exports =
     new Result(
       data:
         reward: reward
-        groupIsCompleted: true
-        groupCanComplete: false
+        group_is_completed: true
+        group_can_complete: false
     )
 

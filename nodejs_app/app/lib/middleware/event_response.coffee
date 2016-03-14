@@ -30,6 +30,6 @@ module.exports = (req, res, next)->
     null
 
   res.addEventProgress = (character)->
-    @addEvent('character_updated', character.forClient())
+    @addEvent('character_updated', character.toJSON())
 
   next()

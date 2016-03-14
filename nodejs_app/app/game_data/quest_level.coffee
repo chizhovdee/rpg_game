@@ -2,15 +2,15 @@ Base = require("./base")
 _ = require('lodash')
 
 class QuestLevel extends Base
-  quest_key: null
+  questKey: null
   steps: null
   number: null
 
   @configure()
 
-  forClient: ->
+  toJSON: ->
     _.assign(
-      quest_key: @quest_key
+      quest_key: @questKey
       steps: @steps
       number: @number
       requirements: @requirement

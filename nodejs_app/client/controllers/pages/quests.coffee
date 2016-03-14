@@ -119,10 +119,10 @@ class QuestsPage extends Page
 
     @currentGroup = QuestGroup.find(response.current_group_id)
 
-    @completedGroupIds = response.completedGroupIds
+    @completedGroupIds = response.completed_group_ids
 
-    @groupIsCompleted = response.groupIsCompleted
-    @groupCanComplete = response.groupCanComplete
+    @groupIsCompleted = response.group_is_completed
+    @groupCanComplete = response.group_can_complete
 
     @.defineQuests(response.quests)
 
@@ -166,8 +166,8 @@ class QuestsPage extends Page
   onQuestPerformed: (response)=>
     console.log response
 
-    if response.isError && response.errorCode in ['quest_group_is_completed', 'not_reached_level']
-      @.displayError(I18n.t("quests.errors.#{ response.errorCode }"))
+    if response.isError && response.error_code in ['quest_group_is_completed', 'not_reached_level']
+      @.displayError(I18n.t("quests.errors.#{ response.error_code }"))
 
       request.send('load_quests', group_id: @currentGroup.id) if response.reload
 
@@ -190,13 +190,13 @@ class QuestsPage extends Page
       @.updatedQuestList(quest, level, progress)
 
       # обновление блока с наградой для группы
-      if response.data.groupCanComplete?
-        if @groupCanComplete != response.data.groupCanComplete
-          @groupCanComplete = response.data.groupCanComplete
+      if response.data.group_can_complete?
+        if @groupCanComplete != response.data.group_can_complete
+          @groupCanComplete = response.data.group_can_complete
 
           @el.find('.group_reward').replaceWith(@.renderTemplate("quests/group_reward"))
         else
-          @groupCanComplete = response.data.groupCanComplete
+          @groupCanComplete = response.data.group_can_complete
 
       # обновление виузальной части прогресса для квеста
       quest_el = @el.find("#quest_#{response.data.quest_id}")
@@ -205,17 +205,17 @@ class QuestsPage extends Page
       )
 
     # показ диалога завершения или попапса с наградами за пройденный шаг
-    if response.data.questCompleted || response.data.groupCanComplete
+    if response.data.quest_completed || response.data.group_can_complete
       modals.QuestPerformResultModal.show(response, @currentGroup.id)
 
     else
-      unless response.errorCode == 'quest_is_completed'
+      unless response.error_code == 'quest_is_completed'
         button = quest_el.find("button.perform")
         button.removeClass('disabled')
 
         title = (
-          if response.isError
-            I18n.t("quests.errors.#{ response.errorCode }")
+          if response.is_error
+            I18n.t("quests.errors.#{ response.error_code }")
           else
             null
         )
@@ -224,7 +224,7 @@ class QuestsPage extends Page
         {
           reward: response.data.reward
           requirement: response.data.requirement
-          type: if response.errorCode? then 'failure' else 'success'
+          type: if response.error_code? then 'failure' else 'success'
           title: title
         }
         {
@@ -248,20 +248,20 @@ class QuestsPage extends Page
 
     modals.QuestPerformResultModal.close()
 
-    @groupCanComplete = response.data.groupCanComplete
-    @groupIsCompleted = response.data.groupIsCompleted
+    @groupCanComplete = response.data.group_can_complete
+    @groupIsCompleted = response.data.group_is_completed
 
     @el.find('.group_reward').replaceWith(@.renderTemplate("quests/group_reward"))
 
-    if response.isError
-      @.displayError(I18n.t("quests.errors.#{ response.errorCode }"))
+    if response.is_error
+      @.displayError(I18n.t("quests.errors.#{ response.error_code }"))
     else
       nextGroup = QuestGroup.findByAttribute('position', @currentGroup.position + 1)
 
       modals.QuestGroupCompleteResultModal.show(
         context: @
         reward: response.data.reward
-        nextGroupId: nextGroup?.id
+        next_group_id: nextGroup?.id
       )
 
 module.exports = QuestsPage
