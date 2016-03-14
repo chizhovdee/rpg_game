@@ -44,5 +44,7 @@ ActiveRecord::Schema.define(version: 20160221211133) do
     t.datetime "updated_at",                                   null: false
   end
 
+  add_index "characters", ["social_id"], name: "index_characters_on_social_id", using: :btree
+
   add_foreign_key "character_states", "characters"
 end

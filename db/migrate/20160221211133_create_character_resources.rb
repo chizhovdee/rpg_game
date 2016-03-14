@@ -2,6 +2,7 @@ class CreateCharacterResources < ActiveRecord::Migration
   def change
     create_table :characters do |t|
       t.column :social_id, :bigint
+      t.index :social_id
 
       # attributes
       t.integer :level, null: false, default: 1
