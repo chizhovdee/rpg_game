@@ -40,13 +40,32 @@ class CreateCharacterResources < ActiveRecord::Migration
       dir.up do
         execute <<-SQL
 
+          CREATE OR REPLACE FUNCTION process_timestamp_func() 
+          RETURNS TRIGGER AS $first_trigger$
+            begin
+              IF (TG_OP = 'INSERT') THEN
+                NEW.created_at = now();
+              END IF;
+
+              NEW.updated_at = now();
+
+              RETURN NEW; 
+            end;  
+          $first_trigger$ language plpgsql;
+
+          CREATE TRIGGER process_timestamp BEFORE INSERT OR UPDATE ON characters
+          FOR EACH ROW EXECUTE PROCEDURE process_timestamp_func();
+
+          CREATE TRIGGER process_timestamp BEFORE INSERT OR UPDATE ON character_states
+          FOR EACH ROW EXECUTE PROCEDURE process_timestamp_func();
+
           create or replace FUNCTION insert_character_state_func()
           RETURNS trigger AS $first_trigger$
-          begin
-            insert into character_states (character_id, created_at, updated_at) 
-                                  values (new.id, now(), now());
-            return new;
-          end;
+            begin
+              insert into character_states (character_id, created_at, updated_at) 
+                                    values (new.id, now(), now());
+              return new;
+            end;
           $first_trigger$ language plpgsql;
 
           create TRIGGER insert_character_state after insert on characters
@@ -58,8 +77,11 @@ class CreateCharacterResources < ActiveRecord::Migration
       
       dir.down do
         execute <<-SQL
+          DROP TRIGGER IF EXISTS process_timestamp ON characters;
+          DROP TRIGGER IF EXISTS process_timestamp ON character_states;
           DROP TRIGGER IF EXISTS insert_character_state ON characters;
-          DROP FUNCTION  IF EXISTS insert_character_state_func();
+          DROP FUNCTION IF EXISTS insert_character_state_func();
+          DROP FUNCTION IF EXISTS process_timestamp_func();
         SQL
       end  
     end  

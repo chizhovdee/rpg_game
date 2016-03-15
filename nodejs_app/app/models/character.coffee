@@ -72,10 +72,10 @@ class Character extends Base
     fields = [
       'social_id', 'level', 'experience', 'ep', 'energy', 'hp', 'health', 'basic_money', 'vip_money',
       'points', 'session_key', 'session_secret_key', 'installed',
-      'last_visited_at', 'created_at', 'updated_at', 'ep_updated_at', 'hp_updated_at'
+      'last_visited_at', 'ep_updated_at', 'hp_updated_at'
     ]
 
-    @last_visited_at = @created_at = @updated_at = @ep_updated_at = @hp_updated_at = new Date()
+    @last_visited_at = @ep_updated_at = @hp_updated_at = new Date()
 
     db.one("""
       insert into characters(#{ fields.join(', ') })
