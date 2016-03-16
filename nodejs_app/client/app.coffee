@@ -89,21 +89,25 @@ class App
   onServerError: (response)->
     console.error 'Server Error:', response.error
 
-    $('#application .notification').notify(I18n.t('common.errors.server_error')
-        {
-          elementPosition: 'top center'
-          arrowShow: false
-          className: 'error'
-          showDuration: 200
-        }
+    $('#application .notification').notify(
+      {content: I18n.t('common.errors.server_error')}
+      {
+        elementPosition: 'top center'
+        arrowShow: false
+        style: 'game'
+        className: 'error'
+        showDuration: 200
+      }
     )
 
   onNotReachedLevel: ->
-    $('#application .notification').notify(I18n.t('common.errors.not_reached_level')
+    $('#application .notification').notify(
+      {content: I18n.t('common.errors.not_reached_level')}
       {
         elementPosition: 'top center'
         arrowShow: false
         className: 'error'
+        style: 'game'
         showDuration: 200
       }
     )
