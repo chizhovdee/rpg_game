@@ -52,8 +52,6 @@ class App
     request.send("loadCharacterGameData")
 
   onCharacterGameDataLoaded: (response)->
-    console.log "onCharacterGameDataLoaded", response.character
-
     Character.create(response.character)
 
     HeaderLayout.show(el: $("#application .header"))
@@ -61,15 +59,14 @@ class App
     HomePage.show()
 
   onCharacterStatusLoaded: (response)->
-    console.log "onCharacterStatusLoaded"
-
     @character ?= Character.first()
 
     @character.updateAttributes(response.character)
 
   onCharacterUpdated: (response)=>
-    console.log response
     console.log 'onCharacterUpdated'
+    console.log response
+
     @character ?= Character.first()
 
     @character.updateAttributes(response)

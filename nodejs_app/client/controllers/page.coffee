@@ -15,7 +15,6 @@ class Page extends BaseController
     Spine.Events.one('page_changed', => @.onPageChanged())
 
   @onPageChanged: ->
-    console.log 'page changed', @page.constructor.name
     @.hide()
 
   @hide: ->

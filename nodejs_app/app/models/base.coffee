@@ -6,6 +6,14 @@ class Base
   isChanged: false
   changed: null # массив изменненных полей
   changes: null # объект изменненный полей со старым и новым значением
+  dbFields: null # массив атрибутов переданных из таблицы бд
+
+  @include: (obj) ->
+    throw new Error('include(obj) requires obj') unless obj
+    for key, value of obj when key not in ['included']
+      @::[key] = value
+    obj.included?.apply(this)
+    this
 
   @getDBTableName: ->
     _.snakeCase(@name) + "s"
@@ -26,8 +34,11 @@ class Base
   constructor: (dbAttributes = {}, otherAttributes = {})->
     @changed = []
     @changes = {}
+    @dbFields = []
 
     for field, value of dbAttributes
+      @dbFields.push(field)
+
       @.defineDBAttribute(field, value)
 
     _.assignIn(@, otherAttributes)
@@ -56,7 +67,21 @@ class Base
         @["_#{ field }"] # return new value
     )
 
-  update: (db)->
+  create: (db, timestamps = true)->
+    if timestamps
+      @created_at = @updated_at = new Date()
+      @dbFields.push('created_at')
+      @dbFields.push('updated_at')
+
+    db.one("""
+      insert into #{ @.getDBTableName() }(#{ @dbFields.join(', ') })
+                    values(#{ @dbFields.map((f)-> "${#{ f }}").join(', ') })
+                    returning *
+    """, @)
+
+  update: (db, timestamps = true)->
+    @updated_at = new Date() if timestamps
+
     db.one("""
         update #{ @.getDBTableName() }
         set #{ @changed.map((field)-> "#{field}=${#{ field }}").join(', ') }

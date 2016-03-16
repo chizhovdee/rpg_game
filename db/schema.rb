@@ -19,8 +19,8 @@ ActiveRecord::Schema.define(version: 20160221211133) do
   create_table "character_states", force: :cascade do |t|
     t.integer  "character_id"
     t.jsonb    "quests"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "character_states", ["character_id"], name: "index_character_states_on_character_id", using: :btree
@@ -39,11 +39,11 @@ ActiveRecord::Schema.define(version: 20160221211133) do
     t.string   "session_key"
     t.string   "session_secret_key"
     t.boolean  "installed",                    default: false
-    t.datetime "ep_updated_at",                                null: false
-    t.datetime "hp_updated_at",                                null: false
-    t.datetime "last_visited_at",                              null: false
-    t.datetime "created_at",                                   null: false
-    t.datetime "updated_at",                                   null: false
+    t.datetime "ep_updated_at"
+    t.datetime "hp_updated_at"
+    t.datetime "last_visited_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "characters", ["social_id"], name: "index_characters_on_social_id", using: :btree

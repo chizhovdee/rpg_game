@@ -81,7 +81,6 @@ class QuestsPage extends Page
     @.renderTabs()
 
   onTabClick: (e)=>
-    console.log 'click'
     @el.find(".tab").removeClass("current")
 
     tabEl = $(e.currentTarget)
@@ -107,8 +106,6 @@ class QuestsPage extends Page
 
   onDataLoaded: (response)=>
     @loading = false
-
-    console.log response
 
     if @firstLoading
       @questGroupsPagination = new Pagination(QUEST_GROUPS_PER_PAGE)
@@ -164,8 +161,6 @@ class QuestsPage extends Page
     request.send('perform_quest', quest_id: button.data('quest-id'))
 
   onQuestPerformed: (response)=>
-    console.log response
-
     if response.isError && response.error_code in ['quest_group_is_completed', 'not_reached_level']
       @.displayError(I18n.t("quests.errors.#{ response.error_code }"))
 
@@ -244,8 +239,6 @@ class QuestsPage extends Page
     request.send('complete_quests_group', @currentGroup.id)
 
   onQuestGroupCompleted: (response)=>
-    console.log response
-
     modals.QuestPerformResultModal.close()
 
     @groupCanComplete = response.data.group_can_complete

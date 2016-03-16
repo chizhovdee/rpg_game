@@ -56,7 +56,7 @@ middleware = (request, callback)->
       null
 
     else # если не был найден в базе, то создаем персонажа и сохраняем в базу
-      character = Character.createDefault()
+      character = Character.default()
 
       character.social_id = socialId
       character.installed = currentSocialUser?.isAuthenticated()
@@ -64,7 +64,7 @@ middleware = (request, callback)->
       character.session_secret_key = currentSocialUser.session_secret_key
 
       db.tx((t)->
-        character.insertToDb(t)
+        character.create(t)
       )
   )
   .then((character)->
