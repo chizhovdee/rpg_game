@@ -20,6 +20,7 @@ class Character extends Base
     last_visited_at: null
     ep_updated_at: null
     hp_updated_at: null
+    social_id: null
   }
 
   @default: ->
