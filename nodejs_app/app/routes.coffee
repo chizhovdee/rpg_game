@@ -1,6 +1,5 @@
 express = require('express')
 middleware = require('./lib/middleware')
-
 controllers = require('./controllers')
 
 exports.setup = (app)->

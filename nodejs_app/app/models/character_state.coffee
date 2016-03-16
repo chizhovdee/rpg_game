@@ -6,5 +6,4 @@ class CharacterState extends Base
   questsState: ->
     @_questsState ?= new QuestsState(@)
 
-
 module.exports = CharacterState

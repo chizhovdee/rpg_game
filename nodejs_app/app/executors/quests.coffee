@@ -1,8 +1,9 @@
 Quest = require('../game_data').Quest
 QuestGroup = require('../game_data').QuestGroup
-Result = require('../lib/result')
-Reward = require('../lib/reward')
-Requirement = require('../lib/requirement')
+lib = require('../lib')
+Result = lib.Result
+Reward = lib.Reward
+Requirement = lib.Requirement
 
 module.exports =
   performQuest: (quest_id, character)->
