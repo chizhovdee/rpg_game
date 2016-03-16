@@ -7,6 +7,6 @@ class Character < ActiveRecord::Base
   private 
 
   def clear_redis
-    Redis.current.del("authenticated_user_#{ social_id }")
+    Redis.current.del("authenticated_character_#{ social_id }")
   end
 end

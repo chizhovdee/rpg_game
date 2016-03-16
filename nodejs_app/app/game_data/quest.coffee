@@ -4,7 +4,7 @@ Group = require('./quest_group')
 Level = require('./quest_level')
 
 class Quest extends Base
-  quest_group_key: null
+  questGroupKey: null
   levelsCount: null
 
   @configure()
@@ -30,7 +30,7 @@ class Quest extends Base
 
   setGroup: ->
     Object.defineProperty(@, 'group'
-      value: Group.find(@quest_group_key)
+      value: Group.find(@questGroupKey)
       writable: false
       enumerable: true
     )
@@ -46,7 +46,7 @@ class Quest extends Base
     number = @levels.length + 1
 
     level = Level.define(@.levelKey(number), (l)->
-      l.quest_key = key
+      l.questKey = key
       l.number = number
 
       callback(l)
@@ -61,9 +61,9 @@ class Quest extends Base
   levelNumberIsLast: (number)->
     _.last(@levels).number == number
 
-  forClient: ->
+  toJSON: ->
     _.assign(
-      quest_group_key: @quest_group_key
+      quest_group_key: @questGroupKey
       levels_count: @levelsCount
       ,
       super

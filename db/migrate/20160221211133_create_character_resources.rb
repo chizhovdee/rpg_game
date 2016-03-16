@@ -2,6 +2,7 @@ class CreateCharacterResources < ActiveRecord::Migration
   def change
     create_table :characters do |t|
       t.column :social_id, :bigint
+      t.index :social_id
 
       # attributes
       t.integer :level, null: false, default: 1
@@ -20,29 +21,29 @@ class CreateCharacterResources < ActiveRecord::Migration
       t.boolean :installed, default: false
 
       # times
-      t.column :ep_updated_at, :timestamptz, null: false
-      t.column :hp_updated_at, :timestamptz, null: false
-      t.column :last_visited_at, :timestamptz, null: false
+      t.datetime :ep_updated_at
+      t.datetime :hp_updated_at
+      t.datetime :last_visited_at
 
-      t.column :created_at, :timestamptz, null: false
-      t.column :updated_at, :timestamptz, null: false
+      t.timestamps
     end
 
     create_table :character_states do |t|
       t.references :character, index: true, foreign_key: true
       t.jsonb :quests
+      t.timestamps
     end
 
     reversible do |dir|
       dir.up do
         execute <<-SQL
-
           create or replace FUNCTION insert_character_state_func()
           RETURNS trigger AS $first_trigger$
-          begin
-            insert into character_states (character_id) values (new.id);
-            return new;
-          end;
+            begin
+              insert into character_states (character_id, created_at, updated_at) 
+                                    values (new.id, now(), now());
+              return new;
+            end;
           $first_trigger$ language plpgsql;
 
           create TRIGGER insert_character_state after insert on characters
@@ -55,7 +56,7 @@ class CreateCharacterResources < ActiveRecord::Migration
       dir.down do
         execute <<-SQL
           DROP TRIGGER IF EXISTS insert_character_state ON characters;
-          DROP FUNCTION  IF EXISTS insert_character_state_func();
+          DROP FUNCTION IF EXISTS insert_character_state_func();
         SQL
       end  
     end  

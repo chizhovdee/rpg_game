@@ -4,7 +4,7 @@ class Result
   reload: false
 
   constructor: (options = {})->
-    @errorCode = options.errorCode
+    @errorCode = options.error_code
     @data = options.data
     @reload = options.reload || false
 
@@ -19,8 +19,8 @@ class Result
 
   toJSON: ->
     {
-      isError: @.isError()
-      errorCode: @errorCode
+      is_error: @.isError()
+      error_code: @errorCode
       data: @data
       reload: @reload
     }

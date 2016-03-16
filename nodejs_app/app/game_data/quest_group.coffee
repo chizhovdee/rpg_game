@@ -21,7 +21,7 @@ class QuestGroup extends Base
   setPosition: ->
     Object.defineProperty(@, 'position', value: QuestGroup.count - 1, writable: false)
 
-  forClient: ->
+  toJSON: ->
     _.assign(
       reward: @reward
       position: @position

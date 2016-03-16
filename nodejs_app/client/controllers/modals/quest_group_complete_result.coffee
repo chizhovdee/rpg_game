@@ -10,7 +10,7 @@ class QuestGroupCompleteResultModal extends Modal
 
     @context = data.context
     @reward = data.reward
-    @nextGroupId = data.nextGroupId
+    @nextGroupId = data.next_group_id
 
     @.render()
 

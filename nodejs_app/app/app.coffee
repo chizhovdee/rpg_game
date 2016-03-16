@@ -44,7 +44,7 @@ app.use(middleware.assignment(db: db, redis: redis))
 app.use(middleware.requestParamsLog)
 app.use(middleware.eventResponse)
 app.use(middleware.parseResult)
-app.use(middleware.currentUser)
+app.use(middleware.currentCharacter)
 
 require('./routes').setup(app)
 
@@ -61,14 +61,17 @@ app.use((req, res, next)->
 # will print stacktrace
 if app.get('env') == 'development'
   app.use((err, req, res, next)->
-    res.status(err.status || 500)
 
-    console.error err.stack
+    # TODO status
+    #res.status(err.status || 500)
 
-    res.render('error',
-      message: err.message
-      error: err
-    )
+    if req.xhr
+      res.sendEventError(err)
+    else
+      res.render('error',
+        message: err.message
+        error: err
+      )
   )
 
 # production error handler

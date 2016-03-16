@@ -2,22 +2,16 @@ _ = require('lodash')
 QuestGroup = require('../game_data/quest_group')
 Quest = require('../game_data/quest')
 QuestLevel = require('../game_data/quest_level')
+BaseState = require('./base_state')
 
-class QuestsState
-  DEFAULT_STATE = {
+class QuestsState extends BaseState
+  defaultState: {
     quests: {} # quest_id: [step, level, completed]
     groups_completed: []
     current_group_id: null
   }
 
-  character: null
-  state: null
-
-  constructor: (@characterState)->
-    throw new Error("character state undefined") unless @characterState?
-
-    @state = _.cloneDeep(@characterState.quests)
-    @state ?= _.defaultsDeep({}, DEFAULT_STATE)
+  stateName: "quests"
 
   progressFor: (quest)->
     @state.quests[quest.id] || [0, 1, false] # [step, level, completed]

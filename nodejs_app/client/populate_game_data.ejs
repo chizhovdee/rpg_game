@@ -3,5 +3,5 @@
 <% } %>
 
 <% for(var key in data) { %>
-  <%= key %>.populate(<%- JSON.stringify(data[key].forClient()) %>);
+  <%= key %>.populate(<%- JSON.stringify(data[key].toJSON()) %>);
 <% } %>

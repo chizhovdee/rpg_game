@@ -52,8 +52,6 @@ class App
     request.send("loadCharacterGameData")
 
   onCharacterGameDataLoaded: (response)->
-    console.log "onCharacterGameDataLoaded", response.character
-
     Character.create(response.character)
 
     HeaderLayout.show(el: $("#application .header"))
@@ -61,15 +59,14 @@ class App
     HomePage.show()
 
   onCharacterStatusLoaded: (response)->
-    console.log "onCharacterStatusLoaded"
-
     @character ?= Character.first()
 
     @character.updateAttributes(response.character)
 
   onCharacterUpdated: (response)=>
-    console.log response
     console.log 'onCharacterUpdated'
+    console.log response
+
     @character ?= Character.first()
 
     @character.updateAttributes(response)
@@ -92,21 +89,25 @@ class App
   onServerError: (response)->
     console.error 'Server Error:', response.error
 
-    $('#application .notification').notify(I18n.t('common.errors.server_error')
-        {
-          elementPosition: 'top center'
-          arrowShow: false
-          className: 'error'
-          showDuration: 200
-        }
+    $('#application .notification').notify(
+      {content: I18n.t('common.errors.server_error')}
+      {
+        elementPosition: 'top center'
+        arrowShow: false
+        style: 'game'
+        className: 'error'
+        showDuration: 200
+      }
     )
 
   onNotReachedLevel: ->
-    $('#application .notification').notify(I18n.t('common.errors.not_reached_level')
+    $('#application .notification').notify(
+      {content: I18n.t('common.errors.not_reached_level')}
       {
         elementPosition: 'top center'
         arrowShow: false
         className: 'error'
+        style: 'game'
         showDuration: 200
       }
     )

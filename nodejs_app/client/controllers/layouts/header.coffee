@@ -88,8 +88,6 @@ class HeaderLayout extends Layout
     _.min(result)
 
   updateEp: ->
-    console.log "Updated ep"
-
     @energyEl.find(".value").text("#{ @character.restorable_ep } / #{ @character.energy_points }")
     @energyEl.find(".percentage").css(width: "#{ @character.epPercentage() }%")
 
@@ -100,8 +98,6 @@ class HeaderLayout extends Layout
       @epTimer.start(@character.ep_restore_in)
 
   updateHp: ->
-    console.log "Updated hp"
-
     @healthEl.find(".value").text("#{ @character.restorable_hp } / #{ @character.health_points }")
     @healthEl.find(".percentage").css(width: "#{ @character.hpPercentage() }%")
 
@@ -115,7 +111,6 @@ class HeaderLayout extends Layout
     request.send("load_character_status")
 
   onCharacterUpdate: (character)->
-    console.log "Character Update"
     # обновляем каждый фрагмент отдельно если нужно
 
     changes = character.changes()

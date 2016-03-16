@@ -47,8 +47,8 @@ class Base
   @idByKey: (key)->
     crc.crc32(key)
 
-  @forClient: ->
-    all = _.map(@all(), (obj)-> obj.forClient())
+  @toJSON: ->
+    all = _.map(@all(), (obj)-> obj.toJSON())
 
     keys = _.keys(all[0])
 
@@ -109,7 +109,7 @@ class Base
 
     callback?(@reward.on(trigger))
 
-  forClient: ->
+  toJSON: ->
     {
       id: @id
       key: @key

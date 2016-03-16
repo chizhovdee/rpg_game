@@ -8,10 +8,8 @@ class QuestPerformResultModal extends Modal
   show: (response, @currentGroupId)->
     super
 
-    console.log 'Modal data', response
-
     @quest = Quest.find(response.data.quest_id)
-    @groupCanComplete = response.data.groupCanComplete
+    @groupCanComplete = response.data.group_can_complete
     @reward = response.data.reward
 
     @.render()
