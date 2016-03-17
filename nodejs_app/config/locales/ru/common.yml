@@ -8,6 +8,9 @@ ru:
     title_success: "Успех!"
     title_failure: "Провал!"
     new_dialog: "Новое диалоговое окно. Закройте это, чтобы увидеть следующее."
+    new_level:
+      title: "Новый уровень!"
+      text: "Поздравляем! Вы достигли %{level} уровня."
     errors:
       not_reached_level: "Вы не достигли нужного уровня!"
       requirements_not_satisfied: "Требования не удовлетворены!"

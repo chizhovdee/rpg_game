@@ -1,7 +1,7 @@
 <div class="experience">
-    <%=@safe @.progressBar(100) %>
+    <%=@safe @.progressBar(@character.level_progress_percentage) %>
 
-    <span class="value"><%= @character.experience  %></span>
+    <span class="value"><%= @character.experience %></span>
 
     <span class="add"></span>
 </div>

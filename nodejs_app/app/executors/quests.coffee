@@ -68,6 +68,8 @@ module.exports =
     else
       result.data.progress = questsState.progressFor(quest)
 
+    character.checkProgress()
+
     result
 
   completeGroup: (group_id, character)->
@@ -106,6 +108,8 @@ module.exports =
 
     reward = new Reward(character)
     group.reward.applyOn('collect', reward)
+
+    character.checkProgress()
 
     new Result(
       data:

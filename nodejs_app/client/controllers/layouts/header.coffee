@@ -51,7 +51,7 @@ class HeaderLayout extends Layout
   bindEventListeners: ->
     super
 
-    @character.bind("update", (args...)=> @.onCharacterUpdate(args...))
+    @character.bind("update", @.onCharacterUpdate)
 
     @el.on("click", ".menu.quests", -> pages.QuestPage.show())
 
@@ -110,17 +110,23 @@ class HeaderLayout extends Layout
   onUpdateTimerFinish: ->
     request.send("load_character_status")
 
-  onCharacterUpdate: (character)->
+  onCharacterUpdate: (character)=>
     # обновляем каждый фрагмент отдельно если нужно
 
-    changes = character.changes()
+    console.log 'Character changes', changes = character.changes()
 
     @.updateHp() if changes.restorable_hp?
     @.updateEp() if changes.restorable_ep?
 
     @basicMoneyEl.find('.value').text(@character.basic_money) if changes.basic_money
+
     @vipMoneyEl.find('.value').text(@character.vip_money) if changes.vip_money
+
     @experienceEl.find('.value').text(@character.experience) if changes.experience
+
+    if changes.level_progress_percentage
+      @experienceEl.find(".percentage").css(width: "#{ @character.level_progress_percentage }%")
+
     @levelEl.find('.value').text(@character.level) if changes.level
 
     @.setupUpdateTimer(true)

@@ -1,0 +1,3 @@
+<h2><%= I18n.t('common.new_level.title') %></h2>
+
+<div class="text"><%= I18n.t('common.new_level.text', level: @character.level) %></div>
