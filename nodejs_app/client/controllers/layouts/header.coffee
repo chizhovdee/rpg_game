@@ -3,6 +3,7 @@ Character = require("../../models").Character
 VisualTimer = require("../../lib/visual_timer")
 request = require("../../lib/request")
 pages = require('../pages')
+modals = require('../modals')
 
 class HeaderLayout extends Layout
   elements:
@@ -54,6 +55,8 @@ class HeaderLayout extends Layout
     @character.bind("update", @.onCharacterUpdate)
 
     @el.on("click", ".menu.quests", -> pages.QuestPage.show())
+
+    @el.on('click', '.experience .upgrade', @.onUpgradeButtonClick)
 
   setupTimers: ->
     @epTimer = new VisualTimer(@energyEl.find(".timer"))
@@ -130,5 +133,9 @@ class HeaderLayout extends Layout
     @levelEl.find('.value').text(@character.level) if changes.level
 
     @.setupUpdateTimer(true)
+
+  onUpgradeButtonClick: ->
+    modals.CharacterUpgradeModal.show()
+
 
 module.exports = HeaderLayout

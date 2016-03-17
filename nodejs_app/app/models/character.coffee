@@ -75,6 +75,7 @@ class Character extends Base
     ep_restore_in: @.timeToRestore("ep")
     experience_to_next_level: @.experienceToNextLevel()
     level_progress_percentage: @.levelProgressPercentage()
+    points: @points
 
 
 module.exports = Character

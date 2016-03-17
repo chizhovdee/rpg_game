@@ -3,7 +3,7 @@
 
     <span class="value"><%= @character.experience %></span>
 
-    <span class="add"></span>
+    <span class="upgrade"></span>
 </div>
 
 <div class="health">

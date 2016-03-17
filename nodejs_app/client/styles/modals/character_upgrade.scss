@@ -1,0 +1,68 @@
+.modal.character_upgrade {
+  .text {
+    .points {
+      color: $game_color_yellow;
+      font-weight: bold;
+    }
+  }
+
+  .attributes {
+    margin: 20px 0 0 0;
+
+    .attribute {
+      .name, .controls, .description {
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      .name {
+        font-weight: bold;
+        font-size: 15px;
+        width: 120px;
+
+        &:before {
+          display: inline-block;
+          vertical-align: middle;
+          content: '';
+          @include images-sprite(icons/energy_yellow);
+          margin-right: 10px;
+        }
+      }
+
+      .controls {
+        width: 120px;
+
+        .minus, .plus, .value {
+          display: inline-block;
+          vertical-align: middle;
+        }
+
+        .minus {
+          @include images-sprite(icons/delete);
+        }
+
+        .plus {
+          @include images-sprite(icons/add);
+        }
+
+        .value {
+          width: 50px;
+          text-align: center;
+        }
+      }
+
+      .description {
+        width: 320px;
+      }
+
+      &.health {
+        .name {
+          &:before {
+            @include images-sprite(icons/health_red);
+            margin-left: 4px;
+          }
+        }
+      }
+    }
+  }
+}

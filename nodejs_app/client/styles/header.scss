@@ -88,8 +88,13 @@ $menu: quests, monsters, shop, inventory, profile, rating, alliance;
       }
     }
     
-    .add {
-      @include images-sprite-background(ui/upgrade)
+    .upgrade {
+      position: absolute;
+      right: -23px;
+      top: -3px;
+      cursor: pointer;
+
+      @include images-sprite(ui/upgrade)
     }
   }
 

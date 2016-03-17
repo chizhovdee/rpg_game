@@ -1,0 +1,15 @@
+ru:
+  characters:
+    upgrade:
+      title: "Улучшение персонажа"
+      text:
+        zero: "Используйте очки для того, чтобы улучшить свои показатели. У вас есть <span class='points'>%{count}</span> очков."
+        one: "Используйте очки для того, чтобы улучшить свои показатели. У вас есть <span class='points'>%{count}</span> очко."
+        other: "Используйте очки для того, чтобы улучшить свои показатели. У вас есть <span class='points'>%{count}</span> очков."
+      attributes:
+        energy:
+          name: "Энергия"
+          description: "бла бла"
+        health:
+          name: "Здоровье"
+          description: "бла бла"
