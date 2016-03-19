@@ -72,7 +72,7 @@ class App
 
     @character.updateAttributes(response.character)
 
-    modals.NewLevelModal.show() if response.new_level
+    modals.NewLevelModal.show(@character) if response.new_level
 
   setTranslations: ->
     I18n.defaultLocale = window.lng

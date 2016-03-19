@@ -21,6 +21,7 @@ gulp.task("prepare:client", [
   'eco-compile',
   'client-vendors',
   'game_data:populate',
+  'client_settings',
   'stylesheets',
   'images'
 ], ->

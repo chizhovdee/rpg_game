@@ -2,6 +2,9 @@ ru:
   characters:
     upgrade:
       title: "Улучшение персонажа"
+      save: "Сохранить"
+      reset: "Сбросить очки"
+      success: "Вы успешно улучшили показатели персонажа!"
       text:
         zero: "Используйте очки для того, чтобы улучшить свои показатели. У вас есть <span class='points'>%{count}</span> очков."
         one: "Используйте очки для того, чтобы улучшить свои показатели. У вас есть <span class='points'>%{count}</span> очко."
@@ -13,3 +16,17 @@ ru:
         health:
           name: "Здоровье"
           description: "бла бла"
+        attack:
+          name: "Атака"
+          description: "бла бла"
+        defense:
+          name: "Защита"
+          description: "бла бла"
+
+    errors:
+      not_enough_points: "Не достаточно очков!"
+      incorrect_attribute: "Не правильный аттрибут для улучшения персонажа!"
+    new_level:
+      title: "Новый уровень!"
+      text: "Поздравляем! Вы достигли <span>%{level}</span> уровня и получили <span>%{points}</span> очков для улучшения персонажа!"
+      upgrade: "Улучшить персонажа"

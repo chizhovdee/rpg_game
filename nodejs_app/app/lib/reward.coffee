@@ -49,13 +49,13 @@ class Reward
         when 'energy'
           oldValue = @character.ep
 
-          @character.ep = value
+          @character.ep += value
 
           @character.ep - oldValue
         when 'health'
           oldValue = @character.hp
 
-          @character.hp = value
+          @character.hp += value
 
           @character.hp - oldValue
         when 'basic_money'

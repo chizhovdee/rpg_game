@@ -13,6 +13,7 @@ exports.setup = (app)->
     # characters
     apiRoutes.get("/characters/game_data.json", controllers.characters.gameData)
     apiRoutes.get("/characters/status.json", controllers.characters.status)
+    apiRoutes.put('/characters/upgrade.json', controllers.characters.upgrade)
 
     # quests
     apiRoutes.get('/quests.json', controllers.quests.index)

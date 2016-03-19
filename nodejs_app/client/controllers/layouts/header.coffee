@@ -56,7 +56,8 @@ class HeaderLayout extends Layout
 
     @el.on("click", ".menu.quests", -> pages.QuestPage.show())
 
-    @el.on('click', '.experience .upgrade', @.onUpgradeButtonClick)
+    @el.on('click', '.experience .upgrade:not(.disabled)', @.onUpgradeButtonClick)
+    @el.on('click', '.experience .value', @.onExprerienceClick)
 
   setupTimers: ->
     @epTimer = new VisualTimer(@energyEl.find(".timer"))
@@ -118,8 +119,8 @@ class HeaderLayout extends Layout
 
     console.log 'Character changes', changes = character.changes()
 
-    @.updateHp() if changes.restorable_hp?
-    @.updateEp() if changes.restorable_ep?
+    @.updateHp() if changes.restorable_hp? || changes.health_points?
+    @.updateEp() if changes.restorable_ep? || changes.energy_points?
 
     @basicMoneyEl.find('.value').text(@character.basic_money) if changes.basic_money
 
@@ -132,10 +133,30 @@ class HeaderLayout extends Layout
 
     @levelEl.find('.value').text(@character.level) if changes.level
 
+    if changes.points
+      if @character.points > 0
+        @el.find('.experience .upgrade').removeClass('disabled')
+      else
+        @el.find('.experience .upgrade').removeClass('disabled').addClass('disabled')
+
     @.setupUpdateTimer(true)
 
   onUpgradeButtonClick: ->
     modals.CharacterUpgradeModal.show()
+
+  onExprerienceClick: =>
+    @character.experience_to_next_level
+
+    @experienceEl.notify(
+      {content: I18n.t('common.experience_to_next_level', value: @character.experience_to_next_level)}
+      {
+        elementPosition: 'bottom left'
+        style: "game"
+        className: 'small_info'
+        showDuration: 200
+        autoHideDelay: _(3).seconds()
+      }
+    )
 
 
 module.exports = HeaderLayout

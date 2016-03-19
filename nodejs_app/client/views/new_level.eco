@@ -1,3 +1,5 @@
-<h2><%= I18n.t('common.new_level.title') %></h2>
+<h2><%= I18n.t('characters.new_level.title') %></h2>
 
-<div class="text"><%= I18n.t('common.new_level.text', level: @character.level) %></div>
+<div class="text"><%=@safe I18n.t('characters.new_level.text', level: @character.level, points: @newPoints) %></div>
+
+<button class="upgrade"><%= I18n.t('characters.new_level.upgrade') %></button>

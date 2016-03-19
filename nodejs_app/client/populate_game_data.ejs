@@ -1,5 +1,5 @@
 <% for(var key in data) { %>
-  <%= key %> = require("./game_data/<%= key %>");
+  var <%= key %> = require("./game_data/<%= key %>");
 <% } %>
 
 <% for(var key in data) { %>
