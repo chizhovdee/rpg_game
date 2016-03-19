@@ -1,0 +1,107 @@
+.modal.character_upgrade {
+  .text {
+    .points {
+      color: $game_color_yellow;
+      font-weight: bold;
+    }
+  }
+
+  .attributes {
+    margin: 20px 0 0 0;
+
+    .attribute {
+      margin-bottom: 5px;
+
+      .name, .controls, .description {
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      .name {
+        font-weight: bold;
+        font-size: 15px;
+        width: 120px;
+
+        &:before {
+          display: inline-block;
+          vertical-align: middle;
+          content: '';
+          @include images-sprite(icons/energy);
+          margin-right: 10px;
+        }
+      }
+
+      .controls {
+        width: 120px;
+
+        .minus, .plus, .value {
+          display: inline-block;
+          vertical-align: middle;
+
+          &.disabled {
+            opacity: 0.3;
+          }
+        }
+
+        .minus {
+          @include images-sprite(icons/delete);
+          cursor: pointer;
+        }
+
+        .plus {
+          @include images-sprite(icons/add);
+          cursor: pointer;
+        }
+
+        .value {
+          width: 50px;
+          text-align: center;
+
+          &.changed {
+            color: $game_color_yellow;
+          }
+        }
+      }
+
+      .description {
+        width: 320px;
+      }
+
+      &.health {
+        .name {
+          &:before {
+            @include images-sprite(icons/health);
+          }
+        }
+      }
+
+      &.attack {
+        .name {
+          &:before {
+            @include images-sprite(icons/attack);
+          }
+        }
+      }
+
+      &.defense {
+        .name {
+          &:before {
+            @include images-sprite(icons/defence);
+          }
+        }
+      }
+    }
+  }
+
+  button.save {
+    margin-top: 20px;
+  }
+
+  .reset {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    cursor: pointer;
+    color: $game_color_green;
+  }
+}

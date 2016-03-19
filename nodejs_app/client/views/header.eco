@@ -1,9 +1,9 @@
 <div class="experience">
-    <%=@safe @.progressBar(100) %>
+    <%=@safe @.progressBar(@character.level_progress_percentage) %>
 
-    <span class="value"><%= @character.experience  %></span>
+    <span class="value"><%= @character.experience %></span>
 
-    <span class="add"></span>
+    <span class="upgrade <%= 'disabled' if @character.points <= 0 %>"></span>
 </div>
 
 <div class="health">

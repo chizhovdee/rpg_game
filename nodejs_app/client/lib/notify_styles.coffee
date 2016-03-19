@@ -12,14 +12,24 @@ $.notify.addStyle("game", {
       "text-align": "center"
     },
     success: {
-      "background-color": "#32CD32",
+      "color": "#ffffff !important",
+      "background-color": "#14A214",
       "border": "1px solid #4DB149"
+      "min-width": "250px"
+      "text-align": "center"
     },
     info: {
-      "color": "#fafafa !important",
-      "background-color": "#1E90FF",
+      "color": "#ffffff !important",
+      "background-color": "#247FD8",
       "border": "1px solid #1E90FF"
       "min-width": "250px"
+      "text-align": "center"
+    },
+    small_info: {
+      "color": "#ffffff !important",
+      "background-color": "#247FD8",
+      "border": "1px solid #1E90FF"
+      "min-width": "150px"
       "text-align": "center"
     },
     warning: {

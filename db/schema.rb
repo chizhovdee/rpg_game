@@ -32,6 +32,8 @@ ActiveRecord::Schema.define(version: 20160221211133) do
     t.integer  "ep",                                           null: false
     t.integer  "health",                                       null: false
     t.integer  "hp",                                           null: false
+    t.integer  "attack",                                       null: false
+    t.integer  "defense",                                      null: false
     t.integer  "experience",                   default: 0,     null: false
     t.integer  "points",                       default: 0,     null: false
     t.integer  "basic_money",                                  null: false

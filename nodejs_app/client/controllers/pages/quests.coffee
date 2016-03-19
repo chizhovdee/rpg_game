@@ -16,13 +16,13 @@ class QuestsPage extends Page
     super
 
   show: (groupId)->
+    @character = Character.first() # first!
+
     super
 
     @firstLoading = true
 
     @loading = true
-
-    @character = Character.first()
 
     @.render()
 
@@ -58,6 +58,8 @@ class QuestsPage extends Page
     @el.on('click', '.group_reward .view', @.onGroupRewardViewClick)
     @el.on('click', '.group_reward .collect:not(.disabled)', @.onGroupRewardCollectClick)
 
+    @character.bind("update", @.onCharacterUpdate)
+
   unbindEventListeners: ->
     super
 
@@ -72,6 +74,8 @@ class QuestsPage extends Page
     @el.off('click', 'button.perform:not(.disabled)', @.onPerformClick)
     @el.off('click', '.group_reward .view', @.onGroupRewardViewClick)
     @el.off('click', '.group_reward .collect:not(.disabled)', @.onGroupRewardCollectClick)
+
+    @character.unbind("update", @.onCharacterUpdate)
 
   onTabsPaginateButtonClick: (e)=>
     @paginatedQuestGroups = @questGroupsPagination.paginate(@questGroups,
@@ -107,17 +111,23 @@ class QuestsPage extends Page
   onDataLoaded: (response)=>
     @loading = false
 
+    @currentGroup = QuestGroup.find(response.current_group_id)
+
     if @firstLoading
       @questGroupsPagination = new Pagination(QUEST_GROUPS_PER_PAGE)
       @questsPagination = new Pagination(QUESTS_PER_PAGE)
 
       @questGroups = _.sortBy(QuestGroup.all(), (q)-> q.position)
-      @paginatedQuestGroups = @questGroupsPagination.paginate(@questGroups, initialize: true)
 
-    @currentGroup = QuestGroup.find(response.current_group_id)
+      groupStartCount = 0
+
+      if @currentGroup
+        console.log index = _.findIndex(@questGroups, (g)=> g.id == @currentGroup.id)
+        groupStartCount = Math.floor(index / QUEST_GROUPS_PER_PAGE) * QUEST_GROUPS_PER_PAGE
+
+      @paginatedQuestGroups = @questGroupsPagination.paginate(@questGroups, start_count: groupStartCount)
 
     @completedGroupIds = response.completed_group_ids
-
     @groupIsCompleted = response.group_is_completed
     @groupCanComplete = response.group_can_complete
 
@@ -256,5 +266,8 @@ class QuestsPage extends Page
         reward: response.data.reward
         next_group_id: nextGroup?.id
       )
+
+  onCharacterUpdate: (character)=>
+    @.renderTabs() if character.changes().level?
 
 module.exports = QuestsPage

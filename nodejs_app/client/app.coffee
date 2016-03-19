@@ -8,6 +8,7 @@ preloader = require("./lib/preloader")
 signatureKeeper = require('./lib/signature_keeper')
 HeaderLayout = require("./controllers/layouts").HeaderLayout
 HomePage = require('./controllers/pages').HomePage
+modals = require('./controllers/modals')
 
 # сначала грузиться манифест с помощью прелоадера
 # затем загружается персонаж
@@ -69,7 +70,9 @@ class App
 
     @character ?= Character.first()
 
-    @character.updateAttributes(response)
+    @character.updateAttributes(response.character)
+
+    modals.NewLevelModal.show(@character) if response.new_level
 
   setTranslations: ->
     I18n.defaultLocale = window.lng

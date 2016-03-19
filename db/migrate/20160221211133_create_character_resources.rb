@@ -10,6 +10,8 @@ class CreateCharacterResources < ActiveRecord::Migration
       t.integer :ep, null: false
       t.integer :health, null: false
       t.integer :hp, null: false
+      t.integer :attack, null: false
+      t.integer :defense, null: false
       t.integer :experience, null: false, default: 0
       t.integer :points, null: false, default: 0
       t.integer :basic_money, null: false

@@ -62,6 +62,10 @@
     .content {
       padding: 10px;
 
+      h2 {
+        color: $game_color_yellow;
+      }
+
       .success {
         color: $game_color_green;
       }

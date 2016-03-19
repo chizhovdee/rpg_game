@@ -2,7 +2,7 @@ _ = require('lodash')
 
 FULL_REFILL_DURATION = _(12).hours()
 HP_RESTORE_DURATION  = _(1).minutes()
-EP_RESTORE_DURATION  = _(15).seconds()
+EP_RESTORE_DURATION  = _(30).seconds()
 
 module.exports =
   defineRestorableAttribute: (attribute)->
@@ -10,8 +10,6 @@ module.exports =
       enumerable: true
       get: -> @.restorable(attribute)
       set: (newValue)->
-        newValue = @.restorable(attribute) + @.updatedValueRestorable(attribute, newValue)
-
         return if @.restorable(attribute) == newValue
 
         @changes[attribute] = [@["_#{ attribute }"], newValue] # [old, new]
@@ -36,7 +34,7 @@ module.exports =
         total = @.energyPoints()
 
     if @["_#{ attribute }"] >= total
-      @["_#{ attribute }"]
+      total
 
     else if @["#{attribute}_updated_at"].valueOf() < Date.now() - FULL_REFILL_DURATION
       total
@@ -49,25 +47,6 @@ module.exports =
         total
       else
         value
-
-  updatedValueRestorable: (attribute, value)->
-    restorable = @.restorable(attribute)
-
-    if value > 0
-      if @.isFull(attribute)
-        0
-      else if (left = @.leftToFull(attribute)) && left < value
-        left
-      else
-        value
-
-    else if value < 0
-      if restorable - value < 0
-        value - restorable
-      else
-        value
-    else
-      0
 
   restoresSinceLastUpdate: (attribute)->
     Math.floor(

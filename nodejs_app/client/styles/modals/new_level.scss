@@ -1,0 +1,12 @@
+.modal.new_level {
+  .text {
+    span {
+      color: $game_color_yellow;
+      font-weight: bold;
+    }
+  }
+
+  button.upgrade {
+    margin-top: 10px;
+  }
+}

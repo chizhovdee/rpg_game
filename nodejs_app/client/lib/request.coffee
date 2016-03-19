@@ -62,3 +62,6 @@ module.exports =
 
   complete_quests_group: (group_id)->
     @.put('quests/complete_group.json', group_id: group_id)
+
+  upgrade_character: (data)->
+    @.put('characters/upgrade.json', data)

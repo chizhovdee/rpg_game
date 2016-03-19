@@ -82,14 +82,27 @@ $menu: quests, monsters, shop, inventory, profile, rating, alliance;
       @include images-sprite-background(icons/experience);
     }
 
+    .value {
+      cursor: pointer;
+    }
+
     .progress_bar {
       .percentage {
         @include linear-gradient(to top, #304405, #a0cd21);
       }
     }
     
-    .add {
-      @include images-sprite-background(ui/upgrade)
+    .upgrade {
+      position: absolute;
+      right: -23px;
+      top: -3px;
+      cursor: pointer;
+
+      @include images-sprite(ui/upgrade);
+
+      &.disabled {
+        opacity: 0.3;
+      }
     }
   }
 

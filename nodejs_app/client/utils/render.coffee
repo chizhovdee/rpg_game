@@ -75,3 +75,15 @@ module.exports =
       }
     )
 
+  displaySuccess: (message)->
+    $('#application .notification').notify(
+      {content: message}
+      {
+        elementPosition: 'top center'
+        arrowShow: false
+        style: 'game'
+        className: 'success'
+        showDuration: 200
+        autoHideDelay: _(10).seconds()
+      }
+    )

@@ -14,7 +14,9 @@ class Character extends Spine.Model
 
   @configure "Character", "level", "experience", "restorable_ep", "energy_points",
     "restorable_hp", "health_points", "basic_money", "vip_money", "hp_restore_in",
-    "ep_restore_in", "oldAttributes"
+    "ep_restore_in", 'experience_to_next_level', 'level_progress_percentage', 'points',
+    'attack', 'defense',
+    "oldAttributes",
 
   update: ->
     @.setOldAttributes(@constructor.irecords[@id].attributes())
