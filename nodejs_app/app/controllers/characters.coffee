@@ -38,11 +38,13 @@ module.exports =
 
       result = executor.upgrade(character, params.operations)
 
-      res.addEvent('character_upgraded', result)
+      res.addResult(result)
+
+      res.addEvent('character_upgraded')
 
       res.addEventProgress(character)
 
-      character.update(t)
+      res.updateResources(t, character)
     )
     .then(->
       res.sendEvents()

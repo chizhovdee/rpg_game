@@ -41,11 +41,13 @@ module.exports =
 
       result = executor.performQuest(_.toInteger(req.body.quest_id), character)
 
-      res.addEvent('quest_performed', result)
+      res.addResult(result)
+
+      res.addEvent('quest_performed')
 
       res.addEventProgress(character)
 
-      @.batch([character.update(t), character.state.update(t)])
+      res.updateResources(t, character, character.state)
     )
     .then(->
       res.sendEvents()
@@ -64,11 +66,13 @@ module.exports =
 
       result = executor.completeGroup(_.toInteger(req.body.group_id), character)
 
-      res.addEvent('quest_group_completed', result)
+      res.addResult(result)
+
+      res.addEvent('quest_group_completed')
 
       res.addEventProgress(character)
 
-      @.batch([character.update(t), character.state.update(t)])
+      res.updateResources(t, character, character.state)
     )
     .then(->
       res.sendEvents()
@@ -76,8 +80,3 @@ module.exports =
     .catch((error)->
       res.sendEventError(error)
     )
-
-
-
-
-

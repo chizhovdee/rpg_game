@@ -17,4 +17,4 @@ module.exports =
 
     character.upgrade(operations)
 
-    null # not result
+    new Result() # empty result
