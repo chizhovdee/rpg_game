@@ -3,3 +3,4 @@
 module.exports =
   HomePage: require("./home")
   QuestPage: require("./quests")
+  ShopPage: require('./shop')

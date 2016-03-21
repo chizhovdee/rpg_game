@@ -1,0 +1,12 @@
+ru:
+  game_data:
+    item_groups:
+      weapon: "Оружие"
+      boosts: "Бусты"
+      boots: "Ботинки"
+      potions: "Зелья"
+      transport: "Транспорт"
+      servants: "Слуги"
+
+  items:
+    weapon_1: "Оружие 1"

@@ -9,12 +9,17 @@ class Base
   requirement: null
   reward: null
   count: 0
+  tags: null
 
-  @configure: ->
+  @publicForClient: true
+
+  @configure: (options = {})->
     @records = []
     @idsStore = {}
     @keysStore = {}
     @count = 0
+
+    @publicForClient = if options.publicForClient? then options.publicForClient else true
 
     @beforeDefineCallbacks = []
     @afterDefineCallbacks = []
@@ -39,6 +44,11 @@ class Base
     @idsStore[obj.id] = index - 1
     @keysStore[obj.key] = index - 1
     @count += 1
+
+    if obj.validationForDefine?
+      obj.validationForDefine()
+    else
+      console.warn("Warning: validationForDefine is undefined for #{ obj.constructor.name } by key #{ obj.key }")
 
     obj[cb]?() for cb in @afterDefineCallbacks
 
@@ -91,11 +101,15 @@ class Base
   @findByAttributes: (attributes = {})->
     _.find(@all(), attributes)
 
+  @isPublicForClient: ->
+    @publicForClient
+
   constructor: (attributes = {})->
     @id = null
     @key = null
     @requirement = null
     @reward = null
+    @tags = []
 
     _.assignIn(@, attributes)
 

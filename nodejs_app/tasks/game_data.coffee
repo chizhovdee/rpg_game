@@ -11,7 +11,9 @@ gulp.task("game_data:populate", ->
     if name.indexOf(".coffee") > 0 && name not in ["base.coffee", 'index.coffee']
       baseName = name.split(".coffee")[0]
 
-      gameData[baseName] = require("../app/game_data/" + baseName)
+      resource = require("../app/game_data/" + baseName)
+
+      gameData[baseName] = resource if resource.isPublicForClient()
   )
 
   tmpl = fs.readFileSync("./client/populate_game_data.ejs")

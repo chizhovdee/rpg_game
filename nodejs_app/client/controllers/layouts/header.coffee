@@ -54,7 +54,9 @@ class HeaderLayout extends Layout
 
     @character.bind("update", @.onCharacterUpdate)
 
+
     @el.on("click", ".menu.quests", -> pages.QuestPage.show())
+    @el.on("click", ".menu.shop", -> pages.ShopPage.show())
 
     @el.on('click', '.experience .upgrade:not(.disabled)', @.onUpgradeButtonClick)
     @el.on('click', '.experience .value', @.onExprerienceClick)
