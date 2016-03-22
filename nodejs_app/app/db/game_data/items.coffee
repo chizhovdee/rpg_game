@@ -1,9 +1,49 @@
 Item = require('../../game_data').Item
 
+Item.define('weapon_1', (obj)->
+  obj.itemGroupKey = 'weapon'
+
+  obj.effects = {attack: 1}
+
+  obj.level = 1
+
+  obj.basicPrice = 10
+)
+
+Item.define('weapon_2', (obj)->
+  obj.itemGroupKey = 'weapon'
+
+  obj.effects = {attack: 2}
+
+  obj.level = 2
+
+  obj.vipPrice = 2
+)
+
+Item.define('weapon_3', (obj)->
+  obj.itemGroupKey = 'weapon'
+
+  obj.effects = {attack: 3}
+
+  obj.level = 3
+
+  obj.vipPrice = 3
+)
+
+Item.define('weapon_4', (obj)->
+  obj.itemGroupKey = 'weapon'
+
+  obj.effects = {attack:4}
+
+  obj.level = 4
+
+  obj.vipPrice = 4
+)
+
 Item.define('armor_1', (obj)->
   obj.itemGroupKey = 'armor'
 
-  obj.effects = {attack: 1}
+  obj.effects = {defense: 1}
 
   obj.level = 1
 
@@ -13,7 +53,7 @@ Item.define('armor_1', (obj)->
 Item.define('armor_2', (obj)->
   obj.itemGroupKey = 'armor'
 
-  obj.effects = {attack: 2}
+  obj.effects = {defense: 2}
 
   obj.level = 2
 

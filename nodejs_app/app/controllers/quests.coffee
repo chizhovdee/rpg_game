@@ -25,7 +25,7 @@ module.exports =
       data.group_can_complete = questsState.groupCanComplete(group)
       data.completed_group_ids = questsState.completedGroupIds()
 
-      res.sendEvent("quest_loaded", data)
+      res.sendEvent("quests_loaded", data)
     )
     .catch((err)->
       res.sendEventError(err)

@@ -1,0 +1,41 @@
+#shop {
+  position: relative;
+
+  .groups {
+    @extend %tabs;
+  }
+
+  .item_list {
+    margin-top: 45px;
+    @include pagination;
+
+    .item {
+      position: relative;
+      height: 120px;
+      border: 1px solid #ca9943;
+      margin-bottom: 10px;
+      background: rgba(202, 153, 67, 0.1);
+      @include border-radius(10px);
+
+      .picture, .info {
+        display: inline-block;
+        vertical-align: top;
+      }
+
+      .picture {
+        @include images-sprite('quest_placeholder');
+        @include border-radius(10px);
+      }
+
+      .info {
+        margin: 5px 0 0 5px;
+        width: 150px;
+
+        .name {
+          font-size: 18px;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}

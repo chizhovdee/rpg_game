@@ -46,7 +46,7 @@ class QuestsPage extends Page
   bindEventListeners: ->
     super
 
-    request.bind('quest_loaded', @.onDataLoaded)
+    request.bind('quests_loaded', @.onDataLoaded)
     request.bind('quest_performed', @.onQuestPerformed)
     request.bind('quest_group_completed', @.onQuestGroupCompleted)
 
@@ -63,7 +63,7 @@ class QuestsPage extends Page
   unbindEventListeners: ->
     super
 
-    request.unbind('quest_loaded', @.onDataLoaded)
+    request.unbind('quests_loaded', @.onDataLoaded)
     request.unbind('quest_performed', @.onQuestPerformed)
     request.unbind('quest_group_completed', @.onQuestGroupCompleted)
 
@@ -122,7 +122,7 @@ class QuestsPage extends Page
       groupStartCount = 0
 
       if @currentGroup
-        console.log index = _.findIndex(@questGroups, (g)=> g.id == @currentGroup.id)
+        index = _.findIndex(@questGroups, (g)=> g.id == @currentGroup.id)
         groupStartCount = Math.floor(index / QUEST_GROUPS_PER_PAGE) * QUEST_GROUPS_PER_PAGE
 
       @paginatedQuestGroups = @questGroupsPagination.paginate(@questGroups, start_count: groupStartCount)

@@ -1,12 +1,22 @@
 ru:
   game_data:
     item_groups:
+      armor: "Броня"
       weapon: "Оружие"
       boosts: "Бусты"
       boots: "Ботинки"
       potions: "Зелья"
       transport: "Транспорт"
       servants: "Слуги"
+      pants: "Штаны"
+      tools: "Инструменты"
 
-  items:
-    weapon_1: "Оружие 1"
+    items:
+      armor_1: "Броня 1"
+      armor_2: "Броня 2"
+      weapon_1: "Оружие 1"
+      weapon_2: "Оружие 2"
+      weapon_3: "Оружие 3"
+      weapon_4: "Оружие 4"
+      boost_1: "Буст 1"
+      potion_1: "Зелье 1"

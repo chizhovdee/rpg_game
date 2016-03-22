@@ -26,7 +26,7 @@ gulp.task('locales', ->
         else
           return cb(new Error("Language not supported"))
 
-        _.extend(data[lng], json[lng])
+        _.merge(data[lng], json[lng])
 
       catch e
         console.log(e)

@@ -1,1 +1,13 @@
-<h1><%= I18n.t('shop.title') %></h1>
+<div id="shop">
+  <h1><%= I18n.t('shop.title') %></h1>
+
+  <div class="groups">
+    <div class="tabs">
+      <%=@safe @.renderTemplate("shop/tabs") %>
+    </div>
+  </div>
+
+  <div class="item_list">
+    <%=@safe @.renderTemplate("shop/item_list") %>
+  </div>
+</div>

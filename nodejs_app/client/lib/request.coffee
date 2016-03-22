@@ -65,3 +65,6 @@ module.exports =
 
   upgrade_character: (data)->
     @.put('characters/upgrade.json', data)
+
+  load_shop: (data)->
+    @.get('shop.json', data)

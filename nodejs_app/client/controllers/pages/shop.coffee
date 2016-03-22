@@ -4,6 +4,12 @@ Pagination = require("../../lib").Pagination
 modals = require('../modals')
 request = require('../../lib/request')
 
+ItemGroup = require('../../game_data').ItemGroup
+Item = require('../../game_data').Item
+
+GROUPS_PER_PAGE = 5
+ITEMS_PER_PAGE = 3
+
 class ShopPage extends Page
   className: "shop page"
 
@@ -14,7 +20,8 @@ class ShopPage extends Page
 
     @firstLoading = true
 
-    @loading = true
+    # данные берутся из клиента
+    @.onDataLoaded({})
 
     @.render()
 
@@ -28,30 +35,30 @@ class ShopPage extends Page
     @el.find('.tabs').html(@.renderTemplate("shop/tabs"))
 
   renderItemList: ->
-    @el.find('.quest_list').html(@.renderTemplate("shop/item_list"))
+    @el.find('.item_list').html(@.renderTemplate("shop/item_list"))
 
   bindEventListeners: ->
     super
 
+    request.bind('shop_loaded', @.onDataLoaded)
+
     @el.on('click', '.tabs .paginate:not(.disabled)', @.onTabsPaginateButtonClick)
     @el.on('click', '.tab:not(.current)', @.onTabClick)
-    @el.on('click', '.shop_list .paginate:not(.disabled)', @.onQuestsPaginateClick)
+    @el.on('click', '.item_list .paginate:not(.disabled)', @.onItemsPaginateClick)
     @el.on('click', '.switches .switch', @.onSwitchPageClick)
-
-    @character.bind("update", @.onCharacterUpdate)
 
   unbindEventListeners: ->
     super
 
+    request.unbind('shop_loaded', @.onDataLoaded)
+
     @el.off('click', '.tabs .paginate:not(.disabled)', @.onTabsPaginateButtonClick)
     @el.off('click', '.tab:not(.current)', @.onTabClick)
-    @el.off('click', '.shop_list .paginate:not(.disabled)', @.onQuestsPaginateClick)
+    @el.off('click', '.item_list .paginate:not(.disabled)', @.onItemsPaginateClick)
     @el.off('click', '.switches .switch', @.onSwitchPageClick)
 
-    @character.unbind("update", @.onCharacterUpdate)
-
   onTabsPaginateButtonClick: (e)=>
-    @paginatedQuestGroups = @questGroupsPagination.paginate(@questGroups,
+    @paginatedGroups = @groupsPagination.paginate(@groups,
       back: $(e.currentTarget).data('type') == 'back'
     )
 
@@ -63,30 +70,61 @@ class ShopPage extends Page
     tabEl = $(e.currentTarget)
     tabEl.addClass("current")
 
-    @el.find('.quest_list').html("<div class='loading'></div>")
+    @el.find('.item_list').html("<div class='loading'></div>")
 
-  onQuestsPaginateClick: (e)=>
-    @painatedQuests = @questsPagination.paginate(@quests,
+    @.onDataLoaded(current_group_id: tabEl.data('group-id'))
+
+    #request.send('load_shop', group_id: tabEl.data('group-id'))
+
+  onItemsPaginateClick: (e)=>
+    @paginatedItems = @itemsPagination.paginate(@items,
       back: $(e.currentTarget).data('type') == 'back'
     )
 
-    @.renderQuestList()
+    @.renderItemList()
 
   onSwitchPageClick: (e)=>
-    @painatedQuests = @questsPagination.paginate(@quests,
-      start_count: ($(e.currentTarget).data('page') - 1) * @questsPagination.per_page
+    @paginatedItems = @itemsPagination.paginate(@items,
+      start_count: ($(e.currentTarget).data('page') - 1) * @itemsPagination.per_page
     )
 
-    @.renderQuestList()
+    @.renderItemList()
 
   onDataLoaded: (response)=>
+    console.log response
+
     @loading = false
 
+    if response.current_group_id?
+      @currentGroup = ItemGroup.find(response.current_group_id)
+    else
+      @currentGroup = ItemGroup.first()
+
+    if @firstLoading
+      @groupsPagination = new Pagination(GROUPS_PER_PAGE)
+      @itemsPagination = new Pagination(ITEMS_PER_PAGE)
+
+      @groups = ItemGroup.all()
+
+      groupStartCount = 0
+
+      if @currentGroup
+        index = _.findIndex(@groups, (g)=> g.id == @currentGroup.id)
+        groupStartCount = Math.floor(index / GROUPS_PER_PAGE) * GROUPS_PER_PAGE
+
+      @paginatedGroups = @groupsPagination.paginate(@groups, start_count: groupStartCount)
+
+    @items = Item.findAllByAttribute('item_group_key', @currentGroup.key)
+    @paginatedItems = @itemsPagination.paginate(@items, initialize: true)
+
+    @itemsPagination.setSwitches(@items)
+
+    if @firstLoading
+      @.render()
+    else
+      @.renderItemList()
 
     @firstLoading = false
 
-
-  onCharacterUpdate: (character)=>
-    #@.renderTabs() if character.changes().level?
 
 module.exports = ShopPage

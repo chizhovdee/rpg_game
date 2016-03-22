@@ -3,6 +3,21 @@ fs = require("fs")
 ejs = require("ejs")
 
 gulp.task("game_data:populate", ->
+  # удаляем сначала из кэша
+  fs.readdirSync("./app/db/game_data/").forEach((name)->
+    stats = fs.statSync("./app/db/game_data/#{name}")
+
+    if stats.isFile()
+      delete require.cache[require.resolve("../app/db/game_data/#{name}")]
+
+    if stats.isDirectory()
+      throw Error('is directory: Change logic in game_data:populate task')
+  )
+
+  fs.readdirSync("./app/game_data/").forEach((name)->
+    delete require.cache[require.resolve("../app/game_data/#{name}")]
+  )
+
   require('require-dir')('../app/db/game_data', recurse: true )
 
   gameData = {}

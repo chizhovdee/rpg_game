@@ -2,63 +2,7 @@
   position: relative;
 
   .quest_groups {
-    .tabs {
-      margin-top: 20px;
-
-      @include pagination;
-
-      .paginate {
-        &:hover {
-          background: none;
-        }
-      }
-
-      .tab {
-        position: relative;
-        display: inline-block;
-        vertical-align: middle;
-        width: 116px;
-        height: 28px;
-        text-align: center;
-        line-height: 28px;
-        font-size: 15px;
-        border: 2px solid #ca9943;
-        margin: 0px 5px;
-        cursor: pointer;
-        @include linear-gradient(to top, #620000, #b80000);
-        @include border-radius(5px);
-
-        &.current {
-          box-shadow: 0px 0px 10px #ca9943;
-          color: #FFFF00;
-        }
-
-        &.locked {
-          opacity: 0.5;
-
-          &::before {
-            content: '';
-            display: block;
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            @include images-sprite('icons/lock');
-          }
-        }
-
-        &.completed {
-          &::before {
-            content: '';
-            display: block;
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            @include images-sprite('icons/accept');
-          }
-        }
-
-      }
-    }
+    @extend %tabs;
   }
 
   .quest_list {
