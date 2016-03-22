@@ -9,7 +9,7 @@ experienceByLevel = (level)->
 for level in [1..100]
   EXPERIENCE.push( experienceByLevel(level) + (EXPERIENCE[level - 1] || 0) )
 
-console.log EXPERIENCE
+#console.log EXPERIENCE
 
 module.exports =
   experienceByNextLevel: ->
