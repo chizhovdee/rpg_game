@@ -3,6 +3,17 @@
 
   <div class="info">
     <div class="name"><%= @item.name() %></div>
+
+    <%=@safe @.renderTemplate('item_effects', item: @item) %>
   </div>
 
+  <div class="price">
+    <%= @.renderRequirements @item.priceRequirement(@character), (content)-> %>
+      <h3><%= I18n.t("common.price") %></h3>
+
+      <%= content %>
+    <% end %>
+  </div>
+
+  <button class="buy">Купить</button>
 </div>

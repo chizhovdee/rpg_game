@@ -13,7 +13,7 @@ Item.define('weapon_1', (obj)->
 Item.define('weapon_2', (obj)->
   obj.itemGroupKey = 'weapon'
 
-  obj.effects = {attack: 2}
+  obj.effects = {attack: 2, health: 10, energy: 2}
 
   obj.level = 2
 
@@ -23,7 +23,7 @@ Item.define('weapon_2', (obj)->
 Item.define('weapon_3', (obj)->
   obj.itemGroupKey = 'weapon'
 
-  obj.effects = {attack: 3}
+  obj.effects = {attack: 3, defense: 2}
 
   obj.level = 3
 

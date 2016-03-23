@@ -1,5 +1,5 @@
 <% for key, value of @rewards: %>
   <% if value > 0: %>
-    <div class="reward <%= key %>"><%= value %></div>
+    <div class="reward <%= key %>"><span class="plus">+</span><%= value %></div>
   <% end %>
 <% end %>

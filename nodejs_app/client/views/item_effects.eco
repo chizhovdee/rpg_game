@@ -1,0 +1,20 @@
+<div class="effects">
+  <% if @item.reward?.use?: %>
+    <h4>При потреблении</h4>
+
+    <%= @.renderRewards @item.reward.use, (content)-> %>
+      <%= content %>
+    <% end %>
+
+  <% else: %>
+    <% if @item.effects.damage?: %>
+      <h4>Буст эффект</h4>
+    <% else: %>
+      <h4>При экипировке</h4>
+    <% end %>
+
+    <% for key, value of @item.effects: %>
+     <div class="effect <%= key %>"><%= value %></div>
+    <% end %>
+  <% end %>
+</div>

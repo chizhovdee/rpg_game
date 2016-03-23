@@ -7,4 +7,15 @@ class Item extends Base
   name: ->
     I18n.t("game_data.items.#{@key}")
 
+  priceRequirement: (character)->
+    requirement = {}
+
+    if @basic_price? && @basic_price > 0
+      requirement.basic_money = [@basic_price, character.basic_money >= @basic_price]
+
+    if @vip_price? && @vip_price > 0
+      requirement.vip_money = [@vip_price, character.vip_money >= @vip_price]
+
+    requirement
+
 module.exports = Item

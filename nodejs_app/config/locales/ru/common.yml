@@ -1,5 +1,6 @@
 ru:
   common:
+    price: "Цена"
     requires: "Требуется"
     rewards: "Награда"
     completed: "Завершено"

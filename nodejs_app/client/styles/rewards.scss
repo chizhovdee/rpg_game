@@ -2,54 +2,52 @@
   .reward {
     position: relative;
     height: 20px;
-    padding-left: 22px;
+    padding-left: 23px;
     margin-top: 5px;
     line-height: 20px;
+
+    .plus {
+      color: $game_color_green;
+    }
+
+    .minus {
+      color: $game_color_red;
+    }
 
     &:before {
       content: "";
       position: absolute;
-      top: 0;
+      top: -2px;
       left: 0;
-      @include images-sprite-dimensions(icons/energy_yellow);
+      @include images-sprite-dimensions(icons/energy);
     }
 
     &.energy {
       &:before {
-        background: {
-          repeat: no-repeat;
-        }
+        @include images-sprite-background(icons/energy);
+      }
+    }
 
-        @include images-sprite-background(icons/energy_yellow);
+    &.health {
+      &:before {
+        @include images-sprite-background(icons/health);
       }
     }
 
     &.basic_money {
       &:before {
-        background: {
-          repeat: no-repeat;
-        }
-
         @include images-sprite-background(icons/basic_money);
       }
     }
 
     &.vip_money {
       &:before {
-        background: {
-          repeat: no-repeat;
-        }
-
         @include images-sprite-background(icons/vip_money);
       }
     }
 
     &.experience {
       &:before {
-        background: {
-          repeat: no-repeat;
-        }
-
         @include images-sprite-background(icons/experience);
       }
     }
