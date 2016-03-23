@@ -20,8 +20,6 @@ gulp.task('watch', ->
   gulp.watch('./client/styles/**/*.scss', ["stylesheets"])
 
   gulp.watch('./config/locales/**/*.yml', ["locales"])
-
-  gulp.watch('./client/images/**', ['images'])
 )
 
 browserifyConcat = ->

@@ -23,8 +23,9 @@
       }
 
       .picture {
-        @include images-sprite('quest_placeholder');
-        @include border-radius(10px);
+        img {
+          @include border-radius(10px);
+        }
       }
 
       .info {

@@ -8,7 +8,7 @@ data = {
   characterUpgradeRates: models.Character.UPGRADE_RATES
 }
 
-gulp.task("client_settings", ->
+gulp.task("client-settings", ->
   tmpl = fs.readFileSync("./client/settings.ejs")
 
   result = ejs.render(tmpl.toString(), data)

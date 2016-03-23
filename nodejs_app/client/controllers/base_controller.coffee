@@ -1,7 +1,11 @@
+utils = require("../utils")
+
 class BaseController extends Spine.Controller
-  @include require("../utils").render
-  @include require("../utils").time
-  @include require("../utils").design
+  @include utils.render
+  @include utils.time
+  @include utils.design
+  @include utils.assets
+  @include utils.pictures
 
   @show: ->
 

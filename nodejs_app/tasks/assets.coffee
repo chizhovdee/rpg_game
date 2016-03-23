@@ -1,8 +1,9 @@
 gulp = require('gulp')
 recursive = require('recursive-readdir')
 fs = require('fs')
+ejs = require("ejs")
 
-gulp.task('assets', (cb)->
+gulp.task('assets-timestamps', (cb)->
   assetsTimestamps = {}
 
   recursive('./public/images', (err, files)->
@@ -16,7 +17,16 @@ gulp.task('assets', (cb)->
       if !assetsTimestamps[baseDirName]? || assetsTimestamps[baseDirName] < timeStamp
         assetsTimestamps[baseDirName] = timeStamp
 
-    console.log assetsTimestamps
+
+    tmpl = fs.readFileSync("./client/assets_timestamps.ejs")
+
+    result = ejs.render(tmpl.toString(), assetsTimestamps: assetsTimestamps)
+
+    fs.mkdir('./build', ->
+      fs.mkdir('./build/client', ->
+        fs.writeFileSync("./build/client/assets_timestamps.js", result)
+      )
+    )
 
     cb?()
   )
