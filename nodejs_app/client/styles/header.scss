@@ -265,3 +265,12 @@ $menu: quests, monsters, shop, inventory, profile, rating, alliance;
 
   }
 }
+
+#experience_to_next_level {
+  width: 160px;
+  text-align: center;
+
+  .value {
+    color: $game_color_yellow;
+  }
+}

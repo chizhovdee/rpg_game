@@ -26,7 +26,7 @@
           content: "";
           position: absolute;
           top: 0px;
-          left: 0px;
+          right: 0px;
           display: block;
           @include images-sprite(icons/lock);
         }
@@ -140,4 +140,8 @@
     top: 95px;
     right: 10px;
   }
+}
+
+#item_info {
+  width: 200px;
 }

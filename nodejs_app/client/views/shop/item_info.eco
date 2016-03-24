@@ -1,0 +1,9 @@
+<div id="item_info">
+  <%=@safe @.renderTemplate('item_effects', item: @item) %>
+
+  <div class="slots">
+    <h4><%= I18n.t("shop.can_be_equipped") %></h4>
+
+    <!-- TODO slots -->
+  </div>
+</div>

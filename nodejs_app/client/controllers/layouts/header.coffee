@@ -149,16 +149,24 @@ class HeaderLayout extends Layout
   onExprerienceClick: =>
     @character.experience_to_next_level
 
-    @experienceEl.notify(
-      {content: I18n.t('common.experience_to_next_level', value: @character.experience_to_next_level)}
-      {
-        elementPosition: 'bottom left'
-        style: "game"
-        className: 'small_info'
-        showDuration: 200
-        autoHideDelay: _(3).seconds()
-      }
+    @.displayPopup(@experienceEl,
+      @.renderTemplate('experience_to_next_level', character: @character),
+      position: 'bottom left'
+      showDuration: 200
+      autoHideDelay: _(3).seconds()
+      autoHide: true
     )
+
+#    @experienceEl.notify(
+#      {content: I18n.t('common.experience_to_next_level', value: @character.experience_to_next_level)}
+#      {
+#        elementPosition: 'bottom left'
+#        style: "game"
+#        className: 'small_info'
+#        showDuration: 200
+#        autoHideDelay: _(3).seconds()
+#      }
+#    )
 
 
 module.exports = HeaderLayout

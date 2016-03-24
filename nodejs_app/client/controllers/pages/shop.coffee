@@ -164,13 +164,14 @@ class ShopPage extends Page
     icon = $(e.currentTarget)
     item = Item.find(icon.data('item-id'))
 
-    @.displayPopup(icon, @.renderTemplate('shop/item_detail', item: item), position: 'left')
+    @.displayPopup(icon, @.renderTemplate('shop/item_info', item: item), position: 'left')
 
   onBuyButtonClick: (e)=>
     button = $(e.currentTarget)
     button.addClass('disabled')
 
     console.log button.data('item-id')
-  
+
+
 
 module.exports = ShopPage
