@@ -1,12 +1,14 @@
 .effects {
   .effect {
-    position: relative;
-    height: 20px;
-    padding-left: 23px;
-    margin-top: 5px;
-    line-height: 20px;
+    .value {
+      position: relative;
+      height: 20px;
+      padding-left: 23px;
+      margin-top: 5px;
+      line-height: 20px;
+    }
 
-    &:before {
+    .value .icon {
       content: "";
       position: absolute;
       top: -2px;
@@ -16,31 +18,31 @@
     }
 
     &.energy {
-      &:before {
+      .value .icon {
         @include images-sprite-background(icons/energy);
       }
     }
 
     &.health {
-      &:before {
+      .value .icon {
         @include images-sprite-background(icons/health);
       }
     }
 
     &.attack {
-      &:before {
+      .value .icon {
         @include images-sprite-background(icons/attack);
       }
     }
 
     &.defense {
-      &:before {
+      .value .icon {
         @include images-sprite-background(icons/defence); // FIXME defence on defense
       }
     }
 
     &.damage {
-      &:before {
+      .value .icon {
         @include images-sprite-background(icons/monsters);
       }
     }

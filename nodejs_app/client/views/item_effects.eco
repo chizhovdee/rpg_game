@@ -14,7 +14,13 @@
     <% end %>
 
     <% for key, value of @item.effects: %>
-     <div class="effect <%= key %>"><%= value %></div>
+      <div class="effect <%= key %> ">
+        <div class="value hint--bottom hint--no-animate"
+              data-hint='<%= I18n.t("common.effects.#{key}") %>'>
+          <span class="icon"></span>
+          <%= value %>
+        </div>
+      </div>
     <% end %>
   <% end %>
 </div>

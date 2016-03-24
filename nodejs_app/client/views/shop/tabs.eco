@@ -3,7 +3,8 @@
 
   <% for group in @paginatedGroups: %>
   <div class="tab
-               <%= 'current' if group.key == @currentGroup.key %>"
+               <%= 'current' if group.key == @currentGroup.key %>
+               <%= 'locked' if group in @lockedGroups %>"
        data-tab="<%= group.key %>"
        data-group-id="<%= group.id %>"
        id="quest_group_<%= group.id%>_tab"

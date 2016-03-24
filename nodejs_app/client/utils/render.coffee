@@ -87,3 +87,20 @@ module.exports =
         autoHideDelay: _(10).seconds()
       }
     )
+
+  displayPopup: (element, content, options = {})->
+    element.notify(
+      {
+        content: content
+      },
+      _.assignIn({
+        raw: true
+        style: 'game'
+        className: 'black'
+        autoHide: false
+        showAnimation: 'fadeIn'
+        hideAnimation: 'fadeOut'
+        showDuration: 200
+        hideDuration: 200
+      }, options)
+    )

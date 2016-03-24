@@ -38,8 +38,8 @@ $.notify.addStyle("game", {
     },
     black: {
       "color": "#fafafa !important",
-      "background-color": "#333",
-      "border": "1px solid #000"
+      "background-color": "#333"
+      #"border": "1px solid #000"
     },
     white: {
       "background-color": "#f1f1f1",

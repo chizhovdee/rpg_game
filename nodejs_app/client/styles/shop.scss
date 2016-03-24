@@ -19,6 +19,23 @@
       background: rgba(202, 153, 67, 0.1);
       @include border-radius(10px);
 
+      &.locked {
+        opacity: 0.5;
+
+        &:before {
+          content: "";
+          position: absolute;
+          top: 0px;
+          left: 0px;
+          display: block;
+          @include images-sprite(icons/lock);
+        }
+      }
+
+      &:nth-child(even) {
+        margin-right: 8px;
+      }
+
       .picture, .info {
         display: inline-block;
         vertical-align: top;
@@ -44,12 +61,18 @@
 
         .effects {
           margin-top: 7px;
+          width: 110px;
+        }
+
+        .lock {
+          margin-top: 10px;
+          font-size: 13px;
         }
       }
 
       .price {
         position: absolute;
-        top: 5px;
+        top: 30px;
         right: 10px;
       }
 
@@ -58,6 +81,63 @@
         bottom: 5px;
         right: 10px;
       }
+
+      .more {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        @include images-sprite(icons/publish);
+        cursor: pointer;
+      }
     }
+  }
+}
+
+#item_detail {
+  position: relative;
+  width: 320px;
+
+  .slots {
+    margin-top: 10px;
+  }
+
+  .picture, .info {
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .picture {
+    width: 120px;
+    height: 120px;
+
+    img {
+      @include border-radius(10px);
+    }
+  }
+
+  .info {
+    margin: 5px 0 0 5px;
+    width: 150px;
+
+    .name {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .effects {
+      margin-top: 7px;
+    }
+  }
+
+  .price {
+    position: absolute;
+    top: 30px;
+    right: 10px;
+  }
+
+  .buy {
+    position: absolute;
+    top: 95px;
+    right: 10px;
   }
 }

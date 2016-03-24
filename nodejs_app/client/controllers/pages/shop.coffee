@@ -8,7 +8,8 @@ ItemGroup = require('../../game_data').ItemGroup
 Item = require('../../game_data').Item
 
 GROUPS_PER_PAGE = 5
-ITEMS_PER_PAGE = 3
+ITEMS_PER_PAGE = 6
+LOCKED_ITEMS_COUNT = 2
 
 class ShopPage extends Page
   className: "shop page"
@@ -46,6 +47,8 @@ class ShopPage extends Page
     @el.on('click', '.tab:not(.current)', @.onTabClick)
     @el.on('click', '.item_list .paginate:not(.disabled)', @.onItemsPaginateClick)
     @el.on('click', '.switches .switch', @.onSwitchPageClick)
+    @el.on('click', '.more', @.onMoreButtonClick)
+    @el.on('click', '.item button.buy:not(.disabled)', @.onBuyButtonClick)
 
   unbindEventListeners: ->
     super
@@ -56,11 +59,16 @@ class ShopPage extends Page
     @el.off('click', '.tab:not(.current)', @.onTabClick)
     @el.off('click', '.item_list .paginate:not(.disabled)', @.onItemsPaginateClick)
     @el.off('click', '.switches .switch', @.onSwitchPageClick)
+    @el.off('click', '.more', @.onMoreButtonClick)
+    @el.off('click', '.item button.buy:not(.disabled)', @.onBuyButtonClick)
+
 
   onTabsPaginateButtonClick: (e)=>
     @paginatedGroups = @groupsPagination.paginate(@groups,
       back: $(e.currentTarget).data('type') == 'back'
     )
+
+    @lockedGroups = @.findLockedGroups(@paginatedGroups)
 
     @.renderTabs()
 
@@ -113,8 +121,22 @@ class ShopPage extends Page
         groupStartCount = Math.floor(index / GROUPS_PER_PAGE) * GROUPS_PER_PAGE
 
       @paginatedGroups = @groupsPagination.paginate(@groups, start_count: groupStartCount)
+      @lockedGroups = @.findLockedGroups(@paginatedGroups)
 
-    @items = Item.findAllByAttribute('item_group_key', @currentGroup.key)
+    lockedItemsCount = 0
+    @items = Item.select((item)=>
+      if item.item_group_key == @currentGroup.key
+        if item.level <= @character.level
+          true
+        else if lockedItemsCount < LOCKED_ITEMS_COUNT
+          lockedItemsCount += 1
+          true
+        else
+          false
+      else
+        false
+    )
+
     @paginatedItems = @itemsPagination.paginate(@items, initialize: true)
 
     @itemsPagination.setSwitches(@items)
@@ -126,5 +148,29 @@ class ShopPage extends Page
 
     @firstLoading = false
 
+  findLockedGroups: (groups)->
+    result = []
+
+    for group in groups
+      item = Item.detect((item)=>
+        item.item_group_key == group.key && item.level <= @character.level
+      )
+
+      result.push(group) unless item?
+
+    result
+
+  onMoreButtonClick: (e)=>
+    icon = $(e.currentTarget)
+    item = Item.find(icon.data('item-id'))
+
+    @.displayPopup(icon, @.renderTemplate('shop/item_detail', item: item), position: 'left')
+
+  onBuyButtonClick: (e)=>
+    button = $(e.currentTarget)
+    button.addClass('disabled')
+
+    console.log button.data('item-id')
+  
 
 module.exports = ShopPage

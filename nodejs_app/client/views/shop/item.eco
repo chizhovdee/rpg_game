@@ -1,19 +1,27 @@
-<div class="item" id="item_<%= @item.id %>">
+<div class="item <%= 'locked' if @character.level < @item.level %>" id="item_<%= @item.id %>">
   <div class="picture"><%=@safe @.itemPicture(@item) %></div>
 
   <div class="info">
     <div class="name"><%= @item.name() %></div>
 
-    <%=@safe @.renderTemplate('item_effects', item: @item) %>
-  </div>
-
-  <div class="price">
-    <%= @.renderRequirements @item.priceRequirement(@character), (content)-> %>
-      <h3><%= I18n.t("common.price") %></h3>
-
-      <%= content %>
+    <% if @character.level >= @item.level: %>
+      <%=@safe @.renderTemplate('item_effects', item: @item) %>
+    <% else: %>
+      <div class="lock"><%= I18n.t('common.unlocks', level: @item.level) %></div>
     <% end %>
   </div>
 
-  <button class="buy">Купить</button>
+  <% if @character.level >= @item.level: %>
+    <div class="price">
+      <%= @.renderRequirements @item.priceRequirement(@character), (content)-> %>
+        <h4><%= I18n.t("common.price") %></h4>
+
+        <%= content %>
+      <% end %>
+    </div>
+
+    <button class="buy" data-item-id="<%= @item.id %>">Купить</button>
+
+    <span class="more" data-item-id="<%= @item.id %>"></span>
+  <% end %>
 </div>

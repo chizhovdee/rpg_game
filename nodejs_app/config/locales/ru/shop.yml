@@ -1,3 +1,4 @@
 ru:
   shop:
     title: "Магазин"
+    can_be_equipped: "Может быть экипирова в:"

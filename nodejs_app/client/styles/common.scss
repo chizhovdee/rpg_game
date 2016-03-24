@@ -70,6 +70,10 @@ h4 {
   }
 }
 
+.notifyjs-game-black {
+  @include box-shadow(0 0 5px #aaa);
+}
+
 .tips {
   margin: 10px 0;
   padding: 10px;
