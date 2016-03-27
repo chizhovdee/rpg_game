@@ -1,6 +1,7 @@
 _ = require("lodash")
 Base = require("./base")
 Group = require('./item_group')
+Requirement = require("../lib/requirement")
 
 class Item extends Base
   itemGroupKey: null
@@ -34,6 +35,21 @@ class Item extends Base
     throw new Error('level must be greater than zero') if @level <= 0
     throw new Error('itemGroupKey is undefined') unless @itemGroupKey
     throw new Error('undefined price') if !@basicPrice? && !@vipPrice?
+
+  priceByAmount: (amount = 1)->
+    price = {}
+
+    price.basic = @basicPrice * amount if @basicPrice?
+    price.vip = @vipPrice * amount if @vipPrice?
+
+    price
+
+  # price это объект, полученнный с помощью метода priceByAmount
+  priceRequirement: (price)->
+    _.tap(new Requirement(), (r)->
+      r.basicMoney(price.basic) if price.basic?
+      r.vipMoney(price.vip) if price.vip?
+    )
 
   toJSON: ->
     _.assign(

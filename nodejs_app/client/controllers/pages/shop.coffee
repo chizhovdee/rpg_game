@@ -42,6 +42,7 @@ class ShopPage extends Page
     super
 
     request.bind('shop_loaded', @.onDataLoaded)
+    request.bind('purchase_item', @.onItemPurchased)
 
     @el.on('click', '.tabs .paginate:not(.disabled)', @.onTabsPaginateButtonClick)
     @el.on('click', '.tab:not(.current)', @.onTabClick)
@@ -54,6 +55,7 @@ class ShopPage extends Page
     super
 
     request.unbind('shop_loaded', @.onDataLoaded)
+    request.unbind('purchase_item', @.onItemPurchased)
 
     @el.off('click', '.tabs .paginate:not(.disabled)', @.onTabsPaginateButtonClick)
     @el.off('click', '.tab:not(.current)', @.onTabClick)
@@ -172,6 +174,10 @@ class ShopPage extends Page
 
     console.log button.data('item-id')
 
+    request.send('buy_item', item_id: button.data('item-id'))
+
+  onItemPurchased: (response)=>
+    console.log response
 
 
 module.exports = ShopPage

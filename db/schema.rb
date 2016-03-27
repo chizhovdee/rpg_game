@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20160221211133) do
   create_table "character_states", force: :cascade do |t|
     t.integer  "character_id"
     t.jsonb    "quests"
+    t.jsonb    "items"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

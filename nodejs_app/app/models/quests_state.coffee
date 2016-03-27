@@ -39,7 +39,7 @@ class QuestsState extends BaseState
     @state.quests[quest.id] = progress
     @state.current_group_id = quest.group.id
 
-    @characterState.quests = @state
+    @.update()
 
     true
 
@@ -64,7 +64,7 @@ class QuestsState extends BaseState
 
       @state.quests[quest.id] = progress
 
-    @characterState.quests = @state
+    @.update()
 
     true
 
@@ -87,7 +87,7 @@ class QuestsState extends BaseState
 
     _.addUniq(@state.groups_completed, group.id)
 
-    @characterState.quests = @state
+    @.update()
 
     true
 

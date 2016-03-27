@@ -2,7 +2,7 @@ _ = require('lodash')
 
 class BaseState
   defaultState: null
-  stateName: null
+  stateName: null # должен совпадать с полем в бд таблице
 
   constructor: (@characterState)->
     throw new Error("character state undefined") unless @characterState?
@@ -21,5 +21,8 @@ class BaseState
       writable: false
       enumerable: true
     )
+
+  update: ->
+    @characterState[@stateName] = @state
 
 module.exports = BaseState

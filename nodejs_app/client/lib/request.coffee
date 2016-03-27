@@ -68,3 +68,6 @@ module.exports =
 
   load_shop: (data)->
     @.get('shop.json', data)
+
+  buy_item: (data)->
+    @.post('buy_item.json', data)

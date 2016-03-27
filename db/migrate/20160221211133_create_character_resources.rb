@@ -33,6 +33,7 @@ class CreateCharacterResources < ActiveRecord::Migration
     create_table :character_states do |t|
       t.references :character, index: true, foreign_key: true
       t.jsonb :quests
+      t.jsonb :items
       t.timestamps
     end
 
