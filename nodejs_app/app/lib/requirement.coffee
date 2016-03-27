@@ -19,10 +19,10 @@ class Requirement
 
     @triggers[trigger] ?= new Requirement()
 
-  viewOn: (trigger)->
+  getOn: (trigger)->
     @triggers[trigger]
 
-  get: (key)->
+  getValue: (key)->
     @values[key]
 
   energy: (value)->
@@ -59,7 +59,10 @@ class Requirement
 
   # reward is instance of Reward class
   applyOn: (trigger, reward)->
-    for key, value of @.viewOn(trigger).values
+    @.getOn(trigger).apply(reward)
+
+  apply: (reward)->
+    for key, value of @values
       switch key
         when 'energy'
           reward.takeEnergy(value)

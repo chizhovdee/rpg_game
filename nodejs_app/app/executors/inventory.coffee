@@ -14,12 +14,18 @@ module.exports =
     price = item.priceByAmount(amount)
     requirement = item.priceRequirement(price)
 
-#    unless level.requirement.viewOn('perform').isSatisfiedFor(character)
-#      return new Result(
-#        error_code: 'requirements_not_satisfied'
-#        data:
-#          quest_id: quest.id
-#          progress: questsState.progressFor(quest)
-#          requirement: level.requirement.viewOn('perform').unSatisfiedFor(character)
-#      )
+    unless requirement.isSatisfiedFor(character)
+      return new Result(
+        error_code: 'requirements_not_satisfied'
+        data:
+          item_id: item.id
+          requirement: requirement.unSatisfiedFor(character)
+      )
+
+    reward = new Reward(character)
+    requirement.apply(reward)
+    reward.giveItem(item, amount)
+
+
+
 

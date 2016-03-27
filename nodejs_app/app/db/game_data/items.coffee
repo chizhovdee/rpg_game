@@ -1,3 +1,5 @@
+require('./item_groups') # загружаем в первую очередь
+
 Item = require('../../game_data').Item
 
 Item.define('weapon_1', (obj)->

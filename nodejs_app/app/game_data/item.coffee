@@ -2,6 +2,7 @@ _ = require("lodash")
 Base = require("./base")
 Group = require('./item_group')
 Requirement = require("../lib/requirement")
+Reward = require("../lib/reward")
 
 class Item extends Base
   itemGroupKey: null
@@ -63,5 +64,7 @@ class Item extends Base
       ,
       super
     )
+
+Reward.setItemClass(Item) # для того чтобы не загружать модуль
 
 module.exports = Item

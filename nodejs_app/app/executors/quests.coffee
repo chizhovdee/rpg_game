@@ -29,13 +29,13 @@ module.exports =
           progress: questsState.progressFor(quest)
       )
 
-    unless level.requirement.viewOn('perform').isSatisfiedFor(character)
+    unless level.requirement.getOn('perform').isSatisfiedFor(character)
       return new Result(
         error_code: 'requirements_not_satisfied'
         data:
           quest_id: quest.id
           progress: questsState.progressFor(quest)
-          requirement: level.requirement.viewOn('perform').unSatisfiedFor(character)
+          requirement: level.requirement.getOn('perform').unSatisfiedFor(character)
       )
 
     questsState.perform(quest, level)

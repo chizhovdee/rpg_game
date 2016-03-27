@@ -8,9 +8,14 @@
 _ = require('lodash')
 
 class Reward
+  @Item: null
   values: null
   character: null
   characterState: null
+
+  # установка класса Item происходит при первой инициализации модуля game data Item
+  @setItemClass: (Item)->
+    @Item = Item
 
   constructor: (@character = null)->
     @values = {}
@@ -22,11 +27,14 @@ class Reward
 
     @triggers[trigger] ?= new Reward()
 
-  viewOn: (trigger)->
+  getOn: (trigger)->
     @triggers[trigger]
 
   applyOn: (trigger, reward)->
-    for key, value of @.viewOn(trigger).values
+    @.getOn(trigger).apply(reward)
+
+  apply: (reward)->
+    for key, value of @values
       switch key
         when 'energy'
           reward.addEnergy(value)
@@ -39,7 +47,7 @@ class Reward
         when 'experience'
           reward.addExperience(value)
 
-  get: (key)->
+  getValue: (key)->
     @values[key]
 
   # метод применяет награду к простым аттрибутам
@@ -82,6 +90,12 @@ class Reward
 
     @.push(attribute, result) if result != 0
 
+  # add
+
+  addExperience: (value)->
+    return if value < 0
+    @.simpleAttribute('experience', value)
+
   addEnergy: (value)->
     return if value < 0
     @.simpleAttribute('energy', value)
@@ -97,6 +111,19 @@ class Reward
   addVipMoney: (value)->
     return if value < 0
     @.simpleAttribute('vip_money', value)
+
+  giveItem: (itemId, amount = 1)->
+    return if amount < 1
+
+    itemsState = @character.itemsState()
+
+    item = itemsState.giveItem(itemId, amount)
+
+    @values.givenItems ?= {}
+
+
+
+  # take
 
   takeEnergy: (value)->
     return if value < 0
@@ -114,9 +141,7 @@ class Reward
     return if value < 0
     @.simpleAttribute('vip_money', -value)
 
-  addExperience: (value)->
-    return if value < 0
-    @.simpleAttribute('experience', value)
+  # initialize reward attributes
 
   energy: (value)->
     @.push('energy', value)
@@ -133,6 +158,16 @@ class Reward
   experience: (value)->
     @.push('experience', value)
 
+  item: (key, amount)->
+    if amount > 0
+      @values.givenItems ?= {}
+      @values.givenItems[key] ?= 0
+      @values.givenItems[key] += amount
+    else
+      @values.takenItems ?= {}
+      @values.takenItems[key] ?= 0
+      @values.takenItems[key] += amount
+
   push: (key, value)->
     if @values[key]
       @values[key] += value
@@ -140,6 +175,7 @@ class Reward
       @values[key] = value
 
   toJSON: ->
+    # TODO set item ids
     if !_.isEmpty(@triggers)
       @triggers
     else

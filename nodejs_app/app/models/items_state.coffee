@@ -4,17 +4,17 @@ class ItemsState extends BaseState
   defaultState: {}
   stateName: "items"
 
-  giveItem: (itemId, value = 1)->
+  giveItem: (itemId, amount = 1)->
     @state[itemId] ?= 0
 
-    @state[itemId] += value
+    @state[itemId] += amount
 
     @.update()
 
-  takeItem: (itemId, value = 1)->
+  takeItem: (itemId, amount = 1)->
     return unless @state[itemId]?
 
-    @state[itemId] -= value
+    @state[itemId] -= amount
 
     delete @state[itemId] if @state[itemId] <= 0
 
