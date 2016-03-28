@@ -1,25 +1,27 @@
-<% if @type == 'success': %>
-  <h2 class="success"><%= @title || I18n.t("common.title_success") %></h2>
-<% else if @type == 'failure': %>
-  <h2 class="failure"><%= @title || I18n.t("common.title_failure") %></h2>
-<% else: %>
-  <h2><%= @title %></h2>
-<% end %>
+<div class="result_notification">
+  <% if @type == 'success': %>
+    <h2 class="success"><%= @title || I18n.t("common.title_success") %></h2>
+  <% else if @type == 'failure': %>
+    <h2 class="failure"><%= @title || I18n.t("common.title_failure") %></h2>
+  <% else: %>
+    <h2><%= @title %></h2>
+  <% end %>
 
-<%= @.renderRewards @reward, (content)-> %>
-  <h3><%= I18n.t("common.you_received") %></h3>
+  <%= @.renderRewards @reward, (content)-> %>
+    <h3><%= I18n.t("common.you_received") %></h3>
 
-  <%= content %>
-<% end %>
+    <%= content %>
+  <% end %>
 
-<%= @.renderSpendings @reward, (content)-> %>
-  <h3><%= I18n.t("common.you_spent") %></h3>
+  <%= @.renderSpendings @reward, (content)-> %>
+    <h3><%= I18n.t("common.you_spent") %></h3>
 
-  <%= content %>
-<% end %>
+    <%= content %>
+  <% end %>
 
-<%= @.renderRequirements @requirement, (content)-> %>
-  <h3><%= I18n.t("common.requires") %></h3>
+  <%= @.renderRequirements @requirement, (content)-> %>
+    <h3><%= I18n.t("common.requires") %></h3>
 
-  <%= content %>
-<% end %>
+    <%= content %>
+  <% end %>
+</div>

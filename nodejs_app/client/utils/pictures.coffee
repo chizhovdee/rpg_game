@@ -1,18 +1,20 @@
 assets = require('./assets')
+Item = require('../game_data').Item
 
 module.exports =
-  itemPictureUrl: (itemOrKey, format = 'large')->
-    if _.isString(itemOrKey)
-      key = itemOrKey
-    else
-      key = itemOrKey.key
+  itemPictureUrl: (item, format = 'large')->
+    unless item instanceof Item
+     item = Item.find(item)
 
     unless format in ['large', 'medium', 'icon']
       throw new Error('format for item picture url not correct')
 
-    assets.assetsPath("images/items/#{ format }/#{ key }.jpg")
+    assets.assetsPath("images/items/#{ format }/#{ item.key }.jpg")
 
-  itemPicture: (itemOrKey, format = 'large')->
-    title = if _.isString(itemOrKey) then null else "title=#{itemOrKey.name()}"
+  itemPicture: (item, format = 'large')->
+    unless item instanceof Item
+      item = Item.find(item)
 
-    "<img src='#{ @.itemPictureUrl(itemOrKey, format) }' #{title} />"
+    title = "title=#{item.name()}"
+
+    "<img src='#{ @.itemPictureUrl(item, format) }' #{title} />"

@@ -61,6 +61,12 @@ h4 {
   .rewards, .spendings {
     margin: 5px 0 0 0;
   }
+
+  .result_notification {
+    h2 {
+      white-space: nowrap;
+    }
+  }
 }
 
 .notifyjs-game-info, .notifyjs-game-small_info {

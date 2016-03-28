@@ -1,0 +1,24 @@
+<h2><%= I18n.t('shop.item_purchase_result.title') %></h2>
+
+<div class="item">
+  <div class="picture"><%=@safe @.itemPicture(@item) %></div>
+
+  <div class="info">
+    <div class="text"><%=@safe I18n.t('shop.item_purchase_result.text', item: @item.name(), amount: @amount) %></div>
+
+    <div class="rewards_info">
+      <%= @.renderRewards @reward, (content)-> %>
+        <h3><%= I18n.t("common.you_received") %></h3>
+
+        <%= content %>
+      <% end %>
+
+      <%= @.renderSpendings @reward, (content)-> %>
+        <h3><%= I18n.t("common.you_spent") %></h3>
+
+        <%= content %>
+      <% end %>
+    </div>
+  </div>
+</div>
+

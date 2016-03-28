@@ -88,7 +88,7 @@ class Base
         @records[@keysStore[keyOrId]]
     )
 
-    throw new Error("Game data object not found by id or key - #{ keyOrId }") unless record?
+    console.warn("Warning: Game data object not found by id or key - #{ keyOrId }") unless record?
 
     record
 

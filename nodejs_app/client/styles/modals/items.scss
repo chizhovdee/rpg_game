@@ -1,0 +1,20 @@
+.modal.item_purchased_result {
+  .item {
+    margin-top: 10px;
+
+    .picture, .info {
+      display: inline-block;
+      vertical-align: top;
+    }
+
+    .picture {
+      width: 120px;
+    }
+
+    .info {
+      margin-left: 10px;
+      width: 440px;
+    }
+
+  }
+}

@@ -172,12 +172,33 @@ class ShopPage extends Page
     button = $(e.currentTarget)
     button.addClass('disabled')
 
-    console.log button.data('item-id')
-
     request.send('buy_item', item_id: button.data('item-id'))
 
   onItemPurchased: (response)=>
     console.log 'onItemPurchased', response
+
+    if response.is_error
+      switch response.error_code
+        when 'not_reached_level', 'item_not_found', 'amount_is_less_than_zero'
+          @.displayError(I18n.t("shop.errors.#{ response.error_code }"))
+
+        when 'requirements_not_satisfied'
+          button = @el.find("#item_#{response.data.item_id} button.buy")
+          button.removeClass('disabled')
+
+          @.displayResult(button
+            {
+              requirement: response.data.requirement
+              type: 'failure'
+              title: I18n.t("shop.errors.requirements_not_satisfied")
+            }
+            {
+              position: 'left'
+            }
+          )
+    else
+      modals.ItemPurchasedResultModal.show(response)
+
 
 
 module.exports = ShopPage

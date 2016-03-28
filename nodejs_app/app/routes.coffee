@@ -21,5 +21,5 @@ exports.setup = (app)->
     apiRoutes.put('/quests/complete_group.json', controllers.quests.completeGroup)
 
     # shop
-    apiRoutes.get('/shop.json', controllers.shop.index)
+    #apiRoutes.get('/shop.json', controllers.shop.index)
     apiRoutes.post('/buy_item.json', controllers.shop.buyItem)

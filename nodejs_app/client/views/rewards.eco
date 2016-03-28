@@ -1,5 +1,26 @@
 <% for key, value of @rewards: %>
-  <% if value > 0: %>
-    <div class="reward <%= key %>"><span class="plus">+</span><%= value %></div>
+  <% if key == 'items': %>
+    <% for itemId, amount of value: %>
+      <% if amount > 0: %>
+        <div class="reward reward_item">
+          <div class="reward_item_wrapper hint--bottom hint--no-animate"
+               data-hint='<%= @.itemName(itemId) %>'>
+            <div class="reward_picture"><%=@safe @.itemPicture(itemId, 'icon') %></div>
+            <div class="reward_value"><span class="plus">+</span><%= amount %></div>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+
+  <% else: %>
+    <% if value > 0: %>
+      <div class="reward <%= key %>">
+        <div class="value hint--bottom hint--no-animate"
+             data-hint='<%= I18n.t("common.reward_keys.#{key}") %>'>
+          <span class="icon"></span>
+          <span class="plus">+</span><%= value %>
+        </div>
+      </div>
+    <% end %>
   <% end %>
 <% end %>

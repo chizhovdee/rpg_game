@@ -13,10 +13,6 @@ class Reward
   character: null
   characterState: null
 
-  # установка класса Item происходит при первой инициализации модуля game data Item
-  @setItemClass: (Item)->
-    @Item = Item
-
   constructor: (@character = null)->
     @values = {}
     @triggers = {}
@@ -46,6 +42,8 @@ class Reward
           reward.addVipMoney(value)
         when 'experience'
           reward.addExperience(value)
+        when 'items'
+          throw new Error('items reward apply not realized')
 
   getValue: (key)->
     @values[key]
@@ -112,16 +110,15 @@ class Reward
     return if value < 0
     @.simpleAttribute('vip_money', value)
 
-  giveItem: (itemId, amount = 1)->
+  giveItem: (item, amount = 1)->
+    #TODO edit placements
     return if amount < 1
 
-    itemsState = @character.itemsState()
+    itemsState = @character.state.itemsState()
 
-    item = itemsState.giveItem(itemId, amount)
+    [item, amount] = itemsState.giveItem(item, amount)
 
-    @values.givenItems ?= {}
-
-
+    @.item(item.id, amount)
 
   # take
 
@@ -141,6 +138,16 @@ class Reward
     return if value < 0
     @.simpleAttribute('vip_money', -value)
 
+  takeItem: (item, amount = 1)->
+    #TODO edit placements
+    return if amount < 1
+
+    itemsState = @character.state.itemsState()
+
+    [item, amount] = itemsState.takeItem(item, amount)
+
+    @.item(item.id, -amount)
+
   # initialize reward attributes
 
   energy: (value)->
@@ -158,15 +165,12 @@ class Reward
   experience: (value)->
     @.push('experience', value)
 
-  item: (key, amount)->
-    if amount > 0
-      @values.givenItems ?= {}
-      @values.givenItems[key] ?= 0
-      @values.givenItems[key] += amount
-    else
-      @values.takenItems ?= {}
-      @values.takenItems[key] ?= 0
-      @values.takenItems[key] += amount
+  item: (keyOrId, amount = 1)->
+    return if amount == 0
+
+    @values.items ?= {}
+    @values.items[keyOrId] ?= 0
+    @values.items[keyOrId] += amount
 
   push: (key, value)->
     if @values[key]
@@ -175,7 +179,6 @@ class Reward
       @values[key] = value
 
   toJSON: ->
-    # TODO set item ids
     if !_.isEmpty(@triggers)
       @triggers
     else

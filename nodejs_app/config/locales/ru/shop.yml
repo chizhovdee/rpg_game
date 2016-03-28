@@ -2,3 +2,11 @@ ru:
   shop:
     title: "Магазин"
     can_be_equipped: "Может быть экипирова в:"
+    item_purchase_result:
+      title: "Покупка завершена"
+      text: "Вы успешно купили %{amount} <strong>'%{item}'</strong>"
+    errors:
+      amount_is_less_than_zero: "Количество должно быть больше нуля"
+      not_reached_level: "Вы не достигли нужного уровня"
+      item_not_found: "Предмет не найден"
+      requirements_not_satisfied: "У вас не достаточно средств!"
